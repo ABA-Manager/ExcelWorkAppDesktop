@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="73dcabb7c58648c6878f7d44598815c7" Name="Diagram1" ZoomLevel="74" >
+        <EntityTypeShape EntityType="Model1.Contractor" Width="1.5" PointX="6" PointY="3.625" />
+        <EntityTypeShape EntityType="Model1.Client" Width="1.5" PointX="8.5" PointY="3" />
+        <EntityTypeShape EntityType="Model1.Period" Width="1.5" PointX="7.875" PointY="7.75" />
+        <EntityTypeShape EntityType="Model1.UnitDetail" Width="1.5" PointX="4.625" PointY="7.5" />
+        <EntityTypeShape EntityType="Model1.ReleaseInformation" Width="1.5" PointX="11.125" PointY="0.5" />
+        <EntityTypeShape EntityType="Model1.Company" Width="1.5" PointX="0.5" PointY="0.625" />
+        <EntityTypeShape EntityType="Model1.Agreement" Width="1.5" PointX="3.5" PointY="0.5" />
+        <AssociationConnector Association="Model1.ClientAgreement" />
+        <AssociationConnector Association="Model1.CompanyAgreement" />
+        <AssociationConnector Association="Model1.ReleaseInformationClient" />
+        <EntityTypeShape EntityType="Model1.Diagnosis" Width="1.5" PointX="9" PointY="0.5" />
+        <EntityTypeShape EntityType="Model1.PlaceOfService" Width="1.5" PointX="10.625" PointY="6.625" />
+        <AssociationConnector Association="Model1.DiagnosisClient" />
+        <AssociationConnector Association="Model1.PlaceOfServiceUnitDetail" />
+        <EntityTypeShape EntityType="Model1.ContractorType" Width="1.5" PointX="0.5" PointY="3.875" />
+        <EntityTypeShape EntityType="Model1.Procedure" Width="1.5" PointX="0.5" PointY="6.25" />
+        <EntityTypeShape EntityType="Model1.Payroll" Width="1.5" PointX="3" PointY="3.75" />
+        <AssociationConnector Association="Model1.ContractorPayroll" />
+        <AssociationConnector Association="Model1.ContractorTypePayroll" />
+        <AssociationConnector Association="Model1.ProcedurePayroll" />
+        <AssociationConnector Association="Model1.PayrollAgreement" />
+        <EntityTypeShape EntityType="Model1.ServiceLog" Width="1.5" PointX="13.125" PointY="5.875" />
+        <AssociationConnector Association="Model1.PeriodServiceLog" />
+        <AssociationConnector Association="Model1.ServiceLogUnitDetail" />
+        <AssociationConnector Association="Model1.ContractorServiceLog" />
+        <AssociationConnector Association="Model1.ClientServiceLog" />
+        <AssociationConnector Association="Model1.CompanyPayroll" />
+        <EntityTypeShape EntityType="Model1.SubProcedure" Width="1.5" PointX="2.25" PointY="8.75" />
+        <AssociationConnector Association="Model1.ProcedureSubProcedure" />
+        <AssociationConnector Association="Model1.SubProcedureUnitDetail" />
+        <EntityTypeShape EntityType="Model1.AspNetRoleClaims" Width="1.5" PointX="12.625" PointY="10.375" />
+        <EntityTypeShape EntityType="Model1.AspNetRoles" Width="1.5" PointX="10.375" PointY="14.375" />
+        <EntityTypeShape EntityType="Model1.AspNetUserClaims" Width="1.5" PointX="14.875" PointY="13.125" />
+        <EntityTypeShape EntityType="Model1.AspNetUserLogins" Width="1.5" PointX="14.875" PointY="15.75" />
+        <EntityTypeShape EntityType="Model1.AspNetUsers" Width="1.5" PointX="12.625" PointY="14.5" />
+        <EntityTypeShape EntityType="Model1.AspNetUserTokens" Width="1.5" PointX="14.875" PointY="18.5" />
+        <AssociationConnector Association="Model1.FK_AspNetRoleClaims_AspNetRoles_RoleId" />
+        <AssociationConnector Association="Model1.FK_AspNetUserClaims_AspNetUsers_UserId" />
+        <AssociationConnector Association="Model1.FK_AspNetUserLogins_AspNetUsers_UserId" />
+        <AssociationConnector Association="Model1.FK_AspNetUserTokens_AspNetUsers_UserId" />
+        <AssociationConnector Association="Model1.AspNetUserRoles" />
+        <EntityTypeShape EntityType="Model1.PatientAccount" PointX="10.75" PointY="3" Width="1.5" />
+        <AssociationConnector Association="Model1.ClientPatientAccount" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

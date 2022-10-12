@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ABABillingAndClaim.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ENVIROMENT" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">DEV</Value>
+    </Setting>
+    <Setting Name="BASE_ENDPOINT" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://localhost:44393/api</Value>
+    </Setting>
+    <Setting Name="DEFAULT_PASSWORD" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Temporal00*</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

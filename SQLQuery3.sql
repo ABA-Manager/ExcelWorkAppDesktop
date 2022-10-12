@@ -1,0 +1,80 @@
+--<< Companies & Client Agreement Data >> 
+--	Companies 
+--		Acronym
+--		Name
+--		Clients
+--			ClientData
+--			WeeklyAproovedHours
+--				AnalystHours
+--				RBTHours
+--			Analysts 
+--				Procedure
+--					BillRate	
+--				PayRate
+--			RBTs
+--				Procedure
+--					BillRate	
+--				PayRate
+--
+--<< Period Data >>
+--	Periods
+--		Name
+--		StartDate
+--		EndDate
+--		DocumentDeliveryDate
+--		PaymentDate
+--		ActualCloseDate
+--
+--<< Payroll >>
+--	Periods
+--		Companies
+--			Contractors
+--				PaidAmount
+--
+--<< ServiceLog >>
+--	Periods
+--		Name
+--		StartDate
+--		EndDate
+--		Companies 
+--			Contractors
+--				Clients
+--					ServiceLogs
+--						CreationDate
+--						UnitDetails
+--							DoS
+--							Unit
+--							PoS
+--  
+--<< Billing Data >>
+--	Periods
+--		Name
+--		StartDate
+--		EndDate
+--		Companies 
+--			Analysts
+--				Clients
+--					ClientData
+--					WeeklyAproovedHours
+--						AnalystHours
+--						RBTHours
+--					RBTs
+--						Procedure
+--							BillRate	
+--						PayRate
+--						ServiceLogs
+--							UnitDetails
+--						LoggedUnit
+--						BilledAmount
+--						PaidAmount
+--					AggLoggedUnit
+--					AggBilledAmount
+--					AggPaidAmount
+--				Procedure
+--					BillRate	
+--				PayRate
+--				AnalystServiceLogs
+--					UnitDetails	 
+--				LoggedUnit
+--				BilledAmount
+--				PaidAmount
