@@ -28,7 +28,7 @@ namespace ABABillingAndClaim.Views
 
             InitializeComponent();
             Text = "Analyst Manage and Billing for Windows";
-            db = new Clinic_AppContext();
+            db = new Clinic_AppContext("name=Clinic_AppContext");
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)

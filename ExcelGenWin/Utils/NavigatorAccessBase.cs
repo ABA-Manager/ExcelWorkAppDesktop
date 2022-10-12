@@ -182,7 +182,7 @@ namespace ABABillingAndClaim.Utils
                 }
                 if (!first)
                 {
-                    await Invoke("AddServiceLog", "click()");
+                    //await Invoke("AddServiceLog", "click()");
                     //await Invoke("DelServiceLog", "click");
                 }
             }

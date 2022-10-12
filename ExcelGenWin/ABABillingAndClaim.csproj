@@ -204,6 +204,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\FrmMedicaidScrap.resx">
       <DependentUpon>FrmMedicaidScrap.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\FrmExcelGen.resx">
       <DependentUpon>FrmExcelGen.cs</DependentUpon>

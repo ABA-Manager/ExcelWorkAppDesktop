@@ -15,8 +15,8 @@ namespace ClinicDOM
     
     public partial class Clinic_AppContext : DbContext
     {
-        public Clinic_AppContext()
-            : base("name=Clinic_AppContext")
+        public Clinic_AppContext(string config)
+            : base(config)
         {
         }
     
