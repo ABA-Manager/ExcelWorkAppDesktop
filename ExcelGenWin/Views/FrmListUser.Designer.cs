@@ -30,13 +30,13 @@
         {
             this.components = new System.ComponentModel.Container();
             this.ListUserDG = new System.Windows.Forms.DataGridView();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ResetPassword = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.closeBtn = new System.Windows.Forms.Button();
-            this.CreateBtn = new System.Windows.Forms.Button();
             this.usernameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.emailDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ResetPassword = new System.Windows.Forms.DataGridViewButtonColumn();
             this.userBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.closeBtn = new System.Windows.Forms.Button();
+            this.CreateBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.ListUserDG)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.userBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -66,6 +66,20 @@
             this.ListUserDG.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.ListUserDG_UserDeletedRow);
             this.ListUserDG.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.ListUserDG_UserDeletingRow);
             // 
+            // usernameDataGridViewTextBoxColumn
+            // 
+            this.usernameDataGridViewTextBoxColumn.DataPropertyName = "username";
+            this.usernameDataGridViewTextBoxColumn.HeaderText = "User Name";
+            this.usernameDataGridViewTextBoxColumn.Name = "usernameDataGridViewTextBoxColumn";
+            this.usernameDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // emailDataGridViewTextBoxColumn
+            // 
+            this.emailDataGridViewTextBoxColumn.DataPropertyName = "email";
+            this.emailDataGridViewTextBoxColumn.HeaderText = "Email";
+            this.emailDataGridViewTextBoxColumn.Name = "emailDataGridViewTextBoxColumn";
+            this.emailDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
             // id
             // 
             this.id.DataPropertyName = "id";
@@ -82,6 +96,10 @@
             this.ResetPassword.ReadOnly = true;
             this.ResetPassword.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.ResetPassword.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            // 
+            // userBindingSource
+            // 
+            this.userBindingSource.DataSource = typeof(ABABillingAndClaim.Models.User);
             // 
             // closeBtn
             // 
@@ -103,24 +121,6 @@
             this.CreateBtn.UseVisualStyleBackColor = true;
             this.CreateBtn.Click += new System.EventHandler(this.CreateBtn_Click);
             // 
-            // usernameDataGridViewTextBoxColumn
-            // 
-            this.usernameDataGridViewTextBoxColumn.DataPropertyName = "username";
-            this.usernameDataGridViewTextBoxColumn.HeaderText = "User Name";
-            this.usernameDataGridViewTextBoxColumn.Name = "usernameDataGridViewTextBoxColumn";
-            this.usernameDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // emailDataGridViewTextBoxColumn
-            // 
-            this.emailDataGridViewTextBoxColumn.DataPropertyName = "email";
-            this.emailDataGridViewTextBoxColumn.HeaderText = "Email";
-            this.emailDataGridViewTextBoxColumn.Name = "emailDataGridViewTextBoxColumn";
-            this.emailDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // userBindingSource
-            // 
-            this.userBindingSource.DataSource = typeof(ABABillingAndClaim.Models.User);
-            // 
             // FrmListUser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -129,6 +129,7 @@
             this.Controls.Add(this.CreateBtn);
             this.Controls.Add(this.closeBtn);
             this.Controls.Add(this.ListUserDG);
+            this.MinimumSize = new System.Drawing.Size(454, 312);
             this.Name = "FrmListUser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "FrmListUser";

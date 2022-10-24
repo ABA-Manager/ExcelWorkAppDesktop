@@ -154,30 +154,32 @@ namespace ABABillingAndClaim.Views
             //                        THEN pa.Auxiliar ELSE pa.LicenseNumber END, 'DOES NOT APPLY') <> 'DOES NOT APPLY'
 
 
-            var queryRes = (from ag in db.Agreement
-                            join co in db.Company on new { ag.CompanyId, CompanyCode } equals new { CompanyId = co.Id, CompanyCode = co.Acronym }
-                            join pr in db.Payroll on ag.PayrollId equals pr.Id
-                            join ctt in db.ContractorType on pr.ContractorTypeId equals ctt.Id
-                            join ct in db.Contractor on pr.ContractorId equals ct.Id
-                            join cl in db.Client on ag.ClientId equals cl.Id
-                            join pa in db.PatientAccount on ag.ClientId equals pa.ClientId
-                            join sl in db.ServiceLog on new { ag.ClientId, pr.ContractorId, PeriodId } equals new { sl.ClientId, sl.ContractorId, sl.PeriodId }
-                            join ud in db.UnitDetail on sl.Id equals ud.ServiceLogId 
-                            join sp in db.SubProcedure on ud.SubProcedureId equals sp.Id
-                            where pa.CreateDate <= ud.DateOfService && pa.ExpireDate >= ud.DateOfService
-                            && (((sufixList.Contains(sp.Name.Substring(3) + ";") ? pa.Auxiliar : pa.LicenseNumber) ?? "DOES NOT APPLY") !=  "DOES NOT APPLY")
-                            select new { cl, ct, ctt, pa, sl, ud, sp })
-                                .Distinct()
-                                .OrderBy(it => it.cl.Id).
-                                ThenBy(it => it.pa.Auxiliar != null ? it.pa.Auxiliar : it.pa.LicenseNumber).
-                                ThenBy(it => it.ct.Id);
+            var queryRes = await (from ag in db.Agreement
+                                  join co in db.Company on new { ag.CompanyId, CompanyCode } equals new { CompanyId = co.Id, CompanyCode = co.Acronym }
+                                  join pr in db.Payroll on ag.PayrollId equals pr.Id
+                                  join ctt in db.ContractorType on pr.ContractorTypeId equals ctt.Id
+                                  join ct in db.Contractor on pr.ContractorId equals ct.Id
+                                  join cl in db.Client on ag.ClientId equals cl.Id
+                                  join pa in db.PatientAccount on ag.ClientId equals pa.ClientId
+                                  join sl in db.ServiceLog on new { ag.ClientId, pr.ContractorId, PeriodId } equals new { sl.ClientId, sl.ContractorId, sl.PeriodId }
+                                  join ud in db.UnitDetail on sl.Id equals ud.ServiceLogId 
+                                  join sp in db.SubProcedure on ud.SubProcedureId equals sp.Id
+                                  where pa.CreateDate <= ud.DateOfService && pa.ExpireDate >= ud.DateOfService
+                                  && (((sufixList.Contains(sp.Name.Substring(3) + ";") ? pa.Auxiliar : pa.LicenseNumber) ?? "DOES NOT APPLY") !=  "DOES NOT APPLY")
+                                  select new { cl, ct, ctt, pa, sl, ud, sp })
+                                      .Distinct()
+                                      .OrderBy(it => it.cl.Name.Trim())
+                                      .ThenBy(it => it.cl.Id)
+                                      .ThenBy(it => it.pa.Auxiliar != null ? it.pa.Auxiliar : it.pa.LicenseNumber)
+                                      .ThenBy(it => it.ct.Name)
+                                      .ToListAsync();
 
             TvClient lastClient = null;
             TvContractor lastContractor = null;
             TvServiceLog lastServiceLog = null;
 
             var clientList = new List<TvClient>();
-            foreach (var it in await queryRes.ToListAsync())
+            foreach (var it in queryRes)
             {
                 if (it.cl != null && it.ct != null && it.sl != null)
                 {
@@ -187,7 +189,7 @@ namespace ABABillingAndClaim.Views
                         clientList.Add(lastClient = new TvClient()
                         {
                             Id = it.cl.Id.ToString() + $"_{paNum}",
-                            Name = it.cl.Name + $" ({paNum})",
+                            Name = it.cl.Name.Trim() + $" ({paNum})",
                         });
                         lastContractor = null; lastServiceLog = null;
                     }
@@ -196,7 +198,7 @@ namespace ABABillingAndClaim.Views
                         lastClient.Contractors.Add(lastContractor = new TvContractor()
                         {
                             Id = it.ct.Id.ToString(),
-                            Name = it.ct.Name,
+                            Name = it.ct.Name.Trim(),
                             ContratorType = it.ctt.Name,
                             Client = lastClient
                         });
@@ -377,17 +379,18 @@ namespace ABABillingAndClaim.Views
 
         private async void billedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (treeView1.SelectedNode != null)
-            {
-                if (await doBilled(treeView1.SelectedNode.Tag))
+            if (MessageBox.Show("Are you sure you want to mark this user as billed?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+                if (treeView1.SelectedNode != null)
                 {
-                    SetNodeStatus(treeView1.SelectedNode, "billed");
-                    foreach (var node in treeView1.SelectedNode.Nodes)
+                    if (await doBilled(treeView1.SelectedNode.Tag))
                     {
-                        SetNodeStatus(((TreeNode)node), "billed");
+                        SetNodeStatus(treeView1.SelectedNode, "billed");
+                        foreach (var node in treeView1.SelectedNode.Nodes)
+                        {
+                            SetNodeStatus(((TreeNode)node), "billed");
+                        }
                     }
                 }
-            }
         }
 
         private async Task<bool> doBilled(object obj)
@@ -397,40 +400,45 @@ namespace ABABillingAndClaim.Views
                 string title = navAccess.getTitle();
                 if (title.Contains("Professional"))
                 {
-                    int periodID = int.Parse(cbPeriods.SelectedValue.ToString());
-
-                    string commandText;
-                    SqlParameter[] sqlParams;
-
-                    if (obj is TvServiceLog)
+                    try
                     {
-                        var sl = obj as TvServiceLog;
-                        commandText = "UPDATE Servicelog SET BilledDate = @BilledDate, Biller = @user, Pending = null WHERE Id = @serviceLogId";
-                        sqlParams = new[] {
+                        int periodID = int.Parse(cbPeriods.SelectedValue.ToString());
+
+                        string commandText;
+                        SqlParameter[] sqlParams;
+
+                        if (obj is TvServiceLog)
+                        {
+                            var sl = obj as TvServiceLog;
+                            commandText = "UPDATE Servicelog SET BilledDate = @BilledDate, Biller = @user, Pending = null WHERE Id = @serviceLogId";
+                            sqlParams = new[] {
                             new SqlParameter("@BilledDate", DateTime.Now),
                             new SqlParameter("@user", _memory.LoggedOndUser.id),
                             new SqlParameter("@serviceLogId", sl.Id)
                         };
-                        sl.Status = "billed";
-                    }
-                    else
-                    {
-                        var ct = obj as TvContractor;
-                        commandText = "UPDATE Servicelog SET BilledDate = @BilledDate, Biller = @user, Pending = null WHERE periodid = @period AND contractorId = @contractor AND clientId = @client";
-                        sqlParams = new[] {
+                            sl.Status = "billed";
+                        }
+                        else
+                        {
+                            var ct = obj as TvContractor;
+                            commandText = "UPDATE Servicelog SET BilledDate = @BilledDate, Biller = @user, Pending = null WHERE periodid = @period AND contractorId = @contractor AND clientId = @client";
+                            sqlParams = new[] {
                             new SqlParameter("@BilledDate", DateTime.Now),
                             new SqlParameter("@user", _memory.LoggedOndUser.id),
                             new SqlParameter("@period", periodID),
                             new SqlParameter("@contractor", ct.Id),
                             new SqlParameter("@client", ct.Client.Id.Split('_')[0])
                         };
-                        foreach (var it in ct.ServiceLogs) it.Status = "billed";
+                            foreach (var it in ct.ServiceLogs) it.Status = "billed";
+                        }
+                        await db.Database.ExecuteSqlCommandAsync(commandText, sqlParams);
+                        MessageBox.Show("Professional Claim Billed");
+                        return true;
                     }
-
-                    await db.Database.ExecuteSqlCommandAsync(commandText, sqlParams);
-
-                    MessageBox.Show("Professional Claim Billed");
-                    return true;
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error: Connectivity Error [{ex.Message}]");
+                    }
                 }
                 else MessageBox.Show("Error: The Professional Claims Medicaid Page is not loaded...");
             }
@@ -445,9 +453,9 @@ namespace ABABillingAndClaim.Views
 
         private void pendingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (treeView1.SelectedNode.Tag is TvServiceLog)
+            if (treeView1.SelectedNode != null && (treeView1.SelectedNode.Tag is TvServiceLog || treeView1.SelectedNode.Tag is TvContractor))
             {
-                var frm = new FrmPending(db, int.Parse((treeView1.SelectedNode.Tag as TvServiceLog).Id));
+                var frm = new FrmPending(db, treeView1.SelectedNode.Tag as TvObject);
                 if (frm.ShowDialog() == DialogResult.OK)
                     SetNodeStatus(treeView1.SelectedNode, "pending");
             }

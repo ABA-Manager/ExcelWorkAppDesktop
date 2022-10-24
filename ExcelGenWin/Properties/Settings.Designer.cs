@@ -55,5 +55,41 @@ namespace ABABillingAndClaim.Properties {
                 this["DEFAULT_PASSWORD"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://34.224.222.1:8082/api")]
+        public string VL_EP_BASE_ENDPOINT {
+            get {
+                return ((string)(this["VL_EP_BASE_ENDPOINT"]));
+            }
+            set {
+                this["VL_EP_BASE_ENDPOINT"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://34.224.222.1:8082/api")]
+        public string BBI_BASE_ENDPOINT {
+            get {
+                return ((string)(this["BBI_BASE_ENDPOINT"]));
+            }
+            set {
+                this["BBI_BASE_ENDPOINT"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://34.224.222.1:8082/api")]
+        public string PL_BASE_ENDPOINT {
+            get {
+                return ((string)(this["PL_BASE_ENDPOINT"]));
+            }
+            set {
+                this["PL_BASE_ENDPOINT"] = value;
+            }
+        }
     }
 }

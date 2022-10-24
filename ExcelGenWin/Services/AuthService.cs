@@ -54,6 +54,7 @@ namespace ABABillingAndClaim.Services
                     id = tokens.Claims.First(c => c.Type.Contains("nameidentifier")).Value,
                 };
                 this._memoryService.LoggedOndUser = _user;
+                //            this.BaseEndPoint = Properties.Settings.Default.BASE_ENDPOINT;
 
                 return userMnt;
             }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.usernameTb = new System.Windows.Forms.TextBox();
@@ -35,7 +36,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.companylb = new System.Windows.Forms.Label();
+            this.companiesCb = new System.Windows.Forms.ComboBox();
+            this.companyCbBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.companyCbBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -90,7 +95,7 @@
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(207, 93);
+            this.btnOK.Location = new System.Drawing.Point(207, 143);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 5;
@@ -102,12 +107,37 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(207, 126);
+            this.btnCancel.Location = new System.Drawing.Point(207, 176);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 6;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            // 
+            // companylb
+            // 
+            this.companylb.AutoSize = true;
+            this.companylb.Location = new System.Drawing.Point(13, 159);
+            this.companylb.Name = "companylb";
+            this.companylb.Size = new System.Drawing.Size(54, 13);
+            this.companylb.TabIndex = 7;
+            this.companylb.Text = "Company:";
+            // 
+            // companiesCb
+            // 
+            this.companiesCb.DataSource = this.companyCbBindingSource;
+            this.companiesCb.DisplayMember = "value";
+            this.companiesCb.FormattingEnabled = true;
+            this.companiesCb.Location = new System.Drawing.Point(16, 178);
+            this.companiesCb.Name = "companiesCb";
+            this.companiesCb.Size = new System.Drawing.Size(174, 21);
+            this.companiesCb.TabIndex = 8;
+            this.companiesCb.ValueMember = "key";
+            this.companiesCb.SelectedIndexChanged += new System.EventHandler(this.companiesCb_SelectedIndexChanged);
+            // 
+            // companyCbBindingSource
+            // 
+            this.companyCbBindingSource.DataSource = typeof(ABABillingAndClaim.Models.CompanyCb);
             // 
             // FrmLogin
             // 
@@ -115,7 +145,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(294, 161);
+            this.ClientSize = new System.Drawing.Size(294, 211);
+            this.Controls.Add(this.companiesCb);
+            this.Controls.Add(this.companylb);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.passwordTb);
@@ -123,12 +155,13 @@
             this.Controls.Add(this.usernameTb);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox1);
-            this.MaximumSize = new System.Drawing.Size(500, 200);
-            this.MinimumSize = new System.Drawing.Size(310, 200);
+            this.MaximumSize = new System.Drawing.Size(500, 250);
+            this.MinimumSize = new System.Drawing.Size(310, 250);
             this.Name = "FrmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Authentication";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.companyCbBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -143,5 +176,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Label companylb;
+        private System.Windows.Forms.ComboBox companiesCb;
+        private System.Windows.Forms.BindingSource companyCbBindingSource;
     }
 }

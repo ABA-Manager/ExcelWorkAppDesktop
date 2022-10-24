@@ -152,7 +152,7 @@ namespace ABABillingAndClaim.Utils
                                             && sl.PeriodId == periodID
                                             && sl.Id == ud.ServiceLogId
                                          select 1).Any()
-                                  orderby ud.DateOfService
+                                  orderby new { ud.DateOfService, ud.SubProcedureId } 
                                   select new { ud, slo, sp, ps, pa };
 
                 int billed = 0, pendent = 0, empty = 0;
@@ -161,7 +161,9 @@ namespace ABABillingAndClaim.Utils
                 {
                     rates = unitDet.sp.Name.Contains("XP") ? 0 : info.RateEmployees;
                     var calc = (unitDet.ud.SubProcedureId == 1) ? info.Payroll.Procedure.Rate : unitDet.sp.Rate;//double.Parse(unitDet.SubProcedure.Rate.Contains(otherSep) ? unitDet.SubProcedure.Rate.Replace(otherSep, decSep): unitDet.SubProcedure.Rate);
-                    if (table.Rows.Count > 0 && table.Rows[table.Rows.Count - 1]["Day"].ToString() == unitDet.ud.DateOfService.ToString("MM/dd/yy"))
+                    if (table.Rows.Count > 0 && 
+                        (table.Rows[table.Rows.Count - 1]["Day"].ToString() == unitDet.ud.DateOfService.ToString("MM/dd/yy")) &&
+                        (table.Rows[table.Rows.Count - 1]["Procedure"].ToString() == ((unitDet.ud.SubProcedureId == 1) ? info.Payroll.Procedure.Name : unitDet.sp.Name)))
                     {
                         table.Rows[table.Rows.Count - 1]["DailyUnits"] = (double)(table.Rows[table.Rows.Count - 1]["DailyUnits"]) + (unitDet.ud.Unit / 4);
                         table.Rows[table.Rows.Count - 1]["Unit"] = (int)(table.Rows[table.Rows.Count - 1]["Unit"]) + unitDet.ud.Unit;
@@ -174,7 +176,7 @@ namespace ABABillingAndClaim.Utils
                     }
                     else
                         table.Rows.Add(unitDet.ud.DateOfService.ToString("MM/dd/yy"), unitDet.ud.Unit / 4, unitDet.ud.Unit, unitDet.ps.Id, unitDet.ps.Value, (unitDet.ud.SubProcedureId == 1) ? info.Payroll.Procedure.Name : unitDet.sp.Name, calc);
-
+                    
                     tUnits = tUnits + unitDet.ud.Unit;
                     total += unitDet.ud.Unit * calc;
 
@@ -228,7 +230,7 @@ namespace ABABillingAndClaim.Utils
                 ReferringPhysician = info.cl.ReferringProvider;
                 RecipientNUmber = info.cl.PatientAccount;
                 Contractor = info.ct.Name;
-                AuthorizationNUmber = info.cl.AuthorizationNUmber; //info.Client.AuthorizationNUmber;
+                AuthorizationNUmber = pAccount;//info.cl.AuthorizationNUmber; //info.Client.AuthorizationNUmber;
                 Diagnosis = info.d.Name;
                 WeeklyApprovedRBT = info.cl.WeeklyApprovedRBT;
                 WeeklyApprovedAnalyst = info.cl.WeeklyApprovedAnalyst;
@@ -270,7 +272,9 @@ namespace ABABillingAndClaim.Utils
                 {
                     rates = unitDet.sp.Name.Contains("XP") ? 0 : info.ag.RateEmployees;
                     var calc = (unitDet.ud.SubProcedureId == 1) ? info.pr.Procedure.Rate : unitDet.sp.Rate;//double.Parse(unitDet.SubProcedure.Rate.Contains(otherSep) ? unitDet.SubProcedure.Rate.Replace(otherSep, decSep): unitDet.SubProcedure.Rate);
-                    if (table.Rows.Count > 0 && table.Rows[table.Rows.Count - 1]["Day"].ToString() == unitDet.ud.DateOfService.ToString("MM/dd/yy"))
+                    if (table.Rows.Count > 0 &&
+                        (table.Rows[table.Rows.Count - 1]["Day"].ToString() == unitDet.ud.DateOfService.ToString("MM/dd/yy")) &&
+                        (table.Rows[table.Rows.Count - 1]["Procedure"].ToString() == ((unitDet.ud.SubProcedureId == 1) ? info.pd.Name : unitDet.sp.Name)))
                     {
                         table.Rows[table.Rows.Count - 1]["DailyUnits"] = (double)(table.Rows[table.Rows.Count - 1]["DailyUnits"]) + (unitDet.ud.Unit / 4);
                         table.Rows[table.Rows.Count - 1]["Unit"] = (int)(table.Rows[table.Rows.Count - 1]["Unit"]) + unitDet.ud.Unit;

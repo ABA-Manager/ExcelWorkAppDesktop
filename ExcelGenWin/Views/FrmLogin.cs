@@ -1,8 +1,10 @@
 ﻿using ABABillingAndClaim.Models;
 using ABABillingAndClaim.Services;
+using ClinicDOM;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -15,10 +17,28 @@ namespace ABABillingAndClaim.Views
     public partial class FrmLogin : Form
     {
         private readonly AuthService _authService;
-        public FrmLogin(AuthService authService)
+        private readonly MemoryService _memoryService;
+
+        private List<string> companies;
+        public FrmLogin(AuthService authService, MemoryService memoryService)
         {
             _authService = authService;
+            _memoryService = memoryService;
             InitializeComponent();
+            load_company();
+        }
+
+        private void load_company()
+        {
+            this.companies = ConfigurationManager.AppSettings["manage.company"].ToString().Split(';').ToList();
+            int count = 1;
+            this.companies.ForEach((item) =>
+            {
+                this.companyCbBindingSource.Add(new CompanyCb { key = count, value = item });
+                count++;
+                // this.companiesCb.Items.Add(new CompanyCb { key = count, value = item });
+            });
+
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -33,13 +53,39 @@ namespace ABABillingAndClaim.Views
             {
                 DialogResult = DialogResult.OK;
             }
-            else if (!response.IsSuccess && !response.Message.Contains("Some properties are not valid")) 
+            else if (!response.IsSuccess && !response.Message.Contains("Some properties are not valid"))
             {
                 MessageBox.Show("Incorrect username or password");
             }
             else
             {
                 MessageBox.Show("Some properties are not valid");
+            }
+        }
+
+        private void companiesCb_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this._memoryService.Company = (CompanyCb)companiesCb.SelectedItem;
+            switch (this._memoryService.Company.key)
+            {
+                case 1:
+                    {
+                        this._memoryService.BaseEndPoint = Properties.Settings.Default.VL_EP_BASE_ENDPOINT;
+                        this._memoryService.DataBaseEndPoint = "vl_ep";
+                    }
+                    break;
+                case 2:
+                    {
+                        this._memoryService.BaseEndPoint = Properties.Settings.Default.BBI_BASE_ENDPOINT;
+                        this._memoryService.DataBaseEndPoint = "bbi";
+                    }; break;
+                case 3:
+                    {
+                        this._memoryService.BaseEndPoint = Properties.Settings.Default.PL_BASE_ENDPOINT;
+                        this._memoryService.DataBaseEndPoint = "pl";
+                    }; break;
+                default:
+                    break;
             }
         }
     }

@@ -11,5 +11,14 @@
     <Setting Name="DEFAULT_PASSWORD" Type="System.String" Scope="User">
       <Value Profile="(Default)">Temporal00*</Value>
     </Setting>
+    <Setting Name="VL_EP_BASE_ENDPOINT" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://34.224.222.1:8082/api</Value>
+    </Setting>
+    <Setting Name="BBI_BASE_ENDPOINT" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://34.224.222.1:8082/api</Value>
+    </Setting>
+    <Setting Name="PL_BASE_ENDPOINT" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://34.224.222.1:8082/api</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
