@@ -133,7 +133,7 @@
             this.MaximizeBox = false;
             this.Name = "FrmCreateUser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "FrmCreateUser";
+            this.Text = "Create User";
             this.Load += new System.EventHandler(this.FrmCreateUser_Load);
             ((System.ComponentModel.ISupportInitialize)(this.rolBindingSource)).EndInit();
             this.ResumeLayout(false);

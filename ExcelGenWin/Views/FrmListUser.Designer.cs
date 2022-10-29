@@ -132,7 +132,7 @@
             this.MinimumSize = new System.Drawing.Size(454, 312);
             this.Name = "FrmListUser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "FrmListUser";
+            this.Text = "List User";
             this.Load += new System.EventHandler(this.FrmListUser_Load);
             this.Shown += new System.EventHandler(this.FrmListUser_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.ListUserDG)).EndInit();

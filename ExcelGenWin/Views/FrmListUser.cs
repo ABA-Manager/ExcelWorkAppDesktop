@@ -23,31 +23,38 @@ namespace ABABillingAndClaim.Views
         }
         private void FrmListUser_Load(object sender, EventArgs e) => refreshBindingSource();
 
-        private void refreshBindingSource() => userBindingSource.DataSource = _authService.GetAllUsers();
+        private void refreshBindingSource() => userBindingSource.DataSource = _authService.GetAllUsers().Where(x=> x.username != "developer").ToList();
         private void ListUserDG_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0)
-                return;
-
-            if (e.ColumnIndex == ListUserDG.Columns["ResetPassword"].Index)
+            try
             {
-                if (MessageBox.Show("You are trying to reset the password for this user, Are you sure?", "Confirmation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (e.RowIndex < 0)
+                    return;
+
+                if (e.ColumnIndex == ListUserDG.Columns["ResetPassword"].Index)
                 {
-                    var user = ListUserDG.SelectedRows[e.RowIndex].DataBoundItem as User;
-                    var result = _authService.ChangePassword(new ResetPasswordViewModel()
+                    if (MessageBox.Show("You are trying to reset the password for this user, Are you sure?", "Confirmation", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
-                        NewPassword = Properties.Settings.Default.DEFAULT_PASSWORD,
-                        Username = user.username
-                    });
-                    if (result.IsSuccess)
-                    {
-                        MessageBox.Show(result.Message.ToString());
-                    }
-                    else
-                    {
-                        MessageBox.Show(result.Message.ToString());
+                        var user = ListUserDG.Rows[e.RowIndex].DataBoundItem as User;
+                        var result = _authService.ChangePassword(new ResetPasswordViewModel()
+                        {
+                            NewPassword = Properties.Settings.Default.DEFAULT_PASSWORD,
+                            Username = user.username
+                        });
+                        if (result.IsSuccess)
+                        {
+                            MessageBox.Show(result.Message.ToString());
+                        }
+                        else
+                        {
+                            MessageBox.Show(result.Message.ToString());
+                        }
                     }
                 }
+            }
+            catch (Exception)
+            {
+
             }
         }
 

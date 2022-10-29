@@ -91,7 +91,6 @@ namespace ABABillingAndClaim.Views
             _memoryService.Token = "";
             _memoryService.Connected = false;
             _memoryService.LoggedOndUser = null;
-            _memoryService.Company = null;
 
             var frm = new FrmLogin(_authService, _memoryService);
             if (frm.ShowDialog() != DialogResult.OK)
@@ -125,20 +124,31 @@ namespace ABABillingAndClaim.Views
         private async void loadDashboard(Clinic_AppContext _db)
         {
             Dashboard service = new Dashboard(_db);
+            try
+            {
+                if (_dashboardSetting == null)
+                    await FillDasboardSettings(service);
 
-            if(_dashboardSetting == null)
-                await FillDasboardSettings(service);
+                await HistoryProfit(service, _dashboardSetting.Company.Id);
 
-            await HistoryProfit(service, _dashboardSetting.Company.Id);
+                await StatusServicesLog(service, _dashboardSetting.Company.Id, _dashboardSetting.Period.Id);
 
-            await StatusServicesLog(service, _dashboardSetting.Company.Id, _dashboardSetting.Period.Id);
+                await ServiceLogWithoutPatientAccount(service, _dashboardSetting.Company.Id, _dashboardSetting.Period.Id);
 
-            await ServiceLogWithoutPatientAccount(service, _dashboardSetting.Company.Id, _dashboardSetting.Period.Id);
+                await GeneralData(service, _dashboardSetting.Company.Id, _dashboardSetting.Period.Id);
 
-            await GeneralData(service, _dashboardSetting.Company.Id, _dashboardSetting.Period.Id);
+                toolStripStatusLabel1.Text = $"Company {_dashboardSetting.Company.Name}";
+                toolStripStatusLabel2.Text = $"Period {_dashboardSetting.Period.PayPeriod}";
+            }
+            catch (NotSupportedException ex)
+            {
 
-            toolStripStatusLabel1.Text = $"Company {_dashboardSetting.Company.Name}";
-            toolStripStatusLabel2.Text = $"Period {_dashboardSetting.Period.PayPeriod}";
+                MessageBox.Show($"We are still working. \nApp message: {ex.Message}", "Refresh not possible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (System.Data.Entity.Core.EntityException efx) 
+            {
+                MessageBox.Show($"Network error or too slow connection, wait a few minutes \nApp message: {efx.Message}", "Network error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private async Task FillDasboardSettings(Dashboard service)
