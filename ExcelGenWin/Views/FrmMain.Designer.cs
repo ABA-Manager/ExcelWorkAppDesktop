@@ -38,6 +38,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.mainToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changePasswordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,12 +75,12 @@
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
             this.errorPADataGrid = new System.Windows.Forms.DataGridView();
-            this.Procedure = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.clientDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contractorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Procedure = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dateOfServiceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.serviceLogWithoutPatientAccountBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.unbilledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -120,6 +121,13 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(70, 17);
             this.toolStripStatusLabel1.Text = "Company: -";
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(52, 17);
+            this.toolStripStatusLabel2.Text = "Period: -";
+            this.toolStripStatusLabel2.Click += new System.EventHandler(this.toolStripStatusLabel2_Click);
             // 
             // menuStrip1
             // 
@@ -217,6 +225,7 @@
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.userToolStripMenuItem,
+            this.unbilledToolStripMenuItem,
             this.settingsToolStripMenuItem,
             this.toolStripMenuItem1,
             this.aboutToolStripMenuItem});
@@ -229,7 +238,7 @@
             this.userToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.listToolStripMenuItem});
             this.userToolStripMenuItem.Name = "userToolStripMenuItem";
-            this.userToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.userToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.userToolStripMenuItem.Text = "User";
             this.userToolStripMenuItem.Click += new System.EventHandler(this.userToolStripMenuItem_Click);
             // 
@@ -243,19 +252,19 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.settingsToolStripMenuItem.Text = "Settings...";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(122, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -546,20 +555,6 @@
             this.errorPADataGrid.Size = new System.Drawing.Size(281, 157);
             this.errorPADataGrid.TabIndex = 2;
             // 
-            // Procedure
-            // 
-            this.Procedure.DataPropertyName = "Procedure";
-            this.Procedure.HeaderText = "Procedure";
-            this.Procedure.Name = "Procedure";
-            this.Procedure.ReadOnly = true;
-            // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(52, 17);
-            this.toolStripStatusLabel2.Text = "Period: -";
-            this.toolStripStatusLabel2.Click += new System.EventHandler(this.toolStripStatusLabel2_Click);
-            // 
             // clientDataGridViewTextBoxColumn
             // 
             this.clientDataGridViewTextBoxColumn.DataPropertyName = "Client";
@@ -574,6 +569,13 @@
             this.contractorDataGridViewTextBoxColumn.Name = "contractorDataGridViewTextBoxColumn";
             this.contractorDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // Procedure
+            // 
+            this.Procedure.DataPropertyName = "Procedure";
+            this.Procedure.HeaderText = "Procedure";
+            this.Procedure.Name = "Procedure";
+            this.Procedure.ReadOnly = true;
+            // 
             // dateOfServiceDataGridViewTextBoxColumn
             // 
             this.dateOfServiceDataGridViewTextBoxColumn.DataPropertyName = "DateOfService";
@@ -584,6 +586,13 @@
             // serviceLogWithoutPatientAccountBindingSource
             // 
             this.serviceLogWithoutPatientAccountBindingSource.DataSource = typeof(ABABillingAndClaim.Models.ServiceLogWithoutPatientAccount);
+            // 
+            // unbilledToolStripMenuItem
+            // 
+            this.unbilledToolStripMenuItem.Name = "unbilledToolStripMenuItem";
+            this.unbilledToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.unbilledToolStripMenuItem.Text = "Unbilled";
+            this.unbilledToolStripMenuItem.Click += new System.EventHandler(this.unbilledToolStripMenuItem_Click);
             // 
             // FrmMain
             // 
@@ -681,5 +690,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dateOfServiceDataGridViewTextBoxColumn;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripMenuItem unbilledToolStripMenuItem;
     }
 }

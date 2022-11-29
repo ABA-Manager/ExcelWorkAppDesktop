@@ -48,6 +48,7 @@
         <AssociationConnector Association="Model1.AspNetUserRoles" />
         <EntityTypeShape EntityType="Model1.PatientAccount" PointX="10.75" PointY="3" Width="1.5" />
         <AssociationConnector Association="Model1.ClientPatientAccount" />
+        <EntityTypeShape EntityType="Model1.Profit_Dashboard" Width="1.5" PointX="0.75" PointY="11.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

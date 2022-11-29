@@ -43,14 +43,46 @@ namespace ABABillingAndClaim.Views
 
         private void excelGenerationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var frm = new FrmExcelGen(db);
-            frm.ShowDialog();
+            try
+            {
+                var frm = new FrmExcelGen(db);
+                frm.ShowDialog();
+            }
+            catch (System.Reflection.TargetInvocationException tix)
+            {
+                MessageBox.Show($"We are still working. Wait a few minutes \nApp message: {tix.Message}", "Open dialog not possible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (NotSupportedException ex)
+            {
+
+                MessageBox.Show($"We are still working. \nApp message: {ex.Message}", "Refresh not possible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (System.Data.Entity.Core.EntityException efx)
+            {
+                MessageBox.Show($"Network error or too slow connection, wait a few minutes \nApp message: {efx.Message}", "Network error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void settingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var frm = new FrmSettings();
-            frm.ShowDialog();
+            try
+            {
+                var frm = new FrmSettings();
+                frm.ShowDialog();
+            }
+            catch (System.Reflection.TargetInvocationException tix)
+            {
+                MessageBox.Show($"We are still working. Wait a few minutes \nApp message: {tix.Message}", "Open dialog not possible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (NotSupportedException ex)
+            {
+
+                MessageBox.Show($"We are still working. \nApp message: {ex.Message}", "Refresh not possible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (System.Data.Entity.Core.EntityException efx)
+            {
+                MessageBox.Show($"Network error or too slow connection, wait a few minutes \nApp message: {efx.Message}", "Network error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -67,7 +99,6 @@ namespace ABABillingAndClaim.Views
             else
             {
                 db = new Clinic_AppContext($"name={_memoryService.DataBaseEndPoint}");
-
                 // Load dashboard async
                 loadDashboard(db);
             }
@@ -75,8 +106,24 @@ namespace ABABillingAndClaim.Views
 
         private void webScrappingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var frm = new FrmMedicaidScrap(db, _memoryService);
-            frm.ShowDialog();
+            try
+            {
+                var frm = new FrmMedicaidScrap(db, _memoryService);
+                frm.ShowDialog();
+            }
+            catch (System.Reflection.TargetInvocationException tix)
+            {
+                MessageBox.Show($"We are still working. Wait a few minutes \nApp message: {tix.Message}", "Open dialog not possible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (NotSupportedException ex)
+            {
+
+                MessageBox.Show($"We are still working. \nApp message: {ex.Message}", "Refresh not possible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (System.Data.Entity.Core.EntityException efx)
+            {
+                MessageBox.Show($"Network error or too slow connection, wait a few minutes \nApp message: {efx.Message}", "Network error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void changePasswordToolStripMenuItem_Click(object sender, EventArgs e)
@@ -104,14 +151,47 @@ namespace ABABillingAndClaim.Views
 
         private void listToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var frm = new FrmListUser(_authService);
-            frm.ShowDialog();
+            try
+            {
+                var frm = new FrmListUser(_authService);
+                frm.ShowDialog();
+            }
+            catch (System.Reflection.TargetInvocationException tix)
+            {
+                MessageBox.Show($"We are still working. Wait a few minutes \nApp message: {tix.Message}", "Open dialog not possible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (NotSupportedException ex)
+            {
+
+                MessageBox.Show($"We are still working. \nApp message: {ex.Message}", "Refresh not possible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (System.Data.Entity.Core.EntityException efx)
+            {
+                MessageBox.Show($"Network error or too slow connection, wait a few minutes \nApp message: {efx.Message}", "Network error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         private void userToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var frm = new FrmCreateUser(_authService);
-            frm.ShowDialog();
+            try
+            {
+                var frm = new FrmCreateUser(_authService);
+                frm.ShowDialog();
+            }
+            catch (System.Reflection.TargetInvocationException tix)
+            {
+                MessageBox.Show($"We are still working. Wait a few minutes \nApp message: {tix.Message}", "Open dialog not possible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (NotSupportedException ex)
+            {
+
+                MessageBox.Show($"We are still working. \nApp message: {ex.Message}", "Refresh not possible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (System.Data.Entity.Core.EntityException efx)
+            {
+                MessageBox.Show($"Network error or too slow connection, wait a few minutes \nApp message: {efx.Message}", "Network error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -129,13 +209,14 @@ namespace ABABillingAndClaim.Views
                 if (_dashboardSetting == null)
                     await FillDasboardSettings(service);
 
-                await HistoryProfit(service, _dashboardSetting.Company.Id);
+                Parallel.Invoke(
+                           () =>  HistoryProfit(service, _dashboardSetting.Company.Id),
+                           () => StatusServicesLog(service, _dashboardSetting.Company.Id, _dashboardSetting.Period.Id)
+                           );
 
-                await StatusServicesLog(service, _dashboardSetting.Company.Id, _dashboardSetting.Period.Id);
-
-                await ServiceLogWithoutPatientAccount(service, _dashboardSetting.Company.Id, _dashboardSetting.Period.Id);
-
-                await GeneralData(service, _dashboardSetting.Company.Id, _dashboardSetting.Period.Id);
+                ServiceLogWithoutPatientAccount(service, _dashboardSetting.Company.Id, _dashboardSetting.Period.Id);
+               
+                GeneralData(service, _dashboardSetting.Company.Id, _dashboardSetting.Period.Id);
 
                 toolStripStatusLabel1.Text = $"Company {_dashboardSetting.Company.Name}";
                 toolStripStatusLabel2.Text = $"Period {_dashboardSetting.Period.PayPeriod}";
@@ -145,7 +226,7 @@ namespace ABABillingAndClaim.Views
 
                 MessageBox.Show($"We are still working. \nApp message: {ex.Message}", "Refresh not possible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            catch (System.Data.Entity.Core.EntityException efx) 
+            catch (System.Data.Entity.Core.EntityException efx)
             {
                 MessageBox.Show($"Network error or too slow connection, wait a few minutes \nApp message: {efx.Message}", "Network error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -160,83 +241,96 @@ namespace ABABillingAndClaim.Views
             _dashboardSetting.Period = periods.FirstOrDefault();
         }
 
-        private async Task HistoryProfit(Dashboard _service, int company_id = 1)
+        private void HistoryProfit(Dashboard _service, int company_id = 1)
         {
-            var historyBindingSource = await _service.GetProfit(company_id: company_id);
-
-            var objChart = profitHistoryChart.ChartAreas[0];
-
-            // PayPerdiod
-            // objChart.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            List<string> labels = historyBindingSource.Select(x => x.PayPeriod).ToList<string>();
-            double startOffset = 0;
-            double endOffset = 1;
-            foreach (string labelName in labels)
+            profitHistoryChart.Invoke((MethodInvoker)(() =>
             {
-                CustomLabel label = new CustomLabel(startOffset, endOffset, labelName, 0, LabelMarkStyle.None);
-                objChart.AxisX.CustomLabels.Add(label);
-                startOffset++;
-                endOffset++;
-            }
+                var historyBindingSource = _service.GetProfit(company_id: company_id);
 
-            objChart.AxisX.Minimum = 0;
-            objChart.AxisX.Maximum = historyBindingSource.Count();
+                var objChart = profitHistoryChart.ChartAreas[0];
+
+                // PayPerdiod
+                // objChart.AxisX.IntervalType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+                List<string> labels = historyBindingSource.Select(x => x.PayPeriod).ToList<string>();
+                double startOffset = 0;
+                double endOffset = 1;
+                foreach (string labelName in labels)
+                {
+                    CustomLabel label = new CustomLabel(startOffset, endOffset, labelName, 0, LabelMarkStyle.None);
+                    objChart.AxisX.CustomLabels.Add(label);
+                    startOffset++;
+                    endOffset++;
+                }
+
+                objChart.AxisX.Minimum = 0;
+                objChart.AxisX.Maximum = historyBindingSource.Count();
 
 
-            // Clear graphic
-            profitHistoryChart.Series.Clear();
+                // Clear graphic
+                profitHistoryChart.Series.Clear();
 
-            // Random Color
-            Random random = new Random();
-            List<string> series = new List<string>() { "Profit", "Billed", "Payment" };
+                // Random Color
+                Random random = new Random();
+                List<string> series = new List<string>() { "Profit", "Billed", "Payment" };
 
-            foreach (var item in series)
+                foreach (var item in series)
+                {
+                    profitHistoryChart.Series.Add(item);
+                    profitHistoryChart.Series[item].Color = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
+                    profitHistoryChart.Series[item].Legend = "Legend1";
+                    profitHistoryChart.Series[item].ChartArea = "ChartArea1";
+                    profitHistoryChart.Series[item].ChartType = SeriesChartType.Line;
+                    profitHistoryChart.Series[item].ToolTip = $"{item}: {"#VALY{F2}"}"; // "#VALY{F2}"
+
+                    // Add data
+                    for (int i = 0; i < historyBindingSource.Count(); i++)
+                    {
+                        profitHistoryChart.Series[item].Points.AddXY(i, historyBindingSource.ToArray()[i][item]);
+                    }
+                }
+            }));
+        }
+
+        private void StatusServicesLog(Dashboard _service, int company_id = 1, int period_id = 20)
+        {
+            profitHistoryChart.Invoke((MethodInvoker)(() =>
             {
-                profitHistoryChart.Series.Add(item);
-                profitHistoryChart.Series[item].Color = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
-                profitHistoryChart.Series[item].Legend = "Legend1";
-                profitHistoryChart.Series[item].ChartArea = "ChartArea1";
-                profitHistoryChart.Series[item].ChartType = SeriesChartType.Line;
-                profitHistoryChart.Series[item].ToolTip = $"{item}: {"#VALY{F2}"}"; // "#VALY{F2}"
+                var result = _service.GetServicesLgStatus(company_id, period_id);
+                StatusBillingChart.Series.Clear();
+
+                List<string> data = new List<string>() { "Pending", "Billed", "NotBilled" };
+
+                StatusBillingChart.Series.Add("statusBillingSerie");
+                StatusBillingChart.Series["statusBillingSerie"].ChartType = SeriesChartType.Pie;
+                StatusBillingChart.Series["statusBillingSerie"].ToolTip = $"{"#VALY{F2}"}";
 
                 // Add data
-                for (int i = 0; i < historyBindingSource.Count(); i++)
+                foreach (string item in data)
                 {
-                    profitHistoryChart.Series[item].Points.AddXY(i, historyBindingSource.ToArray()[i][item]);
+                    StatusBillingChart.Series["statusBillingSerie"].Points.AddXY(item, result[item]);
                 }
-            }
+            }));
         }
 
-        private async Task StatusServicesLog(Dashboard _service, int company_id = 1, int period_id = 20)
+        private void ServiceLogWithoutPatientAccount(Dashboard _service, int company_id = 1, int period_id = 20)
         {
-            var result = await _service.GetServicesLgStatus(company_id, period_id);
-            StatusBillingChart.Series.Clear();
-
-            List<string> data = new List<string>() { "Pending", "Billed", "NotBilled" };
-
-            StatusBillingChart.Series.Add("statusBillingSerie");
-            StatusBillingChart.Series["statusBillingSerie"].ChartType = SeriesChartType.Pie;
-            StatusBillingChart.Series["statusBillingSerie"].ToolTip = $"{"#VALY{F2}"}";
-
-            // Add data
-            foreach(string item in data)
+            errorPADataGrid.Invoke((MethodInvoker)(delegate
             {
-                StatusBillingChart.Series["statusBillingSerie"].Points.AddXY(item, result[item]);
-            }
+                serviceLogWithoutPatientAccountBindingSource.Clear();
+                serviceLogWithoutPatientAccountBindingSource.DataSource = _service.GetServiceLogWithoutPatientAccount(company_id, period_id);
+            }));
         }
 
-        private async Task ServiceLogWithoutPatientAccount(Dashboard _service, int company_id = 1, int period_id=20) 
+        private void GeneralData(Dashboard _service, int company_id = 1, int period_id = 20)
         {
-            serviceLogWithoutPatientAccountBindingSource.Clear();
-            serviceLogWithoutPatientAccountBindingSource.DataSource = await _service.GetServiceLogWithoutPatientAccount(company_id, period_id);
-        }
+            var result = _service.GetGeneralData(company_id, period_id);
 
-        private async Task GeneralData(Dashboard _service, int company_id = 1, int period_id = 20) 
-        {
-            var result = await _service.GetGeneralData(company_id, period_id);
             patient.Text = $"{result.Client}";
+
             physician.Text = $"{result.Contractor}";
-            serviceLog.Text = $"{result.ServiceLog}";  
+
+            serviceLog.Text = $"{result.ServiceLog}";
+
         }
         private void refreshDashboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -245,17 +339,55 @@ namespace ABABillingAndClaim.Views
 
         private void dashboardSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var frm = new FrmDashboardSetting(db, _dashboardSetting);
-            if (frm.ShowDialog() == DialogResult.OK) 
+            try
             {
-                _dashboardSetting = frm._dashboardSetting;
-                loadDashboard(db);
+                var frm = new FrmDashboardSetting(db, _dashboardSetting);
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    _dashboardSetting = frm._dashboardSetting;
+                    loadDashboard(db);
+                }
+            }
+            catch (System.Reflection.TargetInvocationException tix)
+            {
+                MessageBox.Show($"We are still working. Wait a few minutes \nApp message: {tix.Message}", "Open dialog not possible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (NotSupportedException ex)
+            {
+
+                MessageBox.Show($"We are still working. \nApp message: {ex.Message}", "Refresh not possible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (System.Data.Entity.Core.EntityException efx)
+            {
+                MessageBox.Show($"Network error or too slow connection, wait a few minutes \nApp message: {efx.Message}", "Network error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void toolStripStatusLabel2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void unbilledToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var frm = new FrmUnbilled(db, _memoryService, _dashboardSetting);
+                frm.ShowDialog();
+            }
+            catch (System.Reflection.TargetInvocationException tix)
+            {
+                MessageBox.Show($"We are still working. Wait a few minutes \nApp message: {tix.Message}", "Open dialog not possible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (NotSupportedException ex)
+            {
+
+                MessageBox.Show($"We are still working. \nApp message: {ex.Message}", "Refresh not possible", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (System.Data.Entity.Core.EntityException efx)
+            {
+                MessageBox.Show($"Network error or too slow connection, wait a few minutes \nApp message: {efx.Message}", "Network error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

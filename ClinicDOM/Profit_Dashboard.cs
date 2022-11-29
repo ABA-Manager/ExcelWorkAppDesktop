@@ -12,15 +12,12 @@ namespace ClinicDOM
     using System;
     using System.Collections.Generic;
     
-    public partial class PatientAccount
+    public partial class Profit_Dashboard
     {
-        public int Id { get; set; }
-        public string LicenseNumber { get; set; }
-        public System.DateTime CreateDate { get; set; }
-        public System.DateTime ExpireDate { get; set; }
-        public string Auxiliar { get; set; }
-        public int ClientId { get; set; }
-    
-        public virtual Client Client { get; set; }
+        public string PayPeriod { get; set; }
+        public double Billed { get; set; }
+        public double Payment { get; set; }
+        public double Profit { get; set; }
+        public int IdCompany { get; set; }
     }
 }

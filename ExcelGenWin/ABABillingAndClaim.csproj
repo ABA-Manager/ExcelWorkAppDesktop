@@ -104,6 +104,7 @@
     <Compile Include="Models\DashboardSetting.cs" />
     <Compile Include="Models\GeneralData.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\ManagerBiller.cs" />
     <Compile Include="Models\ProfitHistory.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\ResetPasswordViewModel.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Services\AuthService.cs" />
     <Compile Include="Services\Dashboard.cs" />
     <Compile Include="Services\IDashboard.cs" />
+    <Compile Include="Services\ManagerService.cs" />
     <Compile Include="Services\MemoryService.cs" />
     <Compile Include="Utils\ChromiumBrowserAccess.cs" />
     <Compile Include="Utils\Details.cs" />
@@ -199,6 +201,18 @@
     <Compile Include="Views\FrmSettings.Designer.cs">
       <DependentUpon>FrmSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\FrmUnbilled.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\FrmUnbilled.Designer.cs">
+      <DependentUpon>FrmUnbilled.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Splash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Splash.Designer.cs">
+      <DependentUpon>Splash.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Views\ChangePassword.resx">
       <DependentUpon>ChangePassword.cs</DependentUpon>
     </EmbeddedResource>
@@ -246,8 +260,15 @@
     <EmbeddedResource Include="Views\FrmSettings.resx">
       <DependentUpon>FrmSettings.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\FrmUnbilled.resx">
+      <DependentUpon>FrmUnbilled.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Splash.resx">
+      <DependentUpon>Splash.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\ABABillingAndClaim.Models.CompanyCb.datasource" />
+    <None Include="Properties\DataSources\ABABillingAndClaim.Models.ManagerBiller.datasource" />
     <None Include="Properties\DataSources\ABABillingAndClaim.Models.Rol.datasource" />
     <None Include="Properties\DataSources\ABABillingAndClaim.Models.ServiceLogWithoutPatientAccount.datasource" />
     <None Include="Properties\DataSources\ABABillingAndClaim.Models.User.datasource" />

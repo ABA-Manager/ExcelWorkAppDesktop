@@ -49,6 +49,7 @@ namespace ABABillingAndClaim.Utils
             { "CancelBtn","dnn_ClaimPhysicianInformation_NavFooter_CancelButton"},
             { "tableUnitDetails","dnn_ClaimPhysicianInformation_ctl02_Detail_Datalist"},
             { "AllowedAmount", "dnn_ClaimPhysicianInformation_ctl02_Detail_Datapanel_ctl00_ctl14_AllowedAmount_mb_AllowedAmount"},
+            { "ModifSearch","dnn_ClaimPhysicianInformation_ctl02_Detail_Datapanel_ctl00_ctl07_Modifier1_DataSearchButton"},
             //login
             { "login","userNameInput"},
             { "pass","passwordInput"},
@@ -162,7 +163,8 @@ namespace ABABillingAndClaim.Utils
                     await SetElement("Procedure", it["Procedure"].ToString().Trim().Substring(0, 5));
                     if (it["Procedure"].ToString().Length > 5)
                     {
-                        await SetElement("Modifier1", it["Procedure"].ToString().Trim().Substring(5, 2));
+                        await SetElement("Modifier1", it["Procedure"].ToString().Trim().Substring(5, 2), true);
+                        await SetFocus("ModifSearch", true);
                         await SetElement("DiagnosisPainter", "1");
                     }
                     else

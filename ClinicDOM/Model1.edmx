@@ -139,7 +139,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
           <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="PatientAccount">
@@ -150,8 +150,8 @@
           <Property Name="LicenseNumber" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="ExpireDate" Type="datetime" Nullable="false" />
-          <Property Name="Auxiliar" Type="nvarchar(max)" Nullable="true" />
           <Property Name="ClientId" Type="int" Nullable="false" />
+          <Property Name="Auxiliar" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Payroll">
           <Key>
@@ -168,12 +168,12 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="StartDate" Type="datetime" Nullable="false" />
-          <Property Name="EndDate" Type="datetime" Nullable="false" />
+          <Property Name="StartDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="EndDate" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="Active" Type="bit" Nullable="false" />
-          <Property Name="PayPeriod" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="DocumentDeliveryDate" Type="datetime" Nullable="false" />
-          <Property Name="PaymentDate" Type="datetime" Nullable="false" />
+          <Property Name="PayPeriod" Type="nvarchar(max)" />
+          <Property Name="DocumentDeliveryDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="PaymentDate" Type="datetime2" Precision="7" Nullable="false" />
         </EntityType>
         <EntityType Name="PlaceOfService">
           <Key>
@@ -191,6 +191,22 @@
           <Property Name="Name" Type="nvarchar(max)" />
           <Property Name="Rate" Type="float" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'clinicbd.dbo.Profit_Dashboard' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Profit_Dashboard">
+          <Key>
+            <PropertyRef Name="PayPeriod" />
+            <PropertyRef Name="Billed" />
+            <PropertyRef Name="Payment" />
+            <PropertyRef Name="Profit" />
+            <PropertyRef Name="IdCompany" />
+          </Key>
+          <Property Name="PayPeriod" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="Billed" Type="float" Nullable="false" />
+          <Property Name="Payment" Type="float" Nullable="false" />
+          <Property Name="Profit" Type="float" Nullable="false" />
+          <Property Name="IdCompany" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="ReleaseInformation">
           <Key>
             <PropertyRef Name="Id" />
@@ -206,10 +222,10 @@
           <Property Name="PeriodId" Type="int" Nullable="false" />
           <Property Name="ContractorId" Type="int" Nullable="false" />
           <Property Name="ClientId" Type="int" Nullable="false" />
-          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedDate" Type="datetime2" Precision="7" />
           <Property Name="BilledDate" Type="datetime" />
-          <Property Name="Biller" Type="nvarchar" MaxLength="450" />
-	  <Property Name="Pending" Type="nvarchar" MaxLength="450" />
+          <Property Name="Biller" Type="varchar" MaxLength="128" />
+          <Property Name="Pending" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="SubProcedure">
           <Key>
@@ -227,11 +243,47 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Modifiers" Type="nvarchar(max)" />
           <Property Name="PlaceOfServiceId" Type="int" Nullable="false" />
-          <Property Name="DateOfService" Type="datetime" Nullable="false" />
+          <Property Name="DateOfService" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="Unit" Type="int" Nullable="false" />
           <Property Name="ServiceLogId" Type="int" Nullable="false" />
           <Property Name="SubProcedureId" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Agreement_Client_ClientId">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Agreement">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agreement_Company_CompanyId">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Agreement">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Agreement_Payroll_PayrollId">
+          <End Role="Payroll" Type="Self.Payroll" Multiplicity="1" />
+          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payroll">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Agreement">
+              <PropertyRef Name="PayrollId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_AspNetRoleClaims_AspNetRoles_RoleId">
           <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -316,15 +368,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ClientAgreement">
-          <End Role="Client" Type="Self.Client" Multiplicity="1" />
-          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
+        <Association Name="FK_Client_Diagnosis_DiagnosisId">
+          <End Role="Diagnosis" Type="Self.Diagnosis" Multiplicity="1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Client">
+            <Principal Role="Diagnosis">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Agreement">
-              <PropertyRef Name="ClientId" />
+            <Dependent Role="Client">
+              <PropertyRef Name="DiagnosisId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Client_ReleaseInformation_ReleaseInformationId">
+          <End Role="ReleaseInformation" Type="Self.ReleaseInformation" Multiplicity="1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReleaseInformation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="ReleaseInformationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -340,31 +404,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ClientServiceLog">
-          <End Role="Client" Type="Self.Client" Multiplicity="1" />
-          <End Role="ServiceLog" Type="Self.ServiceLog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Client">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ServiceLog">
-              <PropertyRef Name="ClientId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CompanyAgreement">
-          <End Role="Company" Type="Self.Company" Multiplicity="1" />
-          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Agreement">
-              <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CompanyPayroll">
+        <Association Name="FK_Payroll_Company_CompanyId">
           <End Role="Company" Type="Self.Company" Multiplicity="1" />
           <End Role="Payroll" Type="Self.Payroll" Multiplicity="*" />
           <ReferentialConstraint>
@@ -376,7 +416,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ContractorPayroll">
+        <Association Name="FK_Payroll_Contractor_ContractorId">
           <End Role="Contractor" Type="Self.Contractor" Multiplicity="1" />
           <End Role="Payroll" Type="Self.Payroll" Multiplicity="*" />
           <ReferentialConstraint>
@@ -388,19 +428,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ContractorServiceLog">
-          <End Role="Contractor" Type="Self.Contractor" Multiplicity="1" />
-          <End Role="ServiceLog" Type="Self.ServiceLog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Contractor">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ServiceLog">
-              <PropertyRef Name="ContractorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ContractorTypePayroll">
+        <Association Name="FK_Payroll_ContractorType_ContractorTypeId">
           <End Role="ContractorType" Type="Self.ContractorType" Multiplicity="1" />
           <End Role="Payroll" Type="Self.Payroll" Multiplicity="*" />
           <ReferentialConstraint>
@@ -412,55 +440,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DiagnosisClient">
-          <End Role="Diagnosis" Type="Self.Diagnosis" Multiplicity="1" />
-          <End Role="Client" Type="Self.Client" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Diagnosis">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Client">
-              <PropertyRef Name="DiagnosisId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PayrollAgreement">
-          <End Role="Payroll" Type="Self.Payroll" Multiplicity="1" />
-          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Payroll">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Agreement">
-              <PropertyRef Name="PayrollId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PeriodServiceLog">
-          <End Role="Period" Type="Self.Period" Multiplicity="1" />
-          <End Role="ServiceLog" Type="Self.ServiceLog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Period">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ServiceLog">
-              <PropertyRef Name="PeriodId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PlaceOfServiceUnitDetail">
-          <End Role="PlaceOfService" Type="Self.PlaceOfService" Multiplicity="1" />
-          <End Role="UnitDetail" Type="Self.UnitDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PlaceOfService">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="UnitDetail">
-              <PropertyRef Name="PlaceOfServiceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ProcedurePayroll">
+        <Association Name="FK_Payroll_Procedure_ProcedureId">
           <End Role="Procedure" Type="Self.Procedure" Multiplicity="1" />
           <End Role="Payroll" Type="Self.Payroll" Multiplicity="*" />
           <ReferentialConstraint>
@@ -484,29 +464,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ReleaseInformationClient">
-          <End Role="ReleaseInformation" Type="Self.ReleaseInformation" Multiplicity="1" />
-          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+        <Association Name="FK_ServiceLog_Client_ClientId">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="ServiceLog" Type="Self.ServiceLog" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ReleaseInformation">
+            <Principal Role="Client">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Client">
-              <PropertyRef Name="ReleaseInformationId" />
+            <Dependent Role="ServiceLog">
+              <PropertyRef Name="ClientId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ServiceLogUnitDetail">
-          <End Role="ServiceLog" Type="Self.ServiceLog" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="UnitDetail" Type="Self.UnitDetail" Multiplicity="*" />
+        <Association Name="FK_ServiceLog_Contractor_ContractorId">
+          <End Role="Contractor" Type="Self.Contractor" Multiplicity="1" />
+          <End Role="ServiceLog" Type="Self.ServiceLog" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="ServiceLog">
+            <Principal Role="Contractor">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="UnitDetail">
-              <PropertyRef Name="ServiceLogId" />
+            <Dependent Role="ServiceLog">
+              <PropertyRef Name="ContractorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceLog_Period_PeriodId">
+          <End Role="Period" Type="Self.Period" Multiplicity="1" />
+          <End Role="ServiceLog" Type="Self.ServiceLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Period">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServiceLog">
+              <PropertyRef Name="PeriodId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -519,6 +509,30 @@
             </Principal>
             <Dependent Role="UnitDetail">
               <PropertyRef Name="SubProcedureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnitDetail_PlaceOfService_PlaceOfServiceId">
+          <End Role="PlaceOfService" Type="Self.PlaceOfService" Multiplicity="1" />
+          <End Role="UnitDetail" Type="Self.UnitDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlaceOfService">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UnitDetail">
+              <PropertyRef Name="PlaceOfServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnitDetail_ServiceLog_ServiceLogId">
+          <End Role="ServiceLog" Type="Self.ServiceLog" Multiplicity="1" />
+          <End Role="UnitDetail" Type="Self.UnitDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceLog">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UnitDetail">
+              <PropertyRef Name="ServiceLogId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -545,6 +559,27 @@
           <EntitySet Name="ServiceLog" EntityType="Self.ServiceLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubProcedure" EntityType="Self.SubProcedure" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UnitDetail" EntityType="Self.UnitDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Profit_Dashboard" EntityType="Self.Profit_Dashboard" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Profit_Dashboard].[PayPeriod] AS [PayPeriod], 
+    [Profit_Dashboard].[Billed] AS [Billed], 
+    [Profit_Dashboard].[Payment] AS [Payment], 
+    [Profit_Dashboard].[Profit] AS [Profit], 
+    [Profit_Dashboard].[IdCompany] AS [IdCompany]
+    FROM [dbo].[Profit_Dashboard] AS [Profit_Dashboard]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Agreement_Client_ClientId" Association="Self.FK_Agreement_Client_ClientId">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Agreement" EntitySet="Agreement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agreement_Company_CompanyId" Association="Self.FK_Agreement_Company_CompanyId">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Agreement" EntitySet="Agreement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Agreement_Payroll_PayrollId" Association="Self.FK_Agreement_Payroll_PayrollId">
+            <End Role="Payroll" EntitySet="Payroll" />
+            <End Role="Agreement" EntitySet="Agreement" />
+          </AssociationSet>
           <AssociationSet Name="FK_AspNetRoleClaims_AspNetRoles_RoleId" Association="Self.FK_AspNetRoleClaims_AspNetRoles_RoleId">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetRoleClaims" EntitySet="AspNetRoleClaims" />
@@ -569,55 +604,31 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserTokens" EntitySet="AspNetUserTokens" />
           </AssociationSet>
-          <AssociationSet Name="FK_ClientAgreement" Association="Self.FK_ClientAgreement">
+          <AssociationSet Name="FK_Client_Diagnosis_DiagnosisId" Association="Self.FK_Client_Diagnosis_DiagnosisId">
+            <End Role="Diagnosis" EntitySet="Diagnosis" />
             <End Role="Client" EntitySet="Client" />
-            <End Role="Agreement" EntitySet="Agreement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Client_ReleaseInformation_ReleaseInformationId" Association="Self.FK_Client_ReleaseInformation_ReleaseInformationId">
+            <End Role="ReleaseInformation" EntitySet="ReleaseInformation" />
+            <End Role="Client" EntitySet="Client" />
           </AssociationSet>
           <AssociationSet Name="FK_ClientPatientAccount" Association="Self.FK_ClientPatientAccount">
             <End Role="Client" EntitySet="Client" />
             <End Role="PatientAccount" EntitySet="PatientAccount" />
           </AssociationSet>
-          <AssociationSet Name="FK_ClientServiceLog" Association="Self.FK_ClientServiceLog">
-            <End Role="Client" EntitySet="Client" />
-            <End Role="ServiceLog" EntitySet="ServiceLog" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CompanyAgreement" Association="Self.FK_CompanyAgreement">
-            <End Role="Company" EntitySet="Company" />
-            <End Role="Agreement" EntitySet="Agreement" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CompanyPayroll" Association="Self.FK_CompanyPayroll">
+          <AssociationSet Name="FK_Payroll_Company_CompanyId" Association="Self.FK_Payroll_Company_CompanyId">
             <End Role="Company" EntitySet="Company" />
             <End Role="Payroll" EntitySet="Payroll" />
           </AssociationSet>
-          <AssociationSet Name="FK_ContractorPayroll" Association="Self.FK_ContractorPayroll">
+          <AssociationSet Name="FK_Payroll_Contractor_ContractorId" Association="Self.FK_Payroll_Contractor_ContractorId">
             <End Role="Contractor" EntitySet="Contractor" />
             <End Role="Payroll" EntitySet="Payroll" />
           </AssociationSet>
-          <AssociationSet Name="FK_ContractorServiceLog" Association="Self.FK_ContractorServiceLog">
-            <End Role="Contractor" EntitySet="Contractor" />
-            <End Role="ServiceLog" EntitySet="ServiceLog" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ContractorTypePayroll" Association="Self.FK_ContractorTypePayroll">
+          <AssociationSet Name="FK_Payroll_ContractorType_ContractorTypeId" Association="Self.FK_Payroll_ContractorType_ContractorTypeId">
             <End Role="ContractorType" EntitySet="ContractorType" />
             <End Role="Payroll" EntitySet="Payroll" />
           </AssociationSet>
-          <AssociationSet Name="FK_DiagnosisClient" Association="Self.FK_DiagnosisClient">
-            <End Role="Diagnosis" EntitySet="Diagnosis" />
-            <End Role="Client" EntitySet="Client" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PayrollAgreement" Association="Self.FK_PayrollAgreement">
-            <End Role="Payroll" EntitySet="Payroll" />
-            <End Role="Agreement" EntitySet="Agreement" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PeriodServiceLog" Association="Self.FK_PeriodServiceLog">
-            <End Role="Period" EntitySet="Period" />
-            <End Role="ServiceLog" EntitySet="ServiceLog" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PlaceOfServiceUnitDetail" Association="Self.FK_PlaceOfServiceUnitDetail">
-            <End Role="PlaceOfService" EntitySet="PlaceOfService" />
-            <End Role="UnitDetail" EntitySet="UnitDetail" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ProcedurePayroll" Association="Self.FK_ProcedurePayroll">
+          <AssociationSet Name="FK_Payroll_Procedure_ProcedureId" Association="Self.FK_Payroll_Procedure_ProcedureId">
             <End Role="Procedure" EntitySet="Procedure" />
             <End Role="Payroll" EntitySet="Payroll" />
           </AssociationSet>
@@ -625,16 +636,28 @@
             <End Role="Procedure" EntitySet="Procedure" />
             <End Role="SubProcedure" EntitySet="SubProcedure" />
           </AssociationSet>
-          <AssociationSet Name="FK_ReleaseInformationClient" Association="Self.FK_ReleaseInformationClient">
-            <End Role="ReleaseInformation" EntitySet="ReleaseInformation" />
+          <AssociationSet Name="FK_ServiceLog_Client_ClientId" Association="Self.FK_ServiceLog_Client_ClientId">
             <End Role="Client" EntitySet="Client" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ServiceLogUnitDetail" Association="Self.FK_ServiceLogUnitDetail">
             <End Role="ServiceLog" EntitySet="ServiceLog" />
-            <End Role="UnitDetail" EntitySet="UnitDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceLog_Contractor_ContractorId" Association="Self.FK_ServiceLog_Contractor_ContractorId">
+            <End Role="Contractor" EntitySet="Contractor" />
+            <End Role="ServiceLog" EntitySet="ServiceLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceLog_Period_PeriodId" Association="Self.FK_ServiceLog_Period_PeriodId">
+            <End Role="Period" EntitySet="Period" />
+            <End Role="ServiceLog" EntitySet="ServiceLog" />
           </AssociationSet>
           <AssociationSet Name="FK_SubProcedureUnitDetail" Association="Self.FK_SubProcedureUnitDetail">
             <End Role="SubProcedure" EntitySet="SubProcedure" />
+            <End Role="UnitDetail" EntitySet="UnitDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnitDetail_PlaceOfService_PlaceOfServiceId" Association="Self.FK_UnitDetail_PlaceOfService_PlaceOfServiceId">
+            <End Role="PlaceOfService" EntitySet="PlaceOfService" />
+            <End Role="UnitDetail" EntitySet="UnitDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnitDetail_ServiceLog_ServiceLogId" Association="Self.FK_UnitDetail_ServiceLog_ServiceLogId">
+            <End Role="ServiceLog" EntitySet="ServiceLog" />
             <End Role="UnitDetail" EntitySet="UnitDetail" />
           </AssociationSet>
         </EntityContainer>
@@ -752,6 +775,7 @@
             <End EntitySet="Client" Role="Client" />
             <End EntitySet="PatientAccount" Role="PatientAccount" />
           </AssociationSet>
+          <EntitySet Name="Profit_Dashboard" EntityType="Model1.Profit_Dashboard" />
           </EntityContainer>
         <EntityType Name="Contractor">
           <Key>
@@ -792,13 +816,13 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="Active" Type="Boolean" Nullable="false" DefaultValue="False" />
           <NavigationProperty Name="ServiceLog" Relationship="Model1.PeriodServiceLog" FromRole="Period" ToRole="ServiceLog" />
-          <Property Name="PayPeriod" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="DocumentDeliveryDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="PaymentDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PayPeriod" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="DocumentDeliveryDate" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="PaymentDate" Type="DateTime" Nullable="false" Precision="7" />
         </EntityType>
         <EntityType Name="UnitDetail">
           <Key>
@@ -808,7 +832,7 @@
           <Property Name="Modifiers" Type="String" Nullable="true" DefaultValue="BA" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="PlaceOfService" Relationship="Model1.PlaceOfServiceUnitDetail" FromRole="UnitDetail" ToRole="PlaceOfService" />
           <Property Name="PlaceOfServiceId" Type="Int32" Nullable="false" />
-          <Property Name="DateOfService" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateOfService" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="Unit" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ServiceLog" Relationship="Model1.ServiceLogUnitDetail" FromRole="UnitDetail" ToRole="ServiceLog" />
           <Property Name="ServiceLogId" Type="Int32" Nullable="false" />
@@ -890,7 +914,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Name" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="Client" Relationship="Model1.DiagnosisClient" FromRole="Diagnosis" ToRole="Client" />
           <Property Name="Description" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
         </EntityType>
@@ -1023,10 +1047,10 @@
           <Property Name="ContractorId" Type="Int32" Nullable="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <NavigationProperty Name="Client" Relationship="Model1.ClientServiceLog" FromRole="ServiceLog" ToRole="Client" />
           <Property Name="ClientId" Type="Int32" Nullable="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="true" Precision="3" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="true" Precision="7" />
           <Property Name="BilledDate" Type="DateTime" Precision="3" />
-          <Property Name="Biller" Type="String" MaxLength="450" FixedLength="false" Unicode="true" />
-          <Property Name="Pending" Type="String" Nullable="true" Unicode="true" />
+          <Property Name="Biller" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="Pending" Type="String" Nullable="true" Unicode="true" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <Association Name="PeriodServiceLog">
           <End Type="Model1.Period" Role="Period" Multiplicity="1" />
@@ -1270,8 +1294,8 @@
           </Key>
           <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
           <Property Name="LicenseNumber" Nullable="false" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" />
-          <Property Name="ExpireDate" Type="DateTime" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ExpireDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Auxiliar" Nullable="true" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Client" Relationship="Model1.ClientPatientAccount" FromRole="PatientAccount" ToRole="Client" />
           <Property xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" Name="ClientId" Nullable="false" Type="Int32" />
@@ -1288,6 +1312,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Profit_Dashboard">
+          <Key>
+            <PropertyRef Name="PayPeriod" />
+            <PropertyRef Name="Billed" />
+            <PropertyRef Name="Payment" />
+            <PropertyRef Name="Profit" />
+            <PropertyRef Name="IdCompany" />
+          </Key>
+          <Property Name="PayPeriod" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="Billed" Type="Double" Nullable="false" />
+          <Property Name="Payment" Type="Double" Nullable="false" />
+          <Property Name="Profit" Type="Double" Nullable="false" />
+          <Property Name="IdCompany" Type="Int32" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1539,6 +1577,17 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Profit_Dashboard">
+            <EntityTypeMapping TypeName="Model1.Profit_Dashboard">
+              <MappingFragment StoreEntitySet="Profit_Dashboard">
+                <ScalarProperty Name="IdCompany" ColumnName="IdCompany" />
+                <ScalarProperty Name="Profit" ColumnName="Profit" />
+                <ScalarProperty Name="Payment" ColumnName="Payment" />
+                <ScalarProperty Name="Billed" ColumnName="Billed" />
+                <ScalarProperty Name="PayPeriod" ColumnName="PayPeriod" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

@@ -18,8 +18,9 @@ namespace ClinicDOM
         public Clinic_AppContext(string config)
             : base(config)
         {
+            ((IObjectContextAdapter)this).ObjectContext.CommandTimeout = 180; // seconds
         }
-    
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
@@ -46,5 +47,6 @@ namespace ClinicDOM
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual DbSet<PatientAccount> PatientAccount { get; set; }
+        public virtual DbSet<Profit_Dashboard> Profit_Dashboard { get; set; }
     }
 }

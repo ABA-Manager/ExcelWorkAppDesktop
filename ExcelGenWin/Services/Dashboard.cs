@@ -18,39 +18,50 @@ namespace ABABillingAndClaim.Services
         {
             _db = db;
         }
-        public async Task<IEnumerable<ProfitHistory>> GetProfit(int company_id)
+        public IEnumerable<ProfitHistory> GetProfit(int company_id)
         {
-            var sqlQuery = "EXEC GET_PROFIT @company_id";
-            var companyParam = new SqlParameter("@company_id", company_id);
-            return await _db.Database.SqlQuery<ProfitHistory>(sqlQuery, companyParam).ToListAsync(); ;
+            //var sqlQuery = "EXEC GET_PROFIT @company_id";
+            //var companyParam = new SqlParameter("@company_id", company_id);
+            //return _db.Database.SqlQuery<ProfitHistory>(sqlQuery, companyParam).ToList(); ;
+            return _db.Profit_Dashboard.Where(x=> x.IdCompany==company_id).Select( x=> new ProfitHistory 
+            {
+                Billed = x.Billed,
+                Payment = x.Payment,
+                PayPeriod = x.PayPeriod,
+                Profit = x.Profit
+            })
+                .OrderByDescending(x=> x.PayPeriod)
+                .Take(10)
+                .ToList()
+                .OrderBy(x => x.PayPeriod);
         }
 
-        public async Task<ServicesLogStatus> GetServicesLgStatus(int company_id, int period_id)
+        public ServicesLogStatus GetServicesLgStatus(int company_id, int period_id)
         {
             var sqlQuery = "EXEC GET_STATUS_SERVICELOGS @company_id, @period_id";
             var companyParam = new SqlParameter("@company_id", company_id);
             var periodParam = new SqlParameter("@period_id", period_id);
 
-            return await _db.Database.SqlQuery<ServicesLogStatus>(sqlQuery, companyParam, periodParam).FirstOrDefaultAsync();
+            return _db.Database.SqlQuery<ServicesLogStatus>(sqlQuery, companyParam, periodParam).FirstOrDefault();
             //return _db.Client.Select(x => new ServicesLogStatus { Billed = 12, NotBilled = 114, Pending=98}).FirstOrDefault();
         }
 
-        public async Task<IEnumerable<ServiceLogWithoutPatientAccount>> GetServiceLogWithoutPatientAccount(int company_id, int period_id)
+        public IEnumerable<ServiceLogWithoutPatientAccount> GetServiceLogWithoutPatientAccount(int company_id, int period_id)
         {
             var sqlQuery = $"EXEC GET_SERVICELOG_WITHOUT_PATIENTACCOUNT @company_id, @period_id";
             var companyParam = new SqlParameter("@company_id", company_id);
             var periodParam = new SqlParameter("@period_id", period_id);
 
-            return await _db.Database.SqlQuery<ServiceLogWithoutPatientAccount>(sqlQuery, companyParam, periodParam).ToListAsync();
+            return _db.Database.SqlQuery<ServiceLogWithoutPatientAccount>(sqlQuery, companyParam, periodParam).ToList();
         }
 
-        public async Task<GeneralData> GetGeneralData(int company_id, int period_id)
+        public GeneralData GetGeneralData(int company_id, int period_id)
         {
             return new GeneralData
             {
-                Client = await _db.Client.Where(x => x.Agreement.Any(a => a.CompanyId == company_id)).CountAsync(),
-                Contractor = await _db.Contractor.Where(x => x.Payroll.Any(p => p.CompanyId == company_id)).CountAsync(),
-                ServiceLog = await _db.ServiceLog.Where(x => x.PeriodId == period_id && x.Client.Agreement.Any(a => a.CompanyId == company_id) && x.Contractor.Payroll.Any(p => p.CompanyId == company_id) ).CountAsync()
+                Client = _db.Client.Where(x => x.Agreement.Any(a => a.CompanyId == company_id)).Count(),
+                Contractor = _db.Contractor.Where(x => x.Payroll.Any(p => p.CompanyId == company_id)).Count(),
+                ServiceLog = _db.ServiceLog.Where(x => x.PeriodId == period_id && x.Client.Agreement.Any(a => a.CompanyId == company_id) && x.Contractor.Payroll.Any(p => p.CompanyId == company_id) ).Count()
             };
         }
 
