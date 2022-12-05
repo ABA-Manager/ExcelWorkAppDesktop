@@ -1,43 +1,19 @@
 # ABAManager
-Manager many proces for clinic app
+Aplicación Desktop que gestiona todos los procesos de billing de las compañías.
 
 
-## IDE+version URL 
+## Visual Studio 2019 Professional Edition
 
-- descarga Paquete de instalacion
+- [Download visual studio]("https://visualstudio.microsoft.com/es/downloads/")
 
 ## Pasos para configurar el proyecto y que corra localmente
-
-## Como crear el paquete para subir al servidor la ultima version 
-
-- Comando 
-
-- Procedimiento usando el IDE
-
-## Identificar el(los) servidor(es) para desplegar el paquete
-
-- Identificar que servidor(es) y/o instancia estan desplegadas por compañia
-
-- Como desplegar la ultima version a cada instancia.
-
-## Confirmar la estructura de despliegue del backend hasta hacerlo publico 
-
-- IIS (Suposicion) 
-
-  - comp1 comp2 comp3-comp4 
-
-  - Como conectarlo con el proveedor de domain
+- Cargar el proyecto en Visual Studio y ejecutar.
+- Configurar en el `App.config` con la ruta a los endpoints de las compañías y sus respectivas base de datos.
 
 ## Dependencias del proyecto Base de datos 
 
-- Donde esta alojada 
+- La base de datos se encuentra alojada en `AWS` en un `RDS de SQL Server Express` la versión gratuita por un año. 
 
-- Que tipo Se hace backup automatico? 
+- Los backups son gestionados por AWS. La frecuencia es 1 por semana.
 
-- Como inicializar/configurar la BD para iniciar el proyecto 
-
-- Algun script con configuraciones iniciales? 
-
-- Configuraciones en AWS o Sistema 
-
-- Third-party integration si existe.
+- Dentro de la propia aplicación de backend tiene un archivo que se encarga de inizializar la base dedatos con los párametros que son comunes para todas las compañías.
