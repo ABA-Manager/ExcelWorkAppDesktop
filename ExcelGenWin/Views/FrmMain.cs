@@ -312,7 +312,7 @@ namespace ABABillingAndClaim.Views
             }));
         }
 
-        private void ServiceLogWithoutPatientAccount(Dashboard _service, int company_id = 1, int period_id = 20)
+        private void ServiceLogWithoutPatientAccount(Dashboard _service, int company_id = 1, int period_id = 20)//test
         {
             errorPADataGrid.Invoke((MethodInvoker)(delegate
             {
