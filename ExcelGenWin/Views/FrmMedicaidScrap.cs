@@ -294,34 +294,21 @@ namespace ABABillingAndClaim.Views
                     {
                         int periodID = int.Parse(cbPeriods.SelectedValue.ToString());
 
-                        string commandText;
-                        SqlParameter[] sqlParams;
-
                         if (obj is TvServiceLog)
                         {
                             var sl = obj as TvServiceLog;
-                            commandText = "UPDATE Servicelog SET BilledDate = @BilledDate, Biller = @user, Pending = null WHERE Id = @serviceLogId";
-                            sqlParams = new[] {
-                            new SqlParameter("@BilledDate", DateTime.Now),
-                            new SqlParameter("@user", _memory.LoggedOndUser.id),
-                            new SqlParameter("@serviceLogId", sl.Id)
-                        };
+
+                            BillingService.Instance.SetServiceLogBilled(sl.Id, _memory.LoggedOndUser.id).Wait();
+                            
                             sl.Status = "billed";
                         }
                         else
                         {
                             var ct = obj as TvContractor;
-                            commandText = "UPDATE Servicelog SET BilledDate = @BilledDate, Biller = @user, Pending = null WHERE periodid = @period AND contractorId = @contractor AND clientId = @client";
-                            sqlParams = new[] {
-                            new SqlParameter("@BilledDate", DateTime.Now),
-                            new SqlParameter("@user", _memory.LoggedOndUser.id),
-                            new SqlParameter("@period", periodID),
-                            new SqlParameter("@contractor", ct.Id),
-                            new SqlParameter("@client", ct.Client.Id.Split('_')[0])
-                        };
+                            BillingService.Instance.SetServiceLogBilled(periodID, int.Parse(ct.Id), int.Parse(ct.Client.Id.Split('_')[0]), _memory.LoggedOndUser.id).Wait();
                             foreach (var it in ct.ServiceLogs) it.Status = "billed";
                         }
-                        await db.Database.ExecuteSqlCommandAsync(commandText, sqlParams);
+                        
                         MessageBox.Show("Professional Claim Billed");
                         return true;
                     }
@@ -345,7 +332,7 @@ namespace ABABillingAndClaim.Views
         {
             if (treeView1.SelectedNode != null && (treeView1.SelectedNode.Tag is TvServiceLog || treeView1.SelectedNode.Tag is TvContractor))
             {
-                var frm = new FrmPending(db, treeView1.SelectedNode.Tag as TvObject);
+                var frm = new FrmPending(treeView1.SelectedNode.Tag as TvObject);
                 if (frm.ShowDialog() == DialogResult.OK)
                     SetNodeStatus(treeView1.SelectedNode, "pending");
             }

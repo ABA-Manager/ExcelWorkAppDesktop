@@ -1,4 +1,5 @@
-﻿using ABABillingAndClaim.Utils;
+﻿using ABABillingAndClaim.Services;
+using ABABillingAndClaim.Utils;
 using ClinicDOM;
 using System;
 using System.Collections.Generic;
@@ -18,11 +19,11 @@ namespace ABABillingAndClaim.Views
     {
         public TvObject nodeObj { get; set; }
 
-        public Clinic_AppContext db { get; set; }
-        public FrmPending(Clinic_AppContext vDb, TvObject nObj)
+        //public Clinic_AppContext db { get; set; }
+        public FrmPending(TvObject nObj)
         {
             nodeObj = nObj;
-            db = vDb;
+            //db = vDb;
             InitializeComponent();
         }
 
@@ -30,10 +31,7 @@ namespace ABABillingAndClaim.Views
         {
             try
             {
-                var commandText = "UPDATE Servicelog SET Pending = @reason WHERE Id = @serviceLogId";
-                var serviceLogPr = new SqlParameter("@serviceLogId", node.Id);
-                var reasonPr = new SqlParameter("@reason", textBox1.Text);
-                await db.Database.ExecuteSqlCommandAsync(commandText, new[] { serviceLogPr, reasonPr });
+                await BillingService.Instance.SetServiceLogPendingReason(node.Id, textBox1.Text);
                 return true;
             }
             catch (Exception ex)
