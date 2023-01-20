@@ -54,25 +54,27 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.pbProgressBar});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 271);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 335);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(484, 22);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(645, 26);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(55, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(68, 20);
             this.toolStripStatusLabel1.Text = "Progress:";
             // 
             // pbProgressBar
             // 
             this.pbProgressBar.Name = "pbProgressBar";
-            this.pbProgressBar.Size = new System.Drawing.Size(450, 16);
+            this.pbProgressBar.Size = new System.Drawing.Size(600, 17);
             this.pbProgressBar.Step = 1;
             // 
             // saveFileDialog1
@@ -105,17 +107,20 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(484, 104);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(645, 128);
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Parameters";
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(338, 72);
+            this.button2.Location = new System.Drawing.Point(451, 89);
+            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(24, 22);
+            this.button2.Size = new System.Drawing.Size(32, 27);
             this.button2.TabIndex = 19;
             this.button2.Text = "...";
             this.button2.UseVisualStyleBackColor = true;
@@ -127,17 +132,19 @@
             this.label4.BackColor = System.Drawing.SystemColors.Control;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label4.Location = new System.Drawing.Point(24, 75);
+            this.label4.Location = new System.Drawing.Point(32, 92);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(54, 13);
+            this.label4.Size = new System.Drawing.Size(69, 17);
             this.label4.TabIndex = 18;
             this.label4.Text = "Pack File:";
             // 
             // tbPackFile
             // 
-            this.tbPackFile.Location = new System.Drawing.Point(84, 72);
+            this.tbPackFile.Location = new System.Drawing.Point(112, 89);
+            this.tbPackFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tbPackFile.Name = "tbPackFile";
-            this.tbPackFile.Size = new System.Drawing.Size(248, 20);
+            this.tbPackFile.Size = new System.Drawing.Size(329, 23);
             this.tbPackFile.TabIndex = 17;
             this.tbPackFile.TextChanged += new System.EventHandler(this.tbPackFile_TextChanged);
             // 
@@ -148,9 +155,10 @@
             this.button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button1.Location = new System.Drawing.Point(379, 54);
+            this.button1.Location = new System.Drawing.Point(505, 66);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(95, 37);
+            this.button1.Size = new System.Drawing.Size(127, 46);
             this.button1.TabIndex = 16;
             this.button1.Text = "Close";
             this.button1.UseVisualStyleBackColor = false;
@@ -162,9 +170,10 @@
             this.btnGenerate.BackColor = System.Drawing.SystemColors.Control;
             this.btnGenerate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGenerate.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnGenerate.Location = new System.Drawing.Point(379, 12);
+            this.btnGenerate.Location = new System.Drawing.Point(505, 15);
+            this.btnGenerate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnGenerate.Name = "btnGenerate";
-            this.btnGenerate.Size = new System.Drawing.Size(95, 37);
+            this.btnGenerate.Size = new System.Drawing.Size(127, 46);
             this.btnGenerate.TabIndex = 2;
             this.btnGenerate.Text = "Generate";
             this.btnGenerate.UseVisualStyleBackColor = false;
@@ -175,9 +184,10 @@
             this.checkBox1.BackColor = System.Drawing.SystemColors.Control;
             this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBox1.Location = new System.Drawing.Point(8, 47);
+            this.checkBox1.Location = new System.Drawing.Point(11, 58);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(73, 17);
+            this.checkBox1.Size = new System.Drawing.Size(97, 21);
             this.checkBox1.TabIndex = 13;
             this.checkBox1.Text = "Company:";
             this.checkBox1.UseVisualStyleBackColor = false;
@@ -188,9 +198,10 @@
             this.cbCompany.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbCompany.Enabled = false;
             this.cbCompany.FormattingEnabled = true;
-            this.cbCompany.Location = new System.Drawing.Point(84, 45);
+            this.cbCompany.Location = new System.Drawing.Point(112, 55);
+            this.cbCompany.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cbCompany.Name = "cbCompany";
-            this.cbCompany.Size = new System.Drawing.Size(206, 21);
+            this.cbCompany.Size = new System.Drawing.Size(273, 25);
             this.cbCompany.TabIndex = 12;
             // 
             // label2
@@ -199,9 +210,10 @@
             this.label2.BackColor = System.Drawing.SystemColors.Control;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label2.Location = new System.Drawing.Point(38, 21);
+            this.label2.Location = new System.Drawing.Point(51, 26);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(40, 13);
+            this.label2.Size = new System.Drawing.Size(53, 17);
             this.label2.TabIndex = 11;
             this.label2.Text = "Period:";
             // 
@@ -209,9 +221,10 @@
             // 
             this.cbPeriods.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbPeriods.FormattingEnabled = true;
-            this.cbPeriods.Location = new System.Drawing.Point(84, 18);
+            this.cbPeriods.Location = new System.Drawing.Point(112, 22);
+            this.cbPeriods.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cbPeriods.Name = "cbPeriods";
-            this.cbPeriods.Size = new System.Drawing.Size(206, 21);
+            this.cbPeriods.Size = new System.Drawing.Size(273, 25);
             this.cbPeriods.TabIndex = 10;
             // 
             // panel1
@@ -219,45 +232,49 @@
             this.panel1.Controls.Add(this.tbProcessLog);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(0, 104);
+            this.panel1.Location = new System.Drawing.Point(0, 128);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(10);
-            this.panel1.Size = new System.Drawing.Size(484, 167);
+            this.panel1.Padding = new System.Windows.Forms.Padding(13, 12, 13, 12);
+            this.panel1.Size = new System.Drawing.Size(645, 207);
             this.panel1.TabIndex = 13;
             // 
             // tbProcessLog
             // 
             this.tbProcessLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbProcessLog.Location = new System.Drawing.Point(10, 25);
+            this.tbProcessLog.Location = new System.Drawing.Point(13, 30);
+            this.tbProcessLog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tbProcessLog.Multiline = true;
             this.tbProcessLog.Name = "tbProcessLog";
             this.tbProcessLog.ReadOnly = true;
             this.tbProcessLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbProcessLog.Size = new System.Drawing.Size(464, 132);
+            this.tbProcessLog.Size = new System.Drawing.Size(619, 165);
             this.tbProcessLog.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(10, 10);
+            this.label1.Location = new System.Drawing.Point(13, 12);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(464, 15);
+            this.label1.Size = new System.Drawing.Size(619, 18);
             this.label1.TabIndex = 0;
             this.label1.Text = "Process Log:";
             // 
             // FrmExcelGen
             // 
             this.AcceptButton = this.btnGenerate;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.button1;
-            this.ClientSize = new System.Drawing.Size(484, 293);
+            this.ClientSize = new System.Drawing.Size(645, 361);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.statusStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(500, 310);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MinimumSize = new System.Drawing.Size(661, 371);
             this.Name = "FrmExcelGen";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ABA Analyst Excel Generator ";

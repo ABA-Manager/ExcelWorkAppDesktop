@@ -26,6 +26,7 @@ namespace ABABillingAndClaim.Views
             _memoryService = memoryService;
             InitializeComponent();
             load_company();
+            companiesCb_SelectedIndexChanged(null, null);
         }
 
         private void load_company()

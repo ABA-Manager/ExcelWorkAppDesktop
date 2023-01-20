@@ -4,81 +4,88 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Model1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Clinic_App.Store" Provider="Npgsql" ProviderManifestToken="14.4" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__EFMigrationsHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+          </Key>
+          <Property Name="MigrationId" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="ProductVersion" Type="varchar" MaxLength="32" Nullable="false" />
+        </EntityType>
         <EntityType Name="Agreement">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ClientId" Type="int" Nullable="false" />
-          <Property Name="CompanyId" Type="int" Nullable="false" />
-          <Property Name="PayrollId" Type="int" Nullable="false" />
-          <Property Name="RateEmployees" Type="float" Nullable="false" />
+          <Property Name="Id" Type="int4" Nullable="false" />
+          <Property Name="ClientId" Type="int4" Nullable="false" />
+          <Property Name="CompanyId" Type="int4" Nullable="false" />
+          <Property Name="PayrollId" Type="int4" Nullable="false" />
+          <Property Name="RateEmployees" Type="float8" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetRoleClaims">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="RoleId" Type="nvarchar" MaxLength="450" Nullable="false" />
-          <Property Name="ClaimType" Type="nvarchar(max)" />
-          <Property Name="ClaimValue" Type="nvarchar(max)" />
+          <Property Name="Id" Type="int4" Nullable="false" />
+          <Property Name="RoleId" Type="text" Nullable="false" />
+          <Property Name="ClaimType" Type="text" />
+          <Property Name="ClaimValue" Type="text" />
         </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="nvarchar" MaxLength="450" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="256" />
-          <Property Name="NormalizedName" Type="nvarchar" MaxLength="256" />
-          <Property Name="ConcurrencyStamp" Type="nvarchar(max)" />
+          <Property Name="Id" Type="text" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="256" />
+          <Property Name="NormalizedName" Type="varchar" MaxLength="256" />
+          <Property Name="ConcurrencyStamp" Type="text" />
         </EntityType>
         <EntityType Name="AspNetUserClaims">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserId" Type="nvarchar" MaxLength="450" Nullable="false" />
-          <Property Name="ClaimType" Type="nvarchar(max)" />
-          <Property Name="ClaimValue" Type="nvarchar(max)" />
+          <Property Name="Id" Type="int4" Nullable="false" />
+          <Property Name="UserId" Type="text" Nullable="false" />
+          <Property Name="ClaimType" Type="text" />
+          <Property Name="ClaimValue" Type="text" />
         </EntityType>
         <EntityType Name="AspNetUserLogins">
           <Key>
             <PropertyRef Name="LoginProvider" />
             <PropertyRef Name="ProviderKey" />
           </Key>
-          <Property Name="LoginProvider" Type="nvarchar" MaxLength="450" Nullable="false" />
-          <Property Name="ProviderKey" Type="nvarchar" MaxLength="450" Nullable="false" />
-          <Property Name="ProviderDisplayName" Type="nvarchar(max)" />
-          <Property Name="UserId" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="LoginProvider" Type="text" Nullable="false" />
+          <Property Name="ProviderKey" Type="text" Nullable="false" />
+          <Property Name="ProviderDisplayName" Type="text" />
+          <Property Name="UserId" Type="text" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetUserRoles">
           <Key>
             <PropertyRef Name="UserId" />
             <PropertyRef Name="RoleId" />
           </Key>
-          <Property Name="UserId" Type="nvarchar" MaxLength="450" Nullable="false" />
-          <Property Name="RoleId" Type="nvarchar" MaxLength="450" Nullable="false" />
+          <Property Name="UserId" Type="text" Nullable="false" />
+          <Property Name="RoleId" Type="text" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="nvarchar" MaxLength="450" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar" MaxLength="256" />
-          <Property Name="NormalizedUserName" Type="nvarchar" MaxLength="256" />
-          <Property Name="Email" Type="nvarchar" MaxLength="256" />
-          <Property Name="NormalizedEmail" Type="nvarchar" MaxLength="256" />
-          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
-          <Property Name="PasswordHash" Type="nvarchar(max)" />
-          <Property Name="SecurityStamp" Type="nvarchar(max)" />
-          <Property Name="ConcurrencyStamp" Type="nvarchar(max)" />
-          <Property Name="PhoneNumber" Type="nvarchar(max)" />
-          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
-          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
-          <Property Name="LockoutEnd" Type="datetimeoffset" Precision="7" />
-          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
-          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="Id" Type="text" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="256" />
+          <Property Name="NormalizedUserName" Type="varchar" MaxLength="256" />
+          <Property Name="Email" Type="varchar" MaxLength="256" />
+          <Property Name="NormalizedEmail" Type="varchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bool" Nullable="false" />
+          <Property Name="PasswordHash" Type="text" />
+          <Property Name="SecurityStamp" Type="text" />
+          <Property Name="ConcurrencyStamp" Type="text" />
+          <Property Name="PhoneNumber" Type="text" />
+          <Property Name="PhoneNumberConfirmed" Type="bool" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bool" Nullable="false" />
+          <Property Name="LockoutEnd" Type="timestamptz" Precision="7" />
+          <Property Name="LockoutEnabled" Type="bool" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int4" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetUserTokens">
           <Key>
@@ -86,204 +93,152 @@
             <PropertyRef Name="LoginProvider" />
             <PropertyRef Name="Name" />
           </Key>
-          <Property Name="UserId" Type="nvarchar" MaxLength="450" Nullable="false" />
-          <Property Name="LoginProvider" Type="nvarchar" MaxLength="450" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="450" Nullable="false" />
-          <Property Name="Value" Type="nvarchar(max)" />
+          <Property Name="UserId" Type="text" Nullable="false" />
+          <Property Name="LoginProvider" Type="text" Nullable="false" />
+          <Property Name="Name" Type="text" Nullable="false" />
+          <Property Name="Value" Type="text" />
         </EntityType>
         <EntityType Name="Client">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar(max)" />
-          <Property Name="RecipientID" Type="nvarchar(max)" />
-          <Property Name="PatientAccount" Type="nvarchar(max)" />
-          <Property Name="ReleaseInformationId" Type="int" Nullable="false" />
-          <Property Name="ReferringProvider" Type="nvarchar(max)" />
-          <Property Name="AuthorizationNUmber" Type="nvarchar(max)" />
-          <Property Name="Sequence" Type="int" Nullable="false" />
-          <Property Name="DiagnosisId" Type="int" Nullable="false" />
-          <Property Name="Enabled" Type="bit" Nullable="false" />
-          <Property Name="WeeklyApprovedRBT" Type="int" Nullable="false" />
-          <Property Name="WeeklyApprovedAnalyst" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int4" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="256" />
+          <Property Name="RecipientID" Type="varchar" MaxLength="20" />
+          <Property Name="PatientAccount" Type="varchar" MaxLength="20" />
+          <Property Name="ReleaseInformationId" Type="int4" Nullable="false" />
+          <Property Name="ReferringProvider" Type="varchar" MaxLength="20" />
+          <Property Name="AuthorizationNUmber" Type="varchar" MaxLength="20" />
+          <Property Name="Sequence" Type="int4" Nullable="false" />
+          <Property Name="DiagnosisId" Type="int4" Nullable="false" />
+          <Property Name="Enabled" Type="bool" Nullable="false" />
+          <Property Name="WeeklyApprovedRBT" Type="int4" Nullable="false" />
+          <Property Name="WeeklyApprovedAnalyst" Type="int4" Nullable="false" />
         </EntityType>
         <EntityType Name="Company">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar(max)" />
-          <Property Name="Acronym" Type="nvarchar(max)" />
-          <Property Name="Enabled" Type="bit" Nullable="false" />
+          <Property Name="Id" Type="int4" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="256" />
+          <Property Name="Acronym" Type="varchar" MaxLength="10" />
+          <Property Name="Enabled" Type="bool" Nullable="false" />
         </EntityType>
         <EntityType Name="Contractor">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar(max)" />
-          <Property Name="RenderingProvider" Type="nvarchar(max)" />
-          <Property Name="Enabled" Type="bit" Nullable="false" />
-          <Property Name="Extra" Type="nvarchar(max)" />
+          <Property Name="Id" Type="int4" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="256" />
+          <Property Name="RenderingProvider" Type="varchar" MaxLength="20" />
+          <Property Name="Enabled" Type="bool" Nullable="false" />
+          <Property Name="Extra" Type="varchar" MaxLength="256" />
         </EntityType>
         <EntityType Name="ContractorType">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Id" Type="int4" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="Diagnosis">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="100" />
-          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Id" Type="int4" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="128" />
+          <Property Name="Description" Type="varchar" MaxLength="256" />
         </EntityType>
         <EntityType Name="PatientAccount">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="LicenseNumber" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="CreateDate" Type="datetime" Nullable="false" />
-          <Property Name="ExpireDate" Type="datetime" Nullable="false" />
-          <Property Name="ClientId" Type="int" Nullable="false" />
-          <Property Name="Auxiliar" Type="nvarchar(max)" />
+          <Property Name="Id" Type="int4" Nullable="false" />
+          <Property Name="LicenseNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Auxiliar" Type="varchar" MaxLength="20" />
+          <Property Name="CreateDate" Type="timestamptz" Precision="7" />
+          <Property Name="ExpireDate" Type="timestamptz" Precision="7" />
+          <Property Name="ClientId" Type="int4" Nullable="false" />
         </EntityType>
         <EntityType Name="Payroll">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ContractorId" Type="int" Nullable="false" />
-          <Property Name="ContractorTypeId" Type="int" Nullable="false" />
-          <Property Name="ProcedureId" Type="int" Nullable="false" />
-          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int4" Nullable="false" />
+          <Property Name="ContractorId" Type="int4" Nullable="false" />
+          <Property Name="ContractorTypeId" Type="int4" Nullable="false" />
+          <Property Name="ProcedureId" Type="int4" Nullable="false" />
+          <Property Name="CompanyId" Type="int4" Nullable="false" />
         </EntityType>
         <EntityType Name="Period">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="StartDate" Type="datetime2" Precision="7" Nullable="false" />
-          <Property Name="EndDate" Type="datetime2" Precision="7" Nullable="false" />
-          <Property Name="Active" Type="bit" Nullable="false" />
-          <Property Name="PayPeriod" Type="nvarchar(max)" />
-          <Property Name="DocumentDeliveryDate" Type="datetime2" Precision="7" Nullable="false" />
-          <Property Name="PaymentDate" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Id" Type="int4" Nullable="false" />
+          <Property Name="StartDate" Type="timestamptz" Precision="7" Nullable="false" />
+          <Property Name="EndDate" Type="timestamptz" Precision="7" Nullable="false" />
+          <Property Name="Active" Type="bool" Nullable="false" />
+          <Property Name="PayPeriod" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="DocumentDeliveryDate" Type="timestamptz" Precision="7" Nullable="false" />
+          <Property Name="PaymentDate" Type="timestamptz" Precision="7" Nullable="false" />
         </EntityType>
         <EntityType Name="PlaceOfService">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar(max)" />
-          <Property Name="Value" Type="nvarchar(max)" />
+          <Property Name="Id" Type="int4" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="128" />
+          <Property Name="Value" Type="varchar" MaxLength="5" />
         </EntityType>
         <EntityType Name="Procedure">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar(max)" />
-          <Property Name="Rate" Type="float" Nullable="false" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'clinicbd.dbo.Profit_Dashboard' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="Profit_Dashboard">
-          <Key>
-            <PropertyRef Name="PayPeriod" />
-            <PropertyRef Name="Billed" />
-            <PropertyRef Name="Payment" />
-            <PropertyRef Name="Profit" />
-            <PropertyRef Name="IdCompany" />
-          </Key>
-          <Property Name="PayPeriod" Type="char" MaxLength="10" Nullable="false" />
-          <Property Name="Billed" Type="float" Nullable="false" />
-          <Property Name="Payment" Type="float" Nullable="false" />
-          <Property Name="Profit" Type="float" Nullable="false" />
-          <Property Name="IdCompany" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int4" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="20" />
+          <Property Name="Rate" Type="float8" Nullable="false" />
         </EntityType>
         <EntityType Name="ReleaseInformation">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Id" Type="int4" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="ServiceLog">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PeriodId" Type="int" Nullable="false" />
-          <Property Name="ContractorId" Type="int" Nullable="false" />
-          <Property Name="ClientId" Type="int" Nullable="false" />
-          <Property Name="CreatedDate" Type="datetime2" Precision="7" />
-          <Property Name="BilledDate" Type="datetime" />
-          <Property Name="Biller" Type="varchar" MaxLength="128" />
-          <Property Name="Pending" Type="nvarchar(max)" />
+          <Property Name="Id" Type="int4" Nullable="false" />
+          <Property Name="PeriodId" Type="int4" Nullable="false" />
+          <Property Name="ContractorId" Type="int4" Nullable="false" />
+          <Property Name="ClientId" Type="int4" Nullable="false" />
+          <Property Name="CreatedDate" Type="timestamptz" Precision="7" />
+          <Property Name="BilledDate" Type="timestamptz" Precision="7" />
+          <Property Name="Biller" Type="varchar" MaxLength="450" />
+          <Property Name="Pending" Type="varchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="SubProcedure">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Rate" Type="float" Nullable="false" />
-          <Property Name="ProcedureId" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int4" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Rate" Type="float8" Nullable="false" />
+          <Property Name="ProcedureId" Type="int4" Nullable="false" />
         </EntityType>
         <EntityType Name="UnitDetail">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Modifiers" Type="nvarchar(max)" />
-          <Property Name="PlaceOfServiceId" Type="int" Nullable="false" />
-          <Property Name="DateOfService" Type="datetime2" Precision="7" Nullable="false" />
-          <Property Name="Unit" Type="int" Nullable="false" />
-          <Property Name="ServiceLogId" Type="int" Nullable="false" />
-          <Property Name="SubProcedureId" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int4" Nullable="false" />
+          <Property Name="Modifiers" Type="varchar" MaxLength="5" />
+          <Property Name="PlaceOfServiceId" Type="int4" Nullable="false" />
+          <Property Name="DateOfService" Type="timestamptz" Precision="7" Nullable="false" />
+          <Property Name="Unit" Type="int4" Nullable="false" />
+          <Property Name="ServiceLogId" Type="int4" Nullable="false" />
+          <Property Name="SubProcedureId" Type="int4" Nullable="false" />
         </EntityType>
-        <Association Name="FK_Agreement_Client_ClientId">
-          <End Role="Client" Type="Self.Client" Multiplicity="1" />
-          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Client">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Agreement">
-              <PropertyRef Name="ClientId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Agreement_Company_CompanyId">
-          <End Role="Company" Type="Self.Company" Multiplicity="1" />
-          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Agreement">
-              <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Agreement_Payroll_PayrollId">
-          <End Role="Payroll" Type="Self.Payroll" Multiplicity="1" />
-          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Payroll">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Agreement">
-              <PropertyRef Name="PayrollId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_AspNetRoleClaims_AspNetRoles_RoleId">
           <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -368,27 +323,15 @@ warning 6002: The table/view 'clinicbd.dbo.Profit_Dashboard' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Client_Diagnosis_DiagnosisId">
-          <End Role="Diagnosis" Type="Self.Diagnosis" Multiplicity="1" />
-          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+        <Association Name="FK_ClientAgreement">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Diagnosis">
+            <Principal Role="Client">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Client">
-              <PropertyRef Name="DiagnosisId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Client_ReleaseInformation_ReleaseInformationId">
-          <End Role="ReleaseInformation" Type="Self.ReleaseInformation" Multiplicity="1" />
-          <End Role="Client" Type="Self.Client" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ReleaseInformation">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Client">
-              <PropertyRef Name="ReleaseInformationId" />
+            <Dependent Role="Agreement">
+              <PropertyRef Name="ClientId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -404,7 +347,31 @@ warning 6002: The table/view 'clinicbd.dbo.Profit_Dashboard' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Payroll_Company_CompanyId">
+        <Association Name="FK_ClientServiceLog">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="ServiceLog" Type="Self.ServiceLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServiceLog">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyAgreement">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Agreement">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyPayroll">
           <End Role="Company" Type="Self.Company" Multiplicity="1" />
           <End Role="Payroll" Type="Self.Payroll" Multiplicity="*" />
           <ReferentialConstraint>
@@ -416,7 +383,7 @@ warning 6002: The table/view 'clinicbd.dbo.Profit_Dashboard' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Payroll_Contractor_ContractorId">
+        <Association Name="FK_ContractorPayroll">
           <End Role="Contractor" Type="Self.Contractor" Multiplicity="1" />
           <End Role="Payroll" Type="Self.Payroll" Multiplicity="*" />
           <ReferentialConstraint>
@@ -428,7 +395,19 @@ warning 6002: The table/view 'clinicbd.dbo.Profit_Dashboard' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Payroll_ContractorType_ContractorTypeId">
+        <Association Name="FK_ContractorServiceLog">
+          <End Role="Contractor" Type="Self.Contractor" Multiplicity="1" />
+          <End Role="ServiceLog" Type="Self.ServiceLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServiceLog">
+              <PropertyRef Name="ContractorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractorTypePayroll">
           <End Role="ContractorType" Type="Self.ContractorType" Multiplicity="1" />
           <End Role="Payroll" Type="Self.Payroll" Multiplicity="*" />
           <ReferentialConstraint>
@@ -440,7 +419,55 @@ warning 6002: The table/view 'clinicbd.dbo.Profit_Dashboard' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Payroll_Procedure_ProcedureId">
+        <Association Name="FK_DiagnosisClient">
+          <End Role="Diagnosis" Type="Self.Diagnosis" Multiplicity="1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Diagnosis">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="DiagnosisId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PayrollAgreement">
+          <End Role="Payroll" Type="Self.Payroll" Multiplicity="1" />
+          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payroll">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Agreement">
+              <PropertyRef Name="PayrollId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PeriodServiceLog">
+          <End Role="Period" Type="Self.Period" Multiplicity="1" />
+          <End Role="ServiceLog" Type="Self.ServiceLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Period">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServiceLog">
+              <PropertyRef Name="PeriodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlaceOfServiceUnitDetail">
+          <End Role="PlaceOfService" Type="Self.PlaceOfService" Multiplicity="1" />
+          <End Role="UnitDetail" Type="Self.UnitDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlaceOfService">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UnitDetail">
+              <PropertyRef Name="PlaceOfServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProcedurePayroll">
           <End Role="Procedure" Type="Self.Procedure" Multiplicity="1" />
           <End Role="Payroll" Type="Self.Payroll" Multiplicity="*" />
           <ReferentialConstraint>
@@ -464,39 +491,29 @@ warning 6002: The table/view 'clinicbd.dbo.Profit_Dashboard' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ServiceLog_Client_ClientId">
-          <End Role="Client" Type="Self.Client" Multiplicity="1" />
-          <End Role="ServiceLog" Type="Self.ServiceLog" Multiplicity="*" />
+        <Association Name="FK_ReleaseInformationClient">
+          <End Role="ReleaseInformation" Type="Self.ReleaseInformation" Multiplicity="1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Client">
+            <Principal Role="ReleaseInformation">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="ServiceLog">
-              <PropertyRef Name="ClientId" />
+            <Dependent Role="Client">
+              <PropertyRef Name="ReleaseInformationId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ServiceLog_Contractor_ContractorId">
-          <End Role="Contractor" Type="Self.Contractor" Multiplicity="1" />
-          <End Role="ServiceLog" Type="Self.ServiceLog" Multiplicity="*" />
+        <Association Name="FK_ServiceLogUnitDetail">
+          <End Role="ServiceLog" Type="Self.ServiceLog" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UnitDetail" Type="Self.UnitDetail" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Contractor">
+            <Principal Role="ServiceLog">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="ServiceLog">
-              <PropertyRef Name="ContractorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ServiceLog_Period_PeriodId">
-          <End Role="Period" Type="Self.Period" Multiplicity="1" />
-          <End Role="ServiceLog" Type="Self.ServiceLog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Period">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ServiceLog">
-              <PropertyRef Name="PeriodId" />
+            <Dependent Role="UnitDetail">
+              <PropertyRef Name="ServiceLogId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -512,74 +529,31 @@ warning 6002: The table/view 'clinicbd.dbo.Profit_Dashboard' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_UnitDetail_PlaceOfService_PlaceOfServiceId">
-          <End Role="PlaceOfService" Type="Self.PlaceOfService" Multiplicity="1" />
-          <End Role="UnitDetail" Type="Self.UnitDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PlaceOfService">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="UnitDetail">
-              <PropertyRef Name="PlaceOfServiceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UnitDetail_ServiceLog_ServiceLogId">
-          <End Role="ServiceLog" Type="Self.ServiceLog" Multiplicity="1" />
-          <End Role="UnitDetail" Type="Self.UnitDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ServiceLog">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="UnitDetail">
-              <PropertyRef Name="ServiceLogId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="Model1StoreContainer">
-          <EntitySet Name="Agreement" EntityType="Self.Agreement" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AspNetRoleClaims" EntityType="Self.AspNetRoleClaims" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AspNetUserTokens" EntityType="Self.AspNetUserTokens" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Contractor" EntityType="Self.Contractor" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ContractorType" EntityType="Self.ContractorType" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Diagnosis" EntityType="Self.Diagnosis" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PatientAccount" EntityType="Self.PatientAccount" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Payroll" EntityType="Self.Payroll" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Period" EntityType="Self.Period" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PlaceOfService" EntityType="Self.PlaceOfService" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Procedure" EntityType="Self.Procedure" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ReleaseInformation" EntityType="Self.ReleaseInformation" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ServiceLog" EntityType="Self.ServiceLog" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SubProcedure" EntityType="Self.SubProcedure" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="UnitDetail" EntityType="Self.UnitDetail" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Profit_Dashboard" EntityType="Self.Profit_Dashboard" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Profit_Dashboard].[PayPeriod] AS [PayPeriod], 
-    [Profit_Dashboard].[Billed] AS [Billed], 
-    [Profit_Dashboard].[Payment] AS [Payment], 
-    [Profit_Dashboard].[Profit] AS [Profit], 
-    [Profit_Dashboard].[IdCompany] AS [IdCompany]
-    FROM [dbo].[Profit_Dashboard] AS [Profit_Dashboard]</DefiningQuery>
-          </EntitySet>
-          <AssociationSet Name="FK_Agreement_Client_ClientId" Association="Self.FK_Agreement_Client_ClientId">
-            <End Role="Client" EntitySet="Client" />
-            <End Role="Agreement" EntitySet="Agreement" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Agreement_Company_CompanyId" Association="Self.FK_Agreement_Company_CompanyId">
-            <End Role="Company" EntitySet="Company" />
-            <End Role="Agreement" EntitySet="Agreement" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Agreement_Payroll_PayrollId" Association="Self.FK_Agreement_Payroll_PayrollId">
-            <End Role="Payroll" EntitySet="Payroll" />
-            <End Role="Agreement" EntitySet="Agreement" />
-          </AssociationSet>
+        
+        <EntityContainer Name="Clinic_AppStoreContainer">
+          <EntitySet Name="__EFMigrationsHistory" EntityType="Self.__EFMigrationsHistory" Schema="public" store:Type="Tables" />
+          <EntitySet Name="Agreement" EntityType="Self.Agreement" Schema="public" store:Type="Tables" />
+          <EntitySet Name="AspNetRoleClaims" EntityType="Self.AspNetRoleClaims" Schema="public" store:Type="Tables" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="public" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="public" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="public" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="public" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="public" store:Type="Tables" />
+          <EntitySet Name="AspNetUserTokens" EntityType="Self.AspNetUserTokens" Schema="public" store:Type="Tables" />
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="public" store:Type="Tables" />
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="public" store:Type="Tables" />
+          <EntitySet Name="Contractor" EntityType="Self.Contractor" Schema="public" store:Type="Tables" />
+          <EntitySet Name="ContractorType" EntityType="Self.ContractorType" Schema="public" store:Type="Tables" />
+          <EntitySet Name="Diagnosis" EntityType="Self.Diagnosis" Schema="public" store:Type="Tables" />
+          <EntitySet Name="PatientAccount" EntityType="Self.PatientAccount" Schema="public" store:Type="Tables" />
+          <EntitySet Name="Payroll" EntityType="Self.Payroll" Schema="public" store:Type="Tables" />
+          <EntitySet Name="Period" EntityType="Self.Period" Schema="public" store:Type="Tables" />
+          <EntitySet Name="PlaceOfService" EntityType="Self.PlaceOfService" Schema="public" store:Type="Tables" />
+          <EntitySet Name="Procedure" EntityType="Self.Procedure" Schema="public" store:Type="Tables" />
+          <EntitySet Name="ReleaseInformation" EntityType="Self.ReleaseInformation" Schema="public" store:Type="Tables" />
+          <EntitySet Name="ServiceLog" EntityType="Self.ServiceLog" Schema="public" store:Type="Tables" />
+          <EntitySet Name="SubProcedure" EntityType="Self.SubProcedure" Schema="public" store:Type="Tables" />
+          <EntitySet Name="UnitDetail" EntityType="Self.UnitDetail" Schema="public" store:Type="Tables" />
           <AssociationSet Name="FK_AspNetRoleClaims_AspNetRoles_RoleId" Association="Self.FK_AspNetRoleClaims_AspNetRoles_RoleId">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetRoleClaims" EntitySet="AspNetRoleClaims" />
@@ -604,31 +578,55 @@ warning 6002: The table/view 'clinicbd.dbo.Profit_Dashboard' does not have a pri
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserTokens" EntitySet="AspNetUserTokens" />
           </AssociationSet>
-          <AssociationSet Name="FK_Client_Diagnosis_DiagnosisId" Association="Self.FK_Client_Diagnosis_DiagnosisId">
-            <End Role="Diagnosis" EntitySet="Diagnosis" />
+          <AssociationSet Name="FK_ClientAgreement" Association="Self.FK_ClientAgreement">
             <End Role="Client" EntitySet="Client" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Client_ReleaseInformation_ReleaseInformationId" Association="Self.FK_Client_ReleaseInformation_ReleaseInformationId">
-            <End Role="ReleaseInformation" EntitySet="ReleaseInformation" />
-            <End Role="Client" EntitySet="Client" />
+            <End Role="Agreement" EntitySet="Agreement" />
           </AssociationSet>
           <AssociationSet Name="FK_ClientPatientAccount" Association="Self.FK_ClientPatientAccount">
             <End Role="Client" EntitySet="Client" />
             <End Role="PatientAccount" EntitySet="PatientAccount" />
           </AssociationSet>
-          <AssociationSet Name="FK_Payroll_Company_CompanyId" Association="Self.FK_Payroll_Company_CompanyId">
+          <AssociationSet Name="FK_ClientServiceLog" Association="Self.FK_ClientServiceLog">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="ServiceLog" EntitySet="ServiceLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyAgreement" Association="Self.FK_CompanyAgreement">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Agreement" EntitySet="Agreement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyPayroll" Association="Self.FK_CompanyPayroll">
             <End Role="Company" EntitySet="Company" />
             <End Role="Payroll" EntitySet="Payroll" />
           </AssociationSet>
-          <AssociationSet Name="FK_Payroll_Contractor_ContractorId" Association="Self.FK_Payroll_Contractor_ContractorId">
+          <AssociationSet Name="FK_ContractorPayroll" Association="Self.FK_ContractorPayroll">
             <End Role="Contractor" EntitySet="Contractor" />
             <End Role="Payroll" EntitySet="Payroll" />
           </AssociationSet>
-          <AssociationSet Name="FK_Payroll_ContractorType_ContractorTypeId" Association="Self.FK_Payroll_ContractorType_ContractorTypeId">
+          <AssociationSet Name="FK_ContractorServiceLog" Association="Self.FK_ContractorServiceLog">
+            <End Role="Contractor" EntitySet="Contractor" />
+            <End Role="ServiceLog" EntitySet="ServiceLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContractorTypePayroll" Association="Self.FK_ContractorTypePayroll">
             <End Role="ContractorType" EntitySet="ContractorType" />
             <End Role="Payroll" EntitySet="Payroll" />
           </AssociationSet>
-          <AssociationSet Name="FK_Payroll_Procedure_ProcedureId" Association="Self.FK_Payroll_Procedure_ProcedureId">
+          <AssociationSet Name="FK_DiagnosisClient" Association="Self.FK_DiagnosisClient">
+            <End Role="Diagnosis" EntitySet="Diagnosis" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PayrollAgreement" Association="Self.FK_PayrollAgreement">
+            <End Role="Payroll" EntitySet="Payroll" />
+            <End Role="Agreement" EntitySet="Agreement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PeriodServiceLog" Association="Self.FK_PeriodServiceLog">
+            <End Role="Period" EntitySet="Period" />
+            <End Role="ServiceLog" EntitySet="ServiceLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlaceOfServiceUnitDetail" Association="Self.FK_PlaceOfServiceUnitDetail">
+            <End Role="PlaceOfService" EntitySet="PlaceOfService" />
+            <End Role="UnitDetail" EntitySet="UnitDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProcedurePayroll" Association="Self.FK_ProcedurePayroll">
             <End Role="Procedure" EntitySet="Procedure" />
             <End Role="Payroll" EntitySet="Payroll" />
           </AssociationSet>
@@ -636,567 +634,90 @@ warning 6002: The table/view 'clinicbd.dbo.Profit_Dashboard' does not have a pri
             <End Role="Procedure" EntitySet="Procedure" />
             <End Role="SubProcedure" EntitySet="SubProcedure" />
           </AssociationSet>
-          <AssociationSet Name="FK_ServiceLog_Client_ClientId" Association="Self.FK_ServiceLog_Client_ClientId">
+          <AssociationSet Name="FK_ReleaseInformationClient" Association="Self.FK_ReleaseInformationClient">
+            <End Role="ReleaseInformation" EntitySet="ReleaseInformation" />
             <End Role="Client" EntitySet="Client" />
-            <End Role="ServiceLog" EntitySet="ServiceLog" />
           </AssociationSet>
-          <AssociationSet Name="FK_ServiceLog_Contractor_ContractorId" Association="Self.FK_ServiceLog_Contractor_ContractorId">
-            <End Role="Contractor" EntitySet="Contractor" />
+          <AssociationSet Name="FK_ServiceLogUnitDetail" Association="Self.FK_ServiceLogUnitDetail">
             <End Role="ServiceLog" EntitySet="ServiceLog" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ServiceLog_Period_PeriodId" Association="Self.FK_ServiceLog_Period_PeriodId">
-            <End Role="Period" EntitySet="Period" />
-            <End Role="ServiceLog" EntitySet="ServiceLog" />
+            <End Role="UnitDetail" EntitySet="UnitDetail" />
           </AssociationSet>
           <AssociationSet Name="FK_SubProcedureUnitDetail" Association="Self.FK_SubProcedureUnitDetail">
             <End Role="SubProcedure" EntitySet="SubProcedure" />
-            <End Role="UnitDetail" EntitySet="UnitDetail" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UnitDetail_PlaceOfService_PlaceOfServiceId" Association="Self.FK_UnitDetail_PlaceOfService_PlaceOfServiceId">
-            <End Role="PlaceOfService" EntitySet="PlaceOfService" />
-            <End Role="UnitDetail" EntitySet="UnitDetail" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UnitDetail_ServiceLog_ServiceLogId" Association="Self.FK_UnitDetail_ServiceLog_ServiceLogId">
-            <End Role="ServiceLog" EntitySet="ServiceLog" />
             <End Role="UnitDetail" EntitySet="UnitDetail" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
-        <EntityContainer Name="Clinic_AppContext" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Contractor" EntityType="Model1.Contractor" />
-          <EntitySet Name="Client" EntityType="Model1.Client" />
-          <EntitySet Name="Period" EntityType="Model1.Period" />
-          <EntitySet Name="UnitDetail" EntityType="Model1.UnitDetail" />
-          <EntitySet Name="ReleaseInformation" EntityType="Model1.ReleaseInformation" />
-          <EntitySet Name="Company" EntityType="Model1.Company" />
-          <EntitySet Name="Agreement" EntityType="Model1.Agreement" />
-          <AssociationSet Name="ClientAgreement" Association="Model1.ClientAgreement">
-            <End Role="Client" EntitySet="Client" />
-            <End Role="Agreement" EntitySet="Agreement" />
-          </AssociationSet>
-          <AssociationSet Name="CompanyAgreement" Association="Model1.CompanyAgreement">
-            <End Role="Company" EntitySet="Company" />
-            <End Role="Agreement" EntitySet="Agreement" />
-          </AssociationSet>
-          <AssociationSet Name="ReleaseInformationClient" Association="Model1.ReleaseInformationClient">
-            <End Role="ReleaseInformation" EntitySet="ReleaseInformation" />
-            <End Role="Client" EntitySet="Client" />
-          </AssociationSet>
-          <EntitySet Name="Diagnosis" EntityType="Model1.Diagnosis" />
-          <EntitySet Name="PlaceOfService" EntityType="Model1.PlaceOfService" />
-          <AssociationSet Name="DiagnosisClient" Association="Model1.DiagnosisClient">
-            <End Role="Diagnosis" EntitySet="Diagnosis" />
-            <End Role="Client" EntitySet="Client" />
-          </AssociationSet>
-          <AssociationSet Name="PlaceOfServiceUnitDetail" Association="Model1.PlaceOfServiceUnitDetail">
-            <End Role="PlaceOfService" EntitySet="PlaceOfService" />
-            <End Role="UnitDetail" EntitySet="UnitDetail" />
-          </AssociationSet>
-          <EntitySet Name="ContractorType" EntityType="Model1.ContractorType" />
-          <EntitySet Name="Procedure" EntityType="Model1.Procedure" />
-          <EntitySet Name="Payroll" EntityType="Model1.Payroll" />
-          <AssociationSet Name="ContractorPayroll" Association="Model1.ContractorPayroll">
-            <End Role="Contractor" EntitySet="Contractor" />
-            <End Role="Payroll" EntitySet="Payroll" />
-          </AssociationSet>
-          <AssociationSet Name="ContractorTypePayroll" Association="Model1.ContractorTypePayroll">
-            <End Role="ContractorType" EntitySet="ContractorType" />
-            <End Role="Payroll" EntitySet="Payroll" />
-          </AssociationSet>
-          <AssociationSet Name="ProcedurePayroll" Association="Model1.ProcedurePayroll">
-            <End Role="Procedure" EntitySet="Procedure" />
-            <End Role="Payroll" EntitySet="Payroll" />
-          </AssociationSet>
-          <AssociationSet Name="PayrollAgreement" Association="Model1.PayrollAgreement">
-            <End Role="Payroll" EntitySet="Payroll" />
-            <End Role="Agreement" EntitySet="Agreement" />
-          </AssociationSet>
-          <EntitySet Name="ServiceLog" EntityType="Model1.ServiceLog" />
-          <AssociationSet Name="PeriodServiceLog" Association="Model1.PeriodServiceLog">
-            <End Role="Period" EntitySet="Period" />
-            <End Role="ServiceLog" EntitySet="ServiceLog" />
-          </AssociationSet>
-          <AssociationSet Name="ServiceLogUnitDetail" Association="Model1.ServiceLogUnitDetail">
-            <End Role="ServiceLog" EntitySet="ServiceLog" />
-            <End Role="UnitDetail" EntitySet="UnitDetail" />
-          </AssociationSet>
-          <AssociationSet Name="ContractorServiceLog" Association="Model1.ContractorServiceLog">
-            <End Role="Contractor" EntitySet="Contractor" />
-            <End Role="ServiceLog" EntitySet="ServiceLog" />
-          </AssociationSet>
-          <AssociationSet Name="ClientServiceLog" Association="Model1.ClientServiceLog">
-            <End Role="Client" EntitySet="Client" />
-            <End Role="ServiceLog" EntitySet="ServiceLog" />
-          </AssociationSet>
-          <AssociationSet Name="CompanyPayroll" Association="Model1.CompanyPayroll">
-            <End Role="Company" EntitySet="Company" />
-            <End Role="Payroll" EntitySet="Payroll" />
-          </AssociationSet>
-          <EntitySet Name="SubProcedure" EntityType="Model1.SubProcedure" />
-          <AssociationSet Name="ProcedureSubProcedure" Association="Model1.ProcedureSubProcedure">
-            <End Role="Procedure" EntitySet="Procedure" />
-            <End Role="SubProcedure" EntitySet="SubProcedure" />
-          </AssociationSet>
-          <AssociationSet Name="SubProcedureUnitDetail" Association="Model1.SubProcedureUnitDetail">
-            <End Role="SubProcedure" EntitySet="SubProcedure" />
-            <End Role="UnitDetail" EntitySet="UnitDetail" />
-          </AssociationSet>
-          <EntitySet Name="AspNetRoleClaims" EntityType="Model1.AspNetRoleClaims" />
-          <EntitySet Name="AspNetRoles" EntityType="Model1.AspNetRoles" />
-          <EntitySet Name="AspNetUserClaims" EntityType="Model1.AspNetUserClaims" />
-          <EntitySet Name="AspNetUserLogins" EntityType="Model1.AspNetUserLogins" />
-          <EntitySet Name="AspNetUsers" EntityType="Model1.AspNetUsers" />
-          <EntitySet Name="AspNetUserTokens" EntityType="Model1.AspNetUserTokens" />
-          <AssociationSet Name="FK_AspNetRoleClaims_AspNetRoles_RoleId" Association="Model1.FK_AspNetRoleClaims_AspNetRoles_RoleId">
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="AspNetRoleClaims" EntitySet="AspNetRoleClaims" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AspNetUserClaims_AspNetUsers_UserId" Association="Model1.FK_AspNetUserClaims_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AspNetUserLogins_AspNetUsers_UserId" Association="Model1.FK_AspNetUserLogins_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AspNetUserTokens_AspNetUsers_UserId" Association="Model1.FK_AspNetUserTokens_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserTokens" EntitySet="AspNetUserTokens" />
-          </AssociationSet>
-          <AssociationSet Name="AspNetUserRoles" Association="Model1.AspNetUserRoles">
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-          </AssociationSet>
-          <EntitySet Name="PatientAccount" EntityType="Model1.PatientAccount" />
-          <AssociationSet Name="ClientPatientAccount" Association="Model1.ClientPatientAccount">
-            <End EntitySet="Client" Role="Client" />
-            <End EntitySet="PatientAccount" Role="PatientAccount" />
-          </AssociationSet>
-          <EntitySet Name="Profit_Dashboard" EntityType="Model1.Profit_Dashboard" />
-          </EntityContainer>
-        <EntityType Name="Contractor">
+      <Schema Namespace="Clinic_App" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__EFMigrationsHistory">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="MigrationId" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-          <Property Name="Name" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="RenderingProvider" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Enabled" Type="Boolean" Nullable="false" DefaultValue="True" />
-          <NavigationProperty Name="Payroll" Relationship="Model1.ContractorPayroll" FromRole="Contractor" ToRole="Payroll" />
-          <Property Name="Extra" Type="String" Unicode="true" FixedLength="false" MaxLength="Max" />
-          <NavigationProperty Name="ServiceLog" Relationship="Model1.ContractorServiceLog" FromRole="Contractor" ToRole="ServiceLog" />
-        </EntityType>
-        <EntityType Name="Client">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-          <Property Name="Name" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="RecipientID" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="PatientAccount" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="Agreement" Relationship="Model1.ClientAgreement" FromRole="Client" ToRole="Agreement" />
-          <NavigationProperty Name="ReleaseInformation" Relationship="Model1.ReleaseInformationClient" FromRole="Client" ToRole="ReleaseInformation" />
-          <Property Name="ReleaseInformationId" Type="Int32" Nullable="false" />
-          <Property Name="ReferringProvider" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="AuthorizationNUmber" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Sequence" Type="Int32" Nullable="false" DefaultValue="1" />
-          <NavigationProperty Name="Diagnosis" Relationship="Model1.DiagnosisClient" FromRole="Client" ToRole="Diagnosis" />
-          <Property Name="DiagnosisId" Type="Int32" Nullable="false" />
-          <Property Name="Enabled" Type="Boolean" Nullable="false" DefaultValue="True" />
-          <Property Name="WeeklyApprovedRBT" Type="Int32" Nullable="false" />
-          <Property Name="WeeklyApprovedAnalyst" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ServiceLog" Relationship="Model1.ClientServiceLog" FromRole="Client" ToRole="ServiceLog" />
-          <NavigationProperty Name="PatientAccounts" Relationship="Model1.ClientPatientAccount" FromRole="Client" ToRole="PatientAccount" />
-        </EntityType>
-        <EntityType Name="Period">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="Active" Type="Boolean" Nullable="false" DefaultValue="False" />
-          <NavigationProperty Name="ServiceLog" Relationship="Model1.PeriodServiceLog" FromRole="Period" ToRole="ServiceLog" />
-          <Property Name="PayPeriod" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="DocumentDeliveryDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="PaymentDate" Type="DateTime" Nullable="false" Precision="7" />
-        </EntityType>
-        <EntityType Name="UnitDetail">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Modifiers" Type="String" Nullable="true" DefaultValue="BA" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="PlaceOfService" Relationship="Model1.PlaceOfServiceUnitDetail" FromRole="UnitDetail" ToRole="PlaceOfService" />
-          <Property Name="PlaceOfServiceId" Type="Int32" Nullable="false" />
-          <Property Name="DateOfService" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="Unit" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ServiceLog" Relationship="Model1.ServiceLogUnitDetail" FromRole="UnitDetail" ToRole="ServiceLog" />
-          <Property Name="ServiceLogId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="SubProcedure" Relationship="Model1.SubProcedureUnitDetail" FromRole="UnitDetail" ToRole="SubProcedure" />
-          <Property Name="SubProcedureId" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ReleaseInformation">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="Client" Relationship="Model1.ReleaseInformationClient" FromRole="ReleaseInformation" ToRole="Client" />
-        </EntityType>
-        <EntityType Name="Company">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Agreement" Relationship="Model1.CompanyAgreement" FromRole="Company" ToRole="Agreement" />
-          <Property Name="Name" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Acronym" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Enabled" Type="Boolean" Nullable="false" DefaultValue="True" />
-          <NavigationProperty Name="Payroll" Relationship="Model1.CompanyPayroll" FromRole="Company" ToRole="Payroll" />
+          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="Agreement">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Client" Relationship="Model1.ClientAgreement" FromRole="Agreement" ToRole="Client" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="ClientId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Company" Relationship="Model1.CompanyAgreement" FromRole="Agreement" ToRole="Company" />
           <Property Name="CompanyId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Payroll" Relationship="Model1.PayrollAgreement" FromRole="Agreement" ToRole="Payroll" />
           <Property Name="PayrollId" Type="Int32" Nullable="false" />
           <Property Name="RateEmployees" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_ClientAgreement" FromRole="Agreement" ToRole="Client" />
+          <NavigationProperty Name="Company" Relationship="Self.FK_CompanyAgreement" FromRole="Agreement" ToRole="Company" />
+          <NavigationProperty Name="Payroll" Relationship="Self.FK_PayrollAgreement" FromRole="Agreement" ToRole="Payroll" />
         </EntityType>
-        <Association Name="ClientAgreement">
-          <End Type="Model1.Client" Role="Client" Multiplicity="1" >
-          </End>
-          <End Type="Model1.Agreement" Role="Agreement" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Client">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Agreement">
-              <PropertyRef Name="ClientId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="CompanyAgreement">
-          <End Type="Model1.Company" Role="Company" Multiplicity="1" >
-          </End>
-          <End Type="Model1.Agreement" Role="Agreement" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Agreement">
-              <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="ReleaseInformationClient">
-          <End Type="Model1.ReleaseInformation" Role="ReleaseInformation" Multiplicity="1" />
-          <End Type="Model1.Client" Role="Client" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ReleaseInformation">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Client">
-              <PropertyRef Name="ReleaseInformationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Diagnosis">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="Client" Relationship="Model1.DiagnosisClient" FromRole="Diagnosis" ToRole="Client" />
-          <Property Name="Description" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="PlaceOfService">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="UnitDetail" Relationship="Model1.PlaceOfServiceUnitDetail" FromRole="PlaceOfService" ToRole="UnitDetail" />
-          <Property Name="Value" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-        </EntityType>
-        <Association Name="DiagnosisClient">
-          <End Type="Model1.Diagnosis" Role="Diagnosis" Multiplicity="1" />
-          <End Type="Model1.Client" Role="Client" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Diagnosis">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Client">
-              <PropertyRef Name="DiagnosisId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="PlaceOfServiceUnitDetail">
-          <End Type="Model1.PlaceOfService" Role="PlaceOfService" Multiplicity="1" />
-          <End Type="Model1.UnitDetail" Role="UnitDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PlaceOfService">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="UnitDetail">
-              <PropertyRef Name="PlaceOfServiceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="ContractorType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="Payroll" Relationship="Model1.ContractorTypePayroll" FromRole="ContractorType" ToRole="Payroll" />
-        </EntityType>
-        <EntityType Name="Procedure">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Rate" Type="Double" Nullable="false" />
-          <NavigationProperty Name="Payroll" Relationship="Model1.ProcedurePayroll" FromRole="Procedure" ToRole="Payroll" />
-          <NavigationProperty Name="SubProcedure" Relationship="Model1.ProcedureSubProcedure" FromRole="Procedure" ToRole="SubProcedure" />
-        </EntityType>
-        <EntityType Name="Payroll">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Contractor" Relationship="Model1.ContractorPayroll" FromRole="Payroll" ToRole="Contractor" />
-          <Property Name="ContractorId" Type="Int32" Nullable="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-          <NavigationProperty Name="ContractorType" Relationship="Model1.ContractorTypePayroll" FromRole="Payroll" ToRole="ContractorType" />
-          <Property Name="ContractorTypeId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Procedure" Relationship="Model1.ProcedurePayroll" FromRole="Payroll" ToRole="Procedure" />
-          <Property Name="ProcedureId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Agreement" Relationship="Model1.PayrollAgreement" FromRole="Payroll" ToRole="Agreement" />
-          <NavigationProperty Name="Company" Relationship="Model1.CompanyPayroll" FromRole="Payroll" ToRole="Company" />
-          <Property Name="CompanyId" Type="Int32" Nullable="false" />
-        </EntityType>
-        <Association Name="ContractorPayroll">
-          <End Type="Model1.Contractor" Role="Contractor" Multiplicity="1" >
-          </End>
-          <End Type="Model1.Payroll" Role="Payroll" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Contractor">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Payroll">
-              <PropertyRef Name="ContractorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="ContractorTypePayroll">
-          <End Type="Model1.ContractorType" Role="ContractorType" Multiplicity="1" />
-          <End Type="Model1.Payroll" Role="Payroll" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ContractorType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Payroll">
-              <PropertyRef Name="ContractorTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="ProcedurePayroll">
-          <End Type="Model1.Procedure" Role="Procedure" Multiplicity="1" />
-          <End Type="Model1.Payroll" Role="Payroll" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Procedure">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Payroll">
-              <PropertyRef Name="ProcedureId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="PayrollAgreement">
-          <End Type="Model1.Payroll" Role="Payroll" Multiplicity="1" >
-          </End>
-          <End Type="Model1.Agreement" Role="Agreement" Multiplicity="*" >
-          </End>
-          <ReferentialConstraint>
-            <Principal Role="Payroll">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Agreement">
-              <PropertyRef Name="PayrollId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="ServiceLog">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Period" Relationship="Model1.PeriodServiceLog" FromRole="ServiceLog" ToRole="Period" />
-          <Property Name="PeriodId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="UnitDetail" Relationship="Model1.ServiceLogUnitDetail" FromRole="ServiceLog" ToRole="UnitDetail" />
-          <NavigationProperty Name="Contractor" Relationship="Model1.ContractorServiceLog" FromRole="ServiceLog" ToRole="Contractor" />
-          <Property Name="ContractorId" Type="Int32" Nullable="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-          <NavigationProperty Name="Client" Relationship="Model1.ClientServiceLog" FromRole="ServiceLog" ToRole="Client" />
-          <Property Name="ClientId" Type="Int32" Nullable="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-          <Property Name="CreatedDate" Type="DateTime" Nullable="true" Precision="7" />
-          <Property Name="BilledDate" Type="DateTime" Precision="3" />
-          <Property Name="Biller" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
-          <Property Name="Pending" Type="String" Nullable="true" Unicode="true" MaxLength="Max" FixedLength="false" />
-        </EntityType>
-        <Association Name="PeriodServiceLog">
-          <End Type="Model1.Period" Role="Period" Multiplicity="1" />
-          <End Type="Model1.ServiceLog" Role="ServiceLog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Period">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ServiceLog">
-              <PropertyRef Name="PeriodId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="ServiceLogUnitDetail">
-          <End Type="Model1.ServiceLog" Role="ServiceLog" Multiplicity="1" >
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="Model1.UnitDetail" Role="UnitDetail" Multiplicity="*" >
-          </End>
-          <ReferentialConstraint>
-            <Principal Role="ServiceLog">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="UnitDetail">
-              <PropertyRef Name="ServiceLogId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="ContractorServiceLog">
-          <End Type="Model1.Contractor" Role="Contractor" Multiplicity="1" />
-          <End Type="Model1.ServiceLog" Role="ServiceLog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Contractor">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ServiceLog">
-              <PropertyRef Name="ContractorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="ClientServiceLog">
-          <End Type="Model1.Client" Role="Client" Multiplicity="1" />
-          <End Type="Model1.ServiceLog" Role="ServiceLog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Client">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="ServiceLog">
-              <PropertyRef Name="ClientId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="CompanyPayroll">
-          <End Type="Model1.Company" Role="Company" Multiplicity="1" />
-          <End Type="Model1.Payroll" Role="Payroll" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Company">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Payroll">
-              <PropertyRef Name="CompanyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="SubProcedure">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Rate" Type="Double" Nullable="false" />
-          <NavigationProperty Name="Procedure" Relationship="Model1.ProcedureSubProcedure" FromRole="SubProcedure" ToRole="Procedure" />
-          <Property Name="ProcedureId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="UnitDetail" Relationship="Model1.SubProcedureUnitDetail" FromRole="SubProcedure" ToRole="UnitDetail" />
-        </EntityType>
-        <Association Name="ProcedureSubProcedure">
-          <End Type="Model1.Procedure" Role="Procedure" Multiplicity="1" />
-          <End Type="Model1.SubProcedure" Role="SubProcedure" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Procedure">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SubProcedure">
-              <PropertyRef Name="ProcedureId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="SubProcedureUnitDetail">
-          <End Type="Model1.SubProcedure" Role="SubProcedure" Multiplicity="1" />
-          <End Type="Model1.UnitDetail" Role="UnitDetail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SubProcedure">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="UnitDetail">
-              <PropertyRef Name="SubProcedureId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="AspNetRoleClaims">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RoleId" Type="String" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="RoleId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetRoles" Relationship="Model1.FK_AspNetRoleClaims_AspNetRoles_RoleId" FromRole="AspNetRoleClaims" ToRole="AspNetRoles" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Self.FK_AspNetRoleClaims_AspNetRoles_RoleId" FromRole="AspNetRoleClaims" ToRole="AspNetRoles" />
         </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="NormalizedName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="ConcurrencyStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetRoleClaims" Relationship="Model1.FK_AspNetRoleClaims_AspNetRoles_RoleId" FromRole="AspNetRoles" ToRole="AspNetRoleClaims" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Model1.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+          <NavigationProperty Name="AspNetRoleClaims" Relationship="Self.FK_AspNetRoleClaims_AspNetRoles_RoleId" FromRole="AspNetRoles" ToRole="AspNetRoleClaims" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
         </EntityType>
         <EntityType Name="AspNetUserClaims">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="String" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Model1.FK_AspNetUserClaims_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_AspNetUserClaims_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
         </EntityType>
         <EntityType Name="AspNetUserLogins">
           <Key>
             <PropertyRef Name="LoginProvider" />
             <PropertyRef Name="ProviderKey" />
           </Key>
-          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
-          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
+          <Property Name="LoginProvider" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ProviderDisplayName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="UserId" Type="String" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Model1.FK_AspNetUserLogins_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+          <Property Name="UserId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_AspNetUserLogins_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
         </EntityType>
         <EntityType Name="AspNetUsers">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
+          <Property Name="Id" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="NormalizedUserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
@@ -1211,10 +732,10 @@ warning 6002: The table/view 'clinicbd.dbo.Profit_Dashboard' does not have a pri
           <Property Name="LockoutEnd" Type="DateTimeOffset" Precision="7" />
           <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
           <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="AspNetUserClaims" Relationship="Model1.FK_AspNetUserClaims_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
-          <NavigationProperty Name="AspNetUserLogins" Relationship="Model1.FK_AspNetUserLogins_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
-          <NavigationProperty Name="AspNetUserTokens" Relationship="Model1.FK_AspNetUserTokens_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserTokens" />
-          <NavigationProperty Name="AspNetRoles" Relationship="Model1.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_AspNetUserClaims_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_AspNetUserLogins_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="AspNetUserTokens" Relationship="Self.FK_AspNetUserTokens_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserTokens" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
         </EntityType>
         <EntityType Name="AspNetUserTokens">
           <Key>
@@ -1222,17 +743,225 @@ warning 6002: The table/view 'clinicbd.dbo.Profit_Dashboard' does not have a pri
             <PropertyRef Name="LoginProvider" />
             <PropertyRef Name="Name" />
           </Key>
-          <Property Name="UserId" Type="String" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
-          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="450" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LoginProvider" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Model1.FK_AspNetUserTokens_AspNetUsers_UserId" FromRole="AspNetUserTokens" ToRole="AspNetUsers" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_AspNetUserTokens_AspNetUsers_UserId" FromRole="AspNetUserTokens" ToRole="AspNetUsers" />
         </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="RecipientID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="PatientAccount" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ReleaseInformationId" Type="Int32" Nullable="false" />
+          <Property Name="ReferringProvider" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="AuthorizationNUmber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Sequence" Type="Int32" Nullable="false" />
+          <Property Name="DiagnosisId" Type="Int32" Nullable="false" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="WeeklyApprovedRBT" Type="Int32" Nullable="false" />
+          <Property Name="WeeklyApprovedAnalyst" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Agreement" Relationship="Self.FK_ClientAgreement" FromRole="Client" ToRole="Agreement" />
+          <NavigationProperty Name="PatientAccount1" Relationship="Self.FK_ClientPatientAccount" FromRole="Client" ToRole="PatientAccount" />
+          <NavigationProperty Name="ServiceLog" Relationship="Self.FK_ClientServiceLog" FromRole="Client" ToRole="ServiceLog" />
+          <NavigationProperty Name="Diagnosis" Relationship="Self.FK_DiagnosisClient" FromRole="Client" ToRole="Diagnosis" />
+          <NavigationProperty Name="ReleaseInformation" Relationship="Self.FK_ReleaseInformationClient" FromRole="Client" ToRole="ReleaseInformation" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Acronym" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Agreement" Relationship="Self.FK_CompanyAgreement" FromRole="Company" ToRole="Agreement" />
+          <NavigationProperty Name="Payroll" Relationship="Self.FK_CompanyPayroll" FromRole="Company" ToRole="Payroll" />
+        </EntityType>
+        <EntityType Name="Contractor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="RenderingProvider" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="Extra" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Payroll" Relationship="Self.FK_ContractorPayroll" FromRole="Contractor" ToRole="Payroll" />
+          <NavigationProperty Name="ServiceLog" Relationship="Self.FK_ContractorServiceLog" FromRole="Contractor" ToRole="ServiceLog" />
+        </EntityType>
+        <EntityType Name="ContractorType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Payroll" Relationship="Self.FK_ContractorTypePayroll" FromRole="ContractorType" ToRole="Payroll" />
+        </EntityType>
+        <EntityType Name="Diagnosis">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_DiagnosisClient" FromRole="Diagnosis" ToRole="Client" />
+        </EntityType>
+        <EntityType Name="PatientAccount">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="LicenseNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Auxiliar" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTimeOffset" />
+          <Property Name="ExpireDate" Type="DateTimeOffset" />
+          <Property Name="ClientId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_ClientPatientAccount" FromRole="PatientAccount" ToRole="Client" />
+        </EntityType>
+        <EntityType Name="Payroll">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ContractorId" Type="Int32" Nullable="false" />
+          <Property Name="ContractorTypeId" Type="Int32" Nullable="false" />
+          <Property Name="ProcedureId" Type="Int32" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Agreement" Relationship="Self.FK_PayrollAgreement" FromRole="Payroll" ToRole="Agreement" />
+          <NavigationProperty Name="Company" Relationship="Self.FK_CompanyPayroll" FromRole="Payroll" ToRole="Company" />
+          <NavigationProperty Name="Contractor" Relationship="Self.FK_ContractorPayroll" FromRole="Payroll" ToRole="Contractor" />
+          <NavigationProperty Name="ContractorType" Relationship="Self.FK_ContractorTypePayroll" FromRole="Payroll" ToRole="ContractorType" />
+          <NavigationProperty Name="Procedure" Relationship="Self.FK_ProcedurePayroll" FromRole="Payroll" ToRole="Procedure" />
+        </EntityType>
+        <EntityType Name="Period">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="StartDate" Type="DateTimeOffset" Nullable="false" />
+          <Property Name="EndDate" Type="DateTimeOffset" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="PayPeriod" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DocumentDeliveryDate" Type="DateTimeOffset" Nullable="false" />
+          <Property Name="PaymentDate" Type="DateTimeOffset" Nullable="false" />
+          <NavigationProperty Name="ServiceLog" Relationship="Self.FK_PeriodServiceLog" FromRole="Period" ToRole="ServiceLog" />
+        </EntityType>
+        <EntityType Name="PlaceOfService">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UnitDetail" Relationship="Self.FK_PlaceOfServiceUnitDetail" FromRole="PlaceOfService" ToRole="UnitDetail" />
+        </EntityType>
+        <EntityType Name="Procedure">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Rate" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Payroll" Relationship="Self.FK_ProcedurePayroll" FromRole="Procedure" ToRole="Payroll" />
+          <NavigationProperty Name="SubProcedure" Relationship="Self.FK_ProcedureSubProcedure" FromRole="Procedure" ToRole="SubProcedure" />
+        </EntityType>
+        <EntityType Name="ReleaseInformation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_ReleaseInformationClient" FromRole="ReleaseInformation" ToRole="Client" />
+        </EntityType>
+        <EntityType Name="ServiceLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="PeriodId" Type="Int32" Nullable="false" />
+          <Property Name="ContractorId" Type="Int32" Nullable="false" />
+          <Property Name="ClientId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTimeOffset" />
+          <Property Name="BilledDate" Type="DateTimeOffset" />
+          <Property Name="Biller" Type="String" MaxLength="450" FixedLength="false" Unicode="true" />
+          <Property Name="Pending" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_ClientServiceLog" FromRole="ServiceLog" ToRole="Client" />
+          <NavigationProperty Name="Contractor" Relationship="Self.FK_ContractorServiceLog" FromRole="ServiceLog" ToRole="Contractor" />
+          <NavigationProperty Name="Period" Relationship="Self.FK_PeriodServiceLog" FromRole="ServiceLog" ToRole="Period" />
+          <NavigationProperty Name="UnitDetail" Relationship="Self.FK_ServiceLogUnitDetail" FromRole="ServiceLog" ToRole="UnitDetail" />
+        </EntityType>
+        <EntityType Name="SubProcedure">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Rate" Type="Double" Nullable="false" />
+          <Property Name="ProcedureId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Procedure" Relationship="Self.FK_ProcedureSubProcedure" FromRole="SubProcedure" ToRole="Procedure" />
+          <NavigationProperty Name="UnitDetail" Relationship="Self.FK_SubProcedureUnitDetail" FromRole="SubProcedure" ToRole="UnitDetail" />
+        </EntityType>
+        <EntityType Name="UnitDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Modifiers" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="PlaceOfServiceId" Type="Int32" Nullable="false" />
+          <Property Name="DateOfService" Type="DateTimeOffset" Nullable="false" />
+          <Property Name="Unit" Type="Int32" Nullable="false" />
+          <Property Name="ServiceLogId" Type="Int32" Nullable="false" />
+          <Property Name="SubProcedureId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PlaceOfService" Relationship="Self.FK_PlaceOfServiceUnitDetail" FromRole="UnitDetail" ToRole="PlaceOfService" />
+          <NavigationProperty Name="ServiceLog" Relationship="Self.FK_ServiceLogUnitDetail" FromRole="UnitDetail" ToRole="ServiceLog" />
+          <NavigationProperty Name="SubProcedure" Relationship="Self.FK_SubProcedureUnitDetail" FromRole="UnitDetail" ToRole="SubProcedure" />
+        </EntityType>
+        <Association Name="FK_ClientAgreement">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Agreement">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyAgreement">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Agreement">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PayrollAgreement">
+          <End Role="Payroll" Type="Self.Payroll" Multiplicity="1" />
+          <End Role="Agreement" Type="Self.Agreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payroll">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Agreement">
+              <PropertyRef Name="PayrollId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_AspNetRoleClaims_AspNetRoles_RoleId">
-          <End Type="Model1.AspNetRoles" Role="AspNetRoles" Multiplicity="1">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Type="Model1.AspNetRoleClaims" Role="AspNetRoleClaims" Multiplicity="*" />
+          <End Role="AspNetRoleClaims" Type="Self.AspNetRoleClaims" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetRoles">
               <PropertyRef Name="Id" />
@@ -1243,10 +972,10 @@ warning 6002: The table/view 'clinicbd.dbo.Profit_Dashboard' does not have a pri
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AspNetUserClaims_AspNetUsers_UserId">
-          <End Type="Model1.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Type="Model1.AspNetUserClaims" Role="AspNetUserClaims" Multiplicity="*" />
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
@@ -1257,10 +986,10 @@ warning 6002: The table/view 'clinicbd.dbo.Profit_Dashboard' does not have a pri
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AspNetUserLogins_AspNetUsers_UserId">
-          <End Type="Model1.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Type="Model1.AspNetUserLogins" Role="AspNetUserLogins" Multiplicity="*" />
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
@@ -1271,10 +1000,10 @@ warning 6002: The table/view 'clinicbd.dbo.Profit_Dashboard' does not have a pri
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_AspNetUserTokens_AspNetUsers_UserId">
-          <End Type="Model1.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Type="Model1.AspNetUserTokens" Role="AspNetUserTokens" Multiplicity="*" />
+          <End Role="AspNetUserTokens" Type="Self.AspNetUserTokens" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="AspNetUsers">
               <PropertyRef Name="Id" />
@@ -1284,25 +1013,9 @@ warning 6002: The table/view 'clinicbd.dbo.Profit_Dashboard' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="AspNetUserRoles">
-          <End Type="Model1.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
-          <End Type="Model1.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
-        </Association>
-        <EntityType Name="PatientAccount">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" Type="Int32" />
-          <Property Name="LicenseNumber" Nullable="false" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ExpireDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Auxiliar" Nullable="true" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="Client" Relationship="Model1.ClientPatientAccount" FromRole="PatientAccount" ToRole="Client" />
-          <Property xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" Name="ClientId" Nullable="false" Type="Int32" />
-        </EntityType>
-        <Association Name="ClientPatientAccount">
-          <End Type="Model1.Client" Multiplicity="1" Role="Client" />
-          <End Type="Model1.PatientAccount" Multiplicity="*" Role="PatientAccount" />
+        <Association Name="FK_ClientPatientAccount">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="PatientAccount" Type="Self.PatientAccount" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Client">
               <PropertyRef Name="Id" />
@@ -1312,303 +1025,560 @@ warning 6002: The table/view 'clinicbd.dbo.Profit_Dashboard' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Profit_Dashboard">
-          <Key>
-            <PropertyRef Name="PayPeriod" />
-            <PropertyRef Name="Billed" />
-            <PropertyRef Name="Payment" />
-            <PropertyRef Name="Profit" />
-            <PropertyRef Name="IdCompany" />
-          </Key>
-          <Property Name="PayPeriod" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
-          <Property Name="Billed" Type="Double" Nullable="false" />
-          <Property Name="Payment" Type="Double" Nullable="false" />
-          <Property Name="Profit" Type="Double" Nullable="false" />
-          <Property Name="IdCompany" Type="Int32" Nullable="false" />
-        </EntityType>
-        </Schema>
+        <Association Name="FK_ClientServiceLog">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="ServiceLog" Type="Self.ServiceLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServiceLog">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DiagnosisClient">
+          <End Role="Diagnosis" Type="Self.Diagnosis" Multiplicity="1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Diagnosis">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="DiagnosisId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReleaseInformationClient">
+          <End Role="ReleaseInformation" Type="Self.ReleaseInformation" Multiplicity="1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReleaseInformation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="ReleaseInformationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CompanyPayroll">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Payroll" Type="Self.Payroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payroll">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractorPayroll">
+          <End Role="Contractor" Type="Self.Contractor" Multiplicity="1" />
+          <End Role="Payroll" Type="Self.Payroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payroll">
+              <PropertyRef Name="ContractorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractorServiceLog">
+          <End Role="Contractor" Type="Self.Contractor" Multiplicity="1" />
+          <End Role="ServiceLog" Type="Self.ServiceLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contractor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServiceLog">
+              <PropertyRef Name="ContractorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ContractorTypePayroll">
+          <End Role="ContractorType" Type="Self.ContractorType" Multiplicity="1" />
+          <End Role="Payroll" Type="Self.Payroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContractorType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payroll">
+              <PropertyRef Name="ContractorTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProcedurePayroll">
+          <End Role="Procedure" Type="Self.Procedure" Multiplicity="1" />
+          <End Role="Payroll" Type="Self.Payroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Procedure">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payroll">
+              <PropertyRef Name="ProcedureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PeriodServiceLog">
+          <End Role="Period" Type="Self.Period" Multiplicity="1" />
+          <End Role="ServiceLog" Type="Self.ServiceLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Period">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ServiceLog">
+              <PropertyRef Name="PeriodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PlaceOfServiceUnitDetail">
+          <End Role="PlaceOfService" Type="Self.PlaceOfService" Multiplicity="1" />
+          <End Role="UnitDetail" Type="Self.UnitDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlaceOfService">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UnitDetail">
+              <PropertyRef Name="PlaceOfServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProcedureSubProcedure">
+          <End Role="Procedure" Type="Self.Procedure" Multiplicity="1" />
+          <End Role="SubProcedure" Type="Self.SubProcedure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Procedure">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SubProcedure">
+              <PropertyRef Name="ProcedureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServiceLogUnitDetail">
+          <End Role="ServiceLog" Type="Self.ServiceLog" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UnitDetail" Type="Self.UnitDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ServiceLog">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UnitDetail">
+              <PropertyRef Name="ServiceLogId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SubProcedureUnitDetail">
+          <End Role="SubProcedure" Type="Self.SubProcedure" Multiplicity="1" />
+          <End Role="UnitDetail" Type="Self.UnitDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubProcedure">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UnitDetail">
+              <PropertyRef Name="SubProcedureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="Clinic_AppContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__EFMigrationsHistory" EntityType="Self.C__EFMigrationsHistory" />
+          <EntitySet Name="Agreement" EntityType="Self.Agreement" />
+          <EntitySet Name="AspNetRoleClaims" EntityType="Self.AspNetRoleClaims" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
+          <EntitySet Name="AspNetUserTokens" EntityType="Self.AspNetUserTokens" />
+          <EntitySet Name="Client" EntityType="Self.Client" />
+          <EntitySet Name="Company" EntityType="Self.Company" />
+          <EntitySet Name="Contractor" EntityType="Self.Contractor" />
+          <EntitySet Name="ContractorType" EntityType="Self.ContractorType" />
+          <EntitySet Name="Diagnosis" EntityType="Self.Diagnosis" />
+          <EntitySet Name="PatientAccount" EntityType="Self.PatientAccount" />
+          <EntitySet Name="Payroll" EntityType="Self.Payroll" />
+          <EntitySet Name="Period" EntityType="Self.Period" />
+          <EntitySet Name="PlaceOfService" EntityType="Self.PlaceOfService" />
+          <EntitySet Name="Procedure" EntityType="Self.Procedure" />
+          <EntitySet Name="ReleaseInformation" EntityType="Self.ReleaseInformation" />
+          <EntitySet Name="ServiceLog" EntityType="Self.ServiceLog" />
+          <EntitySet Name="SubProcedure" EntityType="Self.SubProcedure" />
+          <EntitySet Name="UnitDetail" EntityType="Self.UnitDetail" />
+          <AssociationSet Name="FK_ClientAgreement" Association="Self.FK_ClientAgreement">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Agreement" EntitySet="Agreement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyAgreement" Association="Self.FK_CompanyAgreement">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Agreement" EntitySet="Agreement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PayrollAgreement" Association="Self.FK_PayrollAgreement">
+            <End Role="Payroll" EntitySet="Payroll" />
+            <End Role="Agreement" EntitySet="Agreement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetRoleClaims_AspNetRoles_RoleId" Association="Self.FK_AspNetRoleClaims_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetRoleClaims" EntitySet="AspNetRoleClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUserClaims_AspNetUsers_UserId" Association="Self.FK_AspNetUserClaims_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUserLogins_AspNetUsers_UserId" Association="Self.FK_AspNetUserLogins_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUserTokens_AspNetUsers_UserId" Association="Self.FK_AspNetUserTokens_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserTokens" EntitySet="AspNetUserTokens" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientPatientAccount" Association="Self.FK_ClientPatientAccount">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="PatientAccount" EntitySet="PatientAccount" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientServiceLog" Association="Self.FK_ClientServiceLog">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="ServiceLog" EntitySet="ServiceLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DiagnosisClient" Association="Self.FK_DiagnosisClient">
+            <End Role="Diagnosis" EntitySet="Diagnosis" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReleaseInformationClient" Association="Self.FK_ReleaseInformationClient">
+            <End Role="ReleaseInformation" EntitySet="ReleaseInformation" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompanyPayroll" Association="Self.FK_CompanyPayroll">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Payroll" EntitySet="Payroll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContractorPayroll" Association="Self.FK_ContractorPayroll">
+            <End Role="Contractor" EntitySet="Contractor" />
+            <End Role="Payroll" EntitySet="Payroll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContractorServiceLog" Association="Self.FK_ContractorServiceLog">
+            <End Role="Contractor" EntitySet="Contractor" />
+            <End Role="ServiceLog" EntitySet="ServiceLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ContractorTypePayroll" Association="Self.FK_ContractorTypePayroll">
+            <End Role="ContractorType" EntitySet="ContractorType" />
+            <End Role="Payroll" EntitySet="Payroll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProcedurePayroll" Association="Self.FK_ProcedurePayroll">
+            <End Role="Procedure" EntitySet="Procedure" />
+            <End Role="Payroll" EntitySet="Payroll" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PeriodServiceLog" Association="Self.FK_PeriodServiceLog">
+            <End Role="Period" EntitySet="Period" />
+            <End Role="ServiceLog" EntitySet="ServiceLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PlaceOfServiceUnitDetail" Association="Self.FK_PlaceOfServiceUnitDetail">
+            <End Role="PlaceOfService" EntitySet="PlaceOfService" />
+            <End Role="UnitDetail" EntitySet="UnitDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProcedureSubProcedure" Association="Self.FK_ProcedureSubProcedure">
+            <End Role="Procedure" EntitySet="Procedure" />
+            <End Role="SubProcedure" EntitySet="SubProcedure" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServiceLogUnitDetail" Association="Self.FK_ServiceLogUnitDetail">
+            <End Role="ServiceLog" EntitySet="ServiceLog" />
+            <End Role="UnitDetail" EntitySet="UnitDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SubProcedureUnitDetail" Association="Self.FK_SubProcedureUnitDetail">
+            <End Role="SubProcedure" EntitySet="SubProcedure" />
+            <End Role="UnitDetail" EntitySet="UnitDetail" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="Clinic_AppContext">
-    <EntitySetMapping Name="Contractor">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.Contractor)">
-        <MappingFragment StoreEntitySet="Contractor">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="RenderingProvider" ColumnName="RenderingProvider" />
-          <ScalarProperty Name="Enabled" ColumnName="Enabled" />
-          <ScalarProperty Name="Extra" ColumnName="Extra" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Client">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.Client)">
-        <MappingFragment StoreEntitySet="Client">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="RecipientID" ColumnName="RecipientID" />
-          <ScalarProperty Name="PatientAccount" ColumnName="PatientAccount" />
-          <ScalarProperty Name="ReleaseInformationId" ColumnName="ReleaseInformationId" />
-          <ScalarProperty Name="ReferringProvider" ColumnName="ReferringProvider" />
-          <ScalarProperty Name="AuthorizationNUmber" ColumnName="AuthorizationNUmber" />
-          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
-          <ScalarProperty Name="DiagnosisId" ColumnName="DiagnosisId" />
-          <ScalarProperty Name="Enabled" ColumnName="Enabled" />
-          <ScalarProperty Name="WeeklyApprovedRBT" ColumnName="WeeklyApprovedRBT" />
-          <ScalarProperty Name="WeeklyApprovedAnalyst" ColumnName="WeeklyApprovedAnalyst" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Period">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.Period)">
-        <MappingFragment StoreEntitySet="Period">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-          <ScalarProperty Name="Active" ColumnName="Active" />
-          <ScalarProperty Name="PayPeriod" ColumnName="PayPeriod" />
-          <ScalarProperty Name="DocumentDeliveryDate" ColumnName="DocumentDeliveryDate" />
-          <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="UnitDetail">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.UnitDetail)">
-        <MappingFragment StoreEntitySet="UnitDetail">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Modifiers" ColumnName="Modifiers" />
-          <ScalarProperty Name="PlaceOfServiceId" ColumnName="PlaceOfServiceId" />
-          <ScalarProperty Name="DateOfService" ColumnName="DateOfService" />
-          <ScalarProperty Name="Unit" ColumnName="Unit" />
-          <ScalarProperty Name="ServiceLogId" ColumnName="ServiceLogId" />
-          <ScalarProperty Name="SubProcedureId" ColumnName="SubProcedureId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ReleaseInformation">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.ReleaseInformation)">
-        <MappingFragment StoreEntitySet="ReleaseInformation">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Company">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.Company)">
-        <MappingFragment StoreEntitySet="Company">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Acronym" ColumnName="Acronym" />
-          <ScalarProperty Name="Enabled" ColumnName="Enabled" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Agreement">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.Agreement)">
-        <MappingFragment StoreEntitySet="Agreement">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ClientId" ColumnName="ClientId" />
-          <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-          <ScalarProperty Name="PayrollId" ColumnName="PayrollId" />
-          <ScalarProperty Name="RateEmployees" ColumnName="RateEmployees" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Diagnosis">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.Diagnosis)">
-        <MappingFragment StoreEntitySet="Diagnosis">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="PlaceOfService">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.PlaceOfService)">
-        <MappingFragment StoreEntitySet="PlaceOfService">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Value" ColumnName="Value" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ContractorType">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.ContractorType)">
-        <MappingFragment StoreEntitySet="ContractorType">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Procedure">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.Procedure)">
-        <MappingFragment StoreEntitySet="Procedure">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Rate" ColumnName="Rate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Payroll">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.Payroll)">
-        <MappingFragment StoreEntitySet="Payroll">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ContractorId" ColumnName="ContractorId" />
-          <ScalarProperty Name="ContractorTypeId" ColumnName="ContractorTypeId" />
-          <ScalarProperty Name="ProcedureId" ColumnName="ProcedureId" />
-          <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ServiceLog">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.ServiceLog)">
-        <MappingFragment StoreEntitySet="ServiceLog">
-          <ScalarProperty Name="Biller" ColumnName="Biller" />
-          <ScalarProperty Name="BilledDate" ColumnName="BilledDate" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-	  <ScalarProperty Name="Pending" ColumnName="Pending" />
-          <ScalarProperty Name="PeriodId" ColumnName="PeriodId" />
-          <ScalarProperty Name="ContractorId" ColumnName="ContractorId" />
-          <ScalarProperty Name="ClientId" ColumnName="ClientId" />
-          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="SubProcedure">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.SubProcedure)">
-        <MappingFragment StoreEntitySet="SubProcedure">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Rate" ColumnName="Rate" />
-          <ScalarProperty Name="ProcedureId" ColumnName="ProcedureId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="AspNetRoleClaims">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.AspNetRoleClaims)">
-        <MappingFragment StoreEntitySet="AspNetRoleClaims">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-          <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
-          <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="AspNetRoles">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.AspNetRoles)">
-        <MappingFragment StoreEntitySet="AspNetRoles">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="NormalizedName" ColumnName="NormalizedName" />
-          <ScalarProperty Name="ConcurrencyStamp" ColumnName="ConcurrencyStamp" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="AspNetUserClaims">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.AspNetUserClaims)">
-        <MappingFragment StoreEntitySet="AspNetUserClaims">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
-          <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="AspNetUserLogins">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.AspNetUserLogins)">
-        <MappingFragment StoreEntitySet="AspNetUserLogins">
-          <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
-          <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
-          <ScalarProperty Name="ProviderDisplayName" ColumnName="ProviderDisplayName" />
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="AspNetUsers">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.AspNetUsers)">
-        <MappingFragment StoreEntitySet="AspNetUsers">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="UserName" ColumnName="UserName" />
-          <ScalarProperty Name="NormalizedUserName" ColumnName="NormalizedUserName" />
-          <ScalarProperty Name="Email" ColumnName="Email" />
-          <ScalarProperty Name="NormalizedEmail" ColumnName="NormalizedEmail" />
-          <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-          <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-          <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-          <ScalarProperty Name="ConcurrencyStamp" ColumnName="ConcurrencyStamp" />
-          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-          <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-          <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-          <ScalarProperty Name="LockoutEnd" ColumnName="LockoutEnd" />
-          <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-          <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="AspNetUserTokens">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.AspNetUserTokens)">
-        <MappingFragment StoreEntitySet="AspNetUserTokens">
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Value" ColumnName="Value" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="PatientAccount">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.PatientAccount)">
-        <MappingFragment StoreEntitySet="PatientAccount">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="LicenseNumber" ColumnName="LicenseNumber" />
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-          <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
-          <ScalarProperty Name="Auxiliar" ColumnName="Auxiliar" />
-          <ScalarProperty Name="ClientId" ColumnName="ClientId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <AssociationSetMapping Name="AspNetUserRoles" TypeName="Model1.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
-	    <EndProperty Name="AspNetUsers">
-              <ScalarProperty Name="Id" ColumnName="UserId" />
-            </EndProperty>
-            <EndProperty Name="AspNetRoles">
-              <ScalarProperty Name="Id" ColumnName="RoleId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <EntitySetMapping Name="Profit_Dashboard">
-            <EntityTypeMapping TypeName="Model1.Profit_Dashboard">
-              <MappingFragment StoreEntitySet="Profit_Dashboard">
-                <ScalarProperty Name="IdCompany" ColumnName="IdCompany" />
-                <ScalarProperty Name="Profit" ColumnName="Profit" />
-                <ScalarProperty Name="Payment" ColumnName="Payment" />
-                <ScalarProperty Name="Billed" ColumnName="Billed" />
-                <ScalarProperty Name="PayPeriod" ColumnName="PayPeriod" />
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Clinic_AppStoreContainer" CdmEntityContainer="Clinic_AppContext">
+          <EntitySetMapping Name="C__EFMigrationsHistory">
+            <EntityTypeMapping TypeName="Clinic_App.C__EFMigrationsHistory">
+              <MappingFragment StoreEntitySet="__EFMigrationsHistory">
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-  </EntityContainerMapping>
-</Mapping></edmx:Mappings>
+          <EntitySetMapping Name="Agreement">
+            <EntityTypeMapping TypeName="Clinic_App.Agreement">
+              <MappingFragment StoreEntitySet="Agreement">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="PayrollId" ColumnName="PayrollId" />
+                <ScalarProperty Name="RateEmployees" ColumnName="RateEmployees" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoleClaims">
+            <EntityTypeMapping TypeName="Clinic_App.AspNetRoleClaims">
+              <MappingFragment StoreEntitySet="AspNetRoleClaims">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="Clinic_App.AspNetRoles">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="NormalizedName" ColumnName="NormalizedName" />
+                <ScalarProperty Name="ConcurrencyStamp" ColumnName="ConcurrencyStamp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="Clinic_App.AspNetUserClaims">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="Clinic_App.AspNetUserLogins">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="ProviderDisplayName" ColumnName="ProviderDisplayName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="Clinic_App.AspNetUsers">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="NormalizedUserName" ColumnName="NormalizedUserName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="NormalizedEmail" ColumnName="NormalizedEmail" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="ConcurrencyStamp" ColumnName="ConcurrencyStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEnd" ColumnName="LockoutEnd" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserTokens">
+            <EntityTypeMapping TypeName="Clinic_App.AspNetUserTokens">
+              <MappingFragment StoreEntitySet="AspNetUserTokens">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Client">
+            <EntityTypeMapping TypeName="Clinic_App.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RecipientID" ColumnName="RecipientID" />
+                <ScalarProperty Name="PatientAccount" ColumnName="PatientAccount" />
+                <ScalarProperty Name="ReleaseInformationId" ColumnName="ReleaseInformationId" />
+                <ScalarProperty Name="ReferringProvider" ColumnName="ReferringProvider" />
+                <ScalarProperty Name="AuthorizationNUmber" ColumnName="AuthorizationNUmber" />
+                <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+                <ScalarProperty Name="DiagnosisId" ColumnName="DiagnosisId" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="WeeklyApprovedRBT" ColumnName="WeeklyApprovedRBT" />
+                <ScalarProperty Name="WeeklyApprovedAnalyst" ColumnName="WeeklyApprovedAnalyst" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Company">
+            <EntityTypeMapping TypeName="Clinic_App.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Acronym" ColumnName="Acronym" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contractor">
+            <EntityTypeMapping TypeName="Clinic_App.Contractor">
+              <MappingFragment StoreEntitySet="Contractor">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="RenderingProvider" ColumnName="RenderingProvider" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="Extra" ColumnName="Extra" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractorType">
+            <EntityTypeMapping TypeName="Clinic_App.ContractorType">
+              <MappingFragment StoreEntitySet="ContractorType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Diagnosis">
+            <EntityTypeMapping TypeName="Clinic_App.Diagnosis">
+              <MappingFragment StoreEntitySet="Diagnosis">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PatientAccount">
+            <EntityTypeMapping TypeName="Clinic_App.PatientAccount">
+              <MappingFragment StoreEntitySet="PatientAccount">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LicenseNumber" ColumnName="LicenseNumber" />
+                <ScalarProperty Name="Auxiliar" ColumnName="Auxiliar" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payroll">
+            <EntityTypeMapping TypeName="Clinic_App.Payroll">
+              <MappingFragment StoreEntitySet="Payroll">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ContractorId" ColumnName="ContractorId" />
+                <ScalarProperty Name="ContractorTypeId" ColumnName="ContractorTypeId" />
+                <ScalarProperty Name="ProcedureId" ColumnName="ProcedureId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Period">
+            <EntityTypeMapping TypeName="Clinic_App.Period">
+              <MappingFragment StoreEntitySet="Period">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="PayPeriod" ColumnName="PayPeriod" />
+                <ScalarProperty Name="DocumentDeliveryDate" ColumnName="DocumentDeliveryDate" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlaceOfService">
+            <EntityTypeMapping TypeName="Clinic_App.PlaceOfService">
+              <MappingFragment StoreEntitySet="PlaceOfService">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Procedure">
+            <EntityTypeMapping TypeName="Clinic_App.Procedure">
+              <MappingFragment StoreEntitySet="Procedure">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReleaseInformation">
+            <EntityTypeMapping TypeName="Clinic_App.ReleaseInformation">
+              <MappingFragment StoreEntitySet="ReleaseInformation">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServiceLog">
+            <EntityTypeMapping TypeName="Clinic_App.ServiceLog">
+              <MappingFragment StoreEntitySet="ServiceLog">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PeriodId" ColumnName="PeriodId" />
+                <ScalarProperty Name="ContractorId" ColumnName="ContractorId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="BilledDate" ColumnName="BilledDate" />
+                <ScalarProperty Name="Biller" ColumnName="Biller" />
+                <ScalarProperty Name="Pending" ColumnName="Pending" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SubProcedure">
+            <EntityTypeMapping TypeName="Clinic_App.SubProcedure">
+              <MappingFragment StoreEntitySet="SubProcedure">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Rate" ColumnName="Rate" />
+                <ScalarProperty Name="ProcedureId" ColumnName="ProcedureId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UnitDetail">
+            <EntityTypeMapping TypeName="Clinic_App.UnitDetail">
+              <MappingFragment StoreEntitySet="UnitDetail">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Modifiers" ColumnName="Modifiers" />
+                <ScalarProperty Name="PlaceOfServiceId" ColumnName="PlaceOfServiceId" />
+                <ScalarProperty Name="DateOfService" ColumnName="DateOfService" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="ServiceLogId" ColumnName="ServiceLogId" />
+                <ScalarProperty Name="SubProcedureId" ColumnName="SubProcedureId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="Clinic_App.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
-  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
-    <edmx:Connection>
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
       </DesignerInfoPropertySet>
-    </edmx:Connection>
-    <edmx:Options>
+    </Connection>
+    <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
-        <DesignerProperty Name="UseLegacyProvider" Value="False" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
       </DesignerInfoPropertySet>
-    </edmx:Options>
+    </Options>
     <!-- Diagram content (shape and connector positions) -->
-    <edmx:Diagrams>
-    </edmx:Diagrams>
-  </edmx:Designer>
+    <Diagrams></Diagrams>
+  </Designer>
 </edmx:Edmx>

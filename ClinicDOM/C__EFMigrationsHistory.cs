@@ -12,12 +12,9 @@ namespace ClinicDOM
     using System;
     using System.Collections.Generic;
     
-    public partial class Profit_Dashboard
+    public partial class C__EFMigrationsHistory
     {
-        public string PayPeriod { get; set; }
-        public double Billed { get; set; }
-        public double Payment { get; set; }
-        public double Profit { get; set; }
-        public int IdCompany { get; set; }
+        public string MigrationId { get; set; }
+        public string ProductVersion { get; set; }
     }
 }

@@ -24,15 +24,15 @@ namespace ClinicDOM
         public int PeriodId { get; set; }
         public int ContractorId { get; set; }
         public int ClientId { get; set; }
-        public Nullable<System.DateTime> CreatedDate { get; set; }
-        public Nullable<System.DateTime> BilledDate { get; set; }
+        public Nullable<System.DateTimeOffset> CreatedDate { get; set; }
+        public Nullable<System.DateTimeOffset> BilledDate { get; set; }
         public string Biller { get; set; }
         public string Pending { get; set; }
     
+        public virtual Client Client { get; set; }
+        public virtual Contractor Contractor { get; set; }
         public virtual Period Period { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UnitDetail> UnitDetail { get; set; }
-        public virtual Contractor Contractor { get; set; }
-        public virtual Client Client { get; set; }
     }
 }

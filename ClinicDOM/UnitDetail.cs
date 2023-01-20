@@ -14,16 +14,10 @@ namespace ClinicDOM
     
     public partial class UnitDetail
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public UnitDetail()
-        {
-            this.Modifiers = "BA";
-        }
-    
         public int Id { get; set; }
         public string Modifiers { get; set; }
         public int PlaceOfServiceId { get; set; }
-        public System.DateTime DateOfService { get; set; }
+        public System.DateTimeOffset DateOfService { get; set; }
         public int Unit { get; set; }
         public int ServiceLogId { get; set; }
         public int SubProcedureId { get; set; }

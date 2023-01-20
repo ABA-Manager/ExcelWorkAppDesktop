@@ -22,17 +22,14 @@ using CefSharp.Structs;
 namespace ABABillingAndClaim.Views
 {
     public partial class FrmMedicaidScrap : Form
-    {
-        private readonly Clinic_AppContext db;
-
+    { 
         private NavigatorAccessBase navAccess;
         MemoryService _memory;
 
-        public FrmMedicaidScrap(Clinic_AppContext db, MemoryService memory)
+        public FrmMedicaidScrap(MemoryService memory)
         {
             InitializeComponent();
 
-            this.db = db;
             this._memory = memory;
 
             //navAccess = new IeBrowserAccess(webBrowser2, lbCurrentPage);
@@ -48,13 +45,13 @@ namespace ABABillingAndClaim.Views
 
         private async Task LoadAsync()
         {
-            var periods = await GetPeriods();
+            var periods = await BillingService.Instance.GetPeriodsAsync();
             cbPeriods.DataSource = new BindingSource(periods, null);
             cbPeriods.DisplayMember = "Formated";
             cbPeriods.ValueMember = "Id";
             cbPeriods.SelectedValue = periods[0].Id;
 
-            var companies = await GetCompanies();
+            var companies = await BillingService.Instance.GetCompaniesAsync();
             cbCompany.DataSource = new BindingSource(companies, null);
             cbCompany.DisplayMember = "Name";
             cbCompany.ValueMember = "Acronym";
@@ -78,33 +75,11 @@ namespace ABABillingAndClaim.Views
 
         }
 
-        public async Task<List<ExtendedPeriod>> GetPeriods()
-        {
-            //var periodQry = from p in db.Period
-            //                where (p.StartDate < DateTime.Now)
-            //                orderby p.StartDate descending
-            //                select new ExtendedPeriod { Id = p.Id, StartDate = p.StartDate, EndDate = p.EndDate, PayPeriod = p.PayPeriod };
 
-
-            var periodQry = db.Period
-                .Where(p => p.StartDate < DateTime.Now)
-                .OrderByDescending(p => p.StartDate)
-                .Select(p => new ExtendedPeriod { Id = p.Id, StartDate = p.StartDate, EndDate = p.EndDate, PayPeriod = p.PayPeriod });
-
-            return await periodQry.ToListAsync();
-        }
-
-        public async Task<List<Company>> GetCompanies()
-        {
-            var companyQry = from c in db.Company
-                             select c;
-
-            return await companyQry.ToListAsync();
-        }
 
         public async Task loadContractorAndClientInfoAsync(string CompanyCode, int PeriodId)
         {
-            var clientList = await getContractorAndClientsAsync(CompanyCode, PeriodId);
+            var clientList = await BillingService.Instance.GetContractorAndClientsAsync(CompanyCode, PeriodId);
 
             treeView1.BeginUpdate();
             treeView1.Nodes.Clear();
@@ -132,91 +107,6 @@ namespace ABABillingAndClaim.Views
             {
                 await navAccess.LoadLoginInfo(CompanyCode);
             }
-        }
-
-        public async Task<List<TvClient>> getContractorAndClientsAsync(string CompanyCode, int PeriodId)
-        {
-            //db.Configuration.LazyLoadingEnabled = false;
-
-            var sufixList = ConfigurationManager.AppSettings["extra.procedure.list"].ToString() + ";";
-
-            //SELECT*
-            //FROM Agreement ag
-            //INNER JOIN Client cl ON cl.Id = ag.ClientId
-            //INNER JOIN PatientAccount pa ON pa.ClientId = cl.Id
-            //INNER JOIN Payroll pr ON pr.Id = ag.PayrollId
-            //INNER JOIN Contractor ct ON ct.Id = pr.ContractorId
-            //INNER JOIN Company c ON c.Id = ag.CompanyId
-            //INNER JOIN ServiceLog sl ON sl.ClientId = cl.Id AND sl.ContractorId = ct.Id AND sl.PeriodId = 21
-            //INNER JOIN UnitDetail ud ON sl.Id = ud.ServiceLogId AND ud.DateOfService BETWEEN pa.CreateDate AND pa.ExpireDate
-            //INNER JOIN SubProcedure sp ON sp.Id = ud.SubProcedureId AND
-            //            ISNULL(CASE WHEN(sp.Name LIKE '%51' OR sp.Name LIKE '%51TS') 
-            //                        THEN pa.Auxiliar ELSE pa.LicenseNumber END, 'DOES NOT APPLY') <> 'DOES NOT APPLY'
-
-
-            var queryRes = await (from ag in db.Agreement
-                                  join co in db.Company on new { ag.CompanyId, CompanyCode } equals new { CompanyId = co.Id, CompanyCode = co.Acronym }
-                                  join pr in db.Payroll on ag.PayrollId equals pr.Id
-                                  join ctt in db.ContractorType on pr.ContractorTypeId equals ctt.Id
-                                  join ct in db.Contractor on pr.ContractorId equals ct.Id
-                                  join cl in db.Client on ag.ClientId equals cl.Id
-                                  join pa in db.PatientAccount on ag.ClientId equals pa.ClientId
-                                  join sl in db.ServiceLog on new { ag.ClientId, pr.ContractorId, PeriodId } equals new { sl.ClientId, sl.ContractorId, sl.PeriodId }
-                                  join ud in db.UnitDetail on sl.Id equals ud.ServiceLogId 
-                                  join sp in db.SubProcedure on ud.SubProcedureId equals sp.Id
-                                  where pa.CreateDate <= ud.DateOfService && pa.ExpireDate >= ud.DateOfService
-                                  && (((sufixList.Contains(sp.Name.Substring(3) + ";") ? pa.Auxiliar : pa.LicenseNumber) ?? "DOES NOT APPLY") !=  "DOES NOT APPLY")
-                                  select new { cl, ct, ctt, pa, sl, ud, sp })
-                                      .Distinct()
-                                      .OrderBy(it => it.cl.Name.Trim())
-                                      .ThenBy(it => it.cl.Id)
-                                      .ThenBy(it => it.pa.Auxiliar != null ? it.pa.Auxiliar : it.pa.LicenseNumber)
-                                      .ThenBy(it => it.ct.Name)
-                                      .ToListAsync();
-
-            TvClient lastClient = null;
-            TvContractor lastContractor = null;
-            TvServiceLog lastServiceLog = null;
-
-            var clientList = new List<TvClient>();
-            foreach (var it in queryRes)
-            {
-                if (it.cl != null && it.ct != null && it.sl != null)
-                {
-                    var paNum = it.pa.Auxiliar != null ? it.pa.Auxiliar : it.pa.LicenseNumber; //it.pa != null ? (sufixList.Contains(it.sp.Name.Substring(3) + ";") ? it.pa.Auxiliar : it.pa.LicenseNumber) : it.cl.AuthorizationNUmber;
-                    if (it.cl.Id.ToString() + $"_{paNum}" != lastClient?.Id)
-                    {
-                        clientList.Add(lastClient = new TvClient()
-                        {
-                            Id = it.cl.Id.ToString() + $"_{paNum}",
-                            Name = it.cl.Name.Trim() + $" ({paNum})",
-                        });
-                        lastContractor = null; lastServiceLog = null;
-                    }
-                    if (lastContractor == null || int.Parse(lastContractor.Id) != it.ct.Id)
-                    {
-                        lastClient.Contractors.Add(lastContractor = new TvContractor()
-                        {
-                            Id = it.ct.Id.ToString(),
-                            Name = it.ct.Name.Trim(),
-                            ContratorType = it.ctt.Name,
-                            Client = lastClient
-                        });
-                        lastServiceLog = null;
-                    }
-
-                    if (lastServiceLog == null || int.Parse(lastServiceLog.Id) != it.sl.Id)
-                        lastContractor.ServiceLogs.Add(lastServiceLog = new TvServiceLog()
-                        {
-                            Id = it.sl.Id.ToString(),
-                            CreatedDate = it.sl.CreatedDate,
-                            Status = (it.sl.BilledDate != null) ? "billed" : "empty",
-                            Contractor = lastContractor
-                        });
-                }
-            }
-            db.Configuration.LazyLoadingEnabled = true;
-            return clientList;
         }
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -250,12 +140,12 @@ namespace ABABillingAndClaim.Views
             if (obj is TvContractor)
             {
                 var ct = obj as TvContractor;
-                navAccess.details = new Details(db, ct.Client.Id, int.Parse(ct.Id), periodID, companyCode);
+                navAccess.details = new Details(ct.Client.Id, int.Parse(ct.Id), periodID, companyCode);
             }
             else if (obj is TvServiceLog)
             {
                 var sl = obj as TvServiceLog;
-                navAccess.details = new Details(db, int.Parse(sl.Id), companyCode, sl.Contractor.Client.Id.Split('_')[1]);
+                navAccess.details = new Details(int.Parse(sl.Id), companyCode, sl.Contractor.Client.Id.Split('_')[1]);
             }
 
             if (navAccess.getTitle().Contains("Professional") &&
@@ -285,12 +175,12 @@ namespace ABABillingAndClaim.Views
             if (obj is TvContractor)
             {
                 var ct = obj as TvContractor;
-                frm = new FrmLoadDetails(db, ct, periodID, companyCode);
+                frm = new FrmLoadDetails(ct, periodID, companyCode);
             }
             else //if (obj is TvServiceLog)
             {
                 var sl = obj as TvServiceLog;
-                frm = new FrmLoadDetails(db, sl, periodID, companyCode);
+                frm = new FrmLoadDetails(sl, periodID, companyCode);
             }
             frm.ShowDialog();
         }

@@ -11,8 +11,8 @@ namespace ABABillingAndClaim.Models
         public int Id { get; set; }
         public string ClientName { get; set; }  
         public string ContractorName { get; set; }
-        public DateTime CreationDate { get; set; }
+        public DateTimeOffset CreationDate { get; set; }
         public string Biller { get; set; }
-        public DateTime BilledDate { get; set; }
+        public DateTimeOffset BilledDate { get; set; }
     }
 }

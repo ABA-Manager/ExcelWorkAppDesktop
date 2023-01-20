@@ -22,7 +22,7 @@ namespace ABABillingAndClaim.Views
         private DashboardSetting _dashboardSetting;
 
         // Merge with Mijail y
-        public Clinic_AppContext db;
+        //public Clinic_AppContext db;
 
         public FrmMain()
         {
@@ -45,7 +45,7 @@ namespace ABABillingAndClaim.Views
         {
             try
             {
-                var frm = new FrmExcelGen(db);
+                var frm = new FrmExcelGen();
                 frm.ShowDialog();
             }
             catch (System.Reflection.TargetInvocationException tix)
@@ -98,9 +98,10 @@ namespace ABABillingAndClaim.Views
                 Application.Exit();
             else
             {
-                db = new Clinic_AppContext($"name={_memoryService.DataBaseEndPoint}");
+                var db = new Clinic_AppContext($"name={_memoryService.DataBaseEndPoint}");
+                BillingService.Instance = new BillingService(db);
                 // Load dashboard async
-                loadDashboard(db);
+                loadDashboard();
             }
         }
 
@@ -108,7 +109,7 @@ namespace ABABillingAndClaim.Views
         {
             try
             {
-                var frm = new FrmMedicaidScrap(db, _memoryService);
+                var frm = new FrmMedicaidScrap(_memoryService);
                 frm.ShowDialog();
             }
             catch (System.Reflection.TargetInvocationException tix)

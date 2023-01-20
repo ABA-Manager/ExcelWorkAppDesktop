@@ -16,11 +16,11 @@ namespace ABABillingAndClaim.Views
     public partial class FrmLoadDetails : Form
     {
         private readonly Details details;
-        public FrmLoadDetails(Clinic_AppContext db, TvContractor ct, int periodID, string companyCode)
+        public FrmLoadDetails(TvContractor ct, int periodID, string companyCode)
         {
             InitializeComponent();
 
-            details = new Details(db, ct.Client.Id, int.Parse(ct.Id), periodID, companyCode);
+            details = new Details(ct.Client.Id, int.Parse(ct.Id), periodID, companyCode);
 
             clientname.Text = details.ClientName;
             recipientid.Text = details.RecipientID;
@@ -49,11 +49,11 @@ namespace ABABillingAndClaim.Views
             tStatus.Text = details.Status;
         }
 
-        public FrmLoadDetails(Clinic_AppContext db, TvServiceLog sl, int periodID, string companyCode)
+        public FrmLoadDetails(TvServiceLog sl, int periodID, string companyCode)
         {
             InitializeComponent();
 
-            details = new Details(db, int.Parse(sl.Id), companyCode, sl.Contractor.Client.Id.Split('_')[1]);
+            details = new Details(int.Parse(sl.Id), companyCode, sl.Contractor.Client.Id.Split('_')[1]);
 
             clientname.Text = details.ClientName;
             recipientid.Text = details.RecipientID;

@@ -17,17 +17,16 @@ namespace ClinicDOM
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Period()
         {
-            this.Active = false;
             this.ServiceLog = new HashSet<ServiceLog>();
         }
     
         public int Id { get; set; }
-        public System.DateTime StartDate { get; set; }
-        public System.DateTime EndDate { get; set; }
+        public System.DateTimeOffset StartDate { get; set; }
+        public System.DateTimeOffset EndDate { get; set; }
         public bool Active { get; set; }
         public string PayPeriod { get; set; }
-        public System.DateTime DocumentDeliveryDate { get; set; }
-        public System.DateTime PaymentDate { get; set; }
+        public System.DateTimeOffset DocumentDeliveryDate { get; set; }
+        public System.DateTimeOffset PaymentDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ServiceLog> ServiceLog { get; set; }

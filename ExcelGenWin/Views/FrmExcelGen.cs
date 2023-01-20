@@ -1,4 +1,5 @@
-﻿using ClinicDOM;
+﻿using ABABillingAndClaim.Services;
+using ClinicDOM;
 using ExcelGenLib;
 using System;
 using System.Collections.Generic;
@@ -17,10 +18,10 @@ namespace ABABillingAndClaim.Views
     public partial class FrmExcelGen : Form
     {
         public ExcelGenerator ExcelGen; // = new ExcelGenerator();
-        public Clinic_AppContext db;
+        //public Clinic_AppContext db;
         public bool FilePathExist;
         public bool IsValidName;
-        public FrmExcelGen(Clinic_AppContext db)
+        public FrmExcelGen() //Clinic_AppContext db)
         {
             InitializeComponent();
             tbPackFile.Text = ConfigurationManager.AppSettings["excel.packFile"];
@@ -36,10 +37,11 @@ namespace ABABillingAndClaim.Views
                 FilePathExist = false;
             }
 
-            this.db = db;
+            //this.db = db;
 
             ExcelGen = new ExcelGenerator(db, tbProcessLog, pbProgressBar);
-            var periods = ExcelGen.GetPeriods();
+            var periods = BillingService.Instance.GetPeriodsAsync().Result;
+
             ExcelGen.SetPeriod();
             cbPeriods.DataSource = new BindingSource(periods, null);
             cbPeriods.DisplayMember = "formated";
