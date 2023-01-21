@@ -1,4 +1,5 @@
-﻿using ABABillingAndClaim.Utils;
+﻿using ABABillingAndClaim.Models;
+using ABABillingAndClaim.Utils;
 using CefSharp.DevTools.DOM;
 using ClinicDOM;
 using ClinicDOM.DAO;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Entity;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
@@ -235,38 +237,39 @@ namespace ABABillingAndClaim.Services
 
         public async Task SetServiceLogBilled(string serviceLogId, string userId)
         {
-            string commandText;
-            SqlParameter[] sqlParams;
-            commandText = "UPDATE Servicelog SET BilledDate = @BilledDate, Biller = @user, Pending = null WHERE Id = @serviceLogId";
-            sqlParams = new[] {
-                            new SqlParameter("@BilledDate", DateTime.Now),
-                            new SqlParameter("@user", userId),
-                            new SqlParameter("@serviceLogId", serviceLogId)
-                        };
-            await db.Database.ExecuteSqlCommandAsync(commandText, sqlParams);
+            var servLog = await db.ServiceLog.SingleOrDefaultAsync(x => x.Id == serviceLogId);
+
+            if (servLog == null)
+            {
+                servLog.BilledDate = DateTime.Now;
+                servLog.Biller = userId;
+                servLog.Pending = null;
+                db.SaveChanges();
+            }
         }
 
         public async Task SetServiceLogBilled(int periodId, int contratorId, int clientId, string userId)
         {
-            string commandText;
-            SqlParameter[] sqlParams;
-            commandText = "UPDATE Servicelog SET BilledDate = @BilledDate, Biller = @user, Pending = null WHERE periodid = @period AND contractorId = @contractor AND clientId = @client";
-            sqlParams = new[] {
-                            new SqlParameter("@BilledDate", DateTime.Now),
-                            new SqlParameter("@user", userId),
-                            new SqlParameter("@period", periodId),
-                            new SqlParameter("@contractor", contratorId),
-                            new SqlParameter("@client", clientId)
-                        };
-            await db.Database.ExecuteSqlCommandAsync(commandText, sqlParams);
+            var servLog = await db.ServiceLog.SingleOrDefaultAsync(x => (x.PeriodId == periodId && x.ContractorId == contratorId && x.ClientId == clientId));
+
+            if (servLog == null)
+            {
+                servLog.BilledDate = DateTime.Now;
+                servLog.Biller = userId;
+                servLog.Pending = null;
+                db.SaveChanges();
+            }
         }
 
-        public async Task SetServiceLogPendingReason(string serviceLogId, string reason)
+        public async Task SetServiceLogPendingReason(int serviceLogId, string reason)
         {
-            var commandText = "UPDATE Servicelog SET Pending = @reason WHERE Id = @serviceLogId";
-            var serviceLogPr = new SqlParameter("@serviceLogId", serviceLogId);
-            var reasonPr = new SqlParameter("@reason", reason);
-            await db.Database.ExecuteSqlCommandAsync(commandText, new[] { serviceLogPr, reasonPr });
+            var servLog = await db.ServiceLog.SingleOrDefaultAsync(x => x.Id == serviceLogId);
+
+            if (servLog == null)
+            {
+                servLog.Pending = reason;
+                db.SaveChanges();
+            }
         }
     }
 }

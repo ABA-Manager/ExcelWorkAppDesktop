@@ -31,7 +31,7 @@ namespace ABABillingAndClaim.Views
         {
             try
             {
-                await BillingService.Instance.SetServiceLogPendingReason(node.Id, textBox1.Text);
+                await BillingService.Instance.SetServiceLogPendingReason(int.Parse(node.Id), textBox1.Text);
                 return true;
             }
             catch (Exception ex)
