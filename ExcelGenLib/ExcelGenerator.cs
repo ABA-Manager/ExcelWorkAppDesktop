@@ -266,7 +266,7 @@ namespace ExcelGenLib
                     ws.Cells[CurrentRow, "E"] = $"=$F$7*D{CurrentRow}";
                     ws.Cells[CurrentRow, "F"] = $"=D{CurrentRow}+B{CurrentRow}";
 
-                    PrintLogOutput(verbose, outputType, "\t\t\t{0} \t{1} \t{2}", unitDet.unitDetail.DateOfService.DateTime.ToShortDateString(), unitDet.unitDetail.Unit, unitDet.unitDetail.PlaceOfService.Name);
+                    PrintLogOutput(verbose, outputType, "\t\t\t{0} \t{1} \t{2}", unitDet.unitDetail.DateOfService.ToShortDateString(), unitDet.unitDetail.Unit, unitDet.unitDetail.PlaceOfService.Name);
                 }
 
                 if (unitDetList.Count() > 0)

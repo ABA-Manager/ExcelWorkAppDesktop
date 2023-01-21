@@ -29,11 +29,11 @@ namespace ABABillingAndClaim.Services
                                select new ManagerBiller
                                {
                                    Id = sl.Id,
-                                   BilledDate = (DateTimeOffset)sl.BilledDate,
+                                   BilledDate = (DateTime)sl.BilledDate,
                                    Biller = us.UserName,
                                    ClientName = cl.Name,
                                    ContractorName = co.Name,
-                                   CreationDate = (DateTimeOffset)sl.CreatedDate
+                                   CreationDate = (DateTime)sl.CreatedDate
                                }).OrderBy(x => x.ClientName).ToListAsync();
             return query;
         }

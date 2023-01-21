@@ -17,8 +17,8 @@ namespace ClinicDOM
         public int Id { get; set; }
         public string LicenseNumber { get; set; }
         public string Auxiliar { get; set; }
-        public Nullable<System.DateTimeOffset> CreateDate { get; set; }
-        public Nullable<System.DateTimeOffset> ExpireDate { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public Nullable<System.DateTime> ExpireDate { get; set; }
         public int ClientId { get; set; }
     
         public virtual Client Client { get; set; }

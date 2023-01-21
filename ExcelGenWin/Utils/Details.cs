@@ -46,7 +46,7 @@ namespace ABABillingAndClaim.Utils
         public string contractorType;
         public string RenderingProvider;
         public string Pending;
-        public DateTimeOffset? BilledDate;
+        public DateTime? BilledDate;
         public string Status;
 
         public Details(string theClientName, string theRecipientID, string theReferringPhysician, string theRecipientNUmber, string theContractor, string theAuthorizationNUmber, string theDiagnosis, string theRBTUnitRate,

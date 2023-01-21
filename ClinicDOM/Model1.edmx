@@ -156,8 +156,8 @@
           <Property Name="Id" Type="int4" Nullable="false" />
           <Property Name="LicenseNumber" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="Auxiliar" Type="varchar" MaxLength="20" />
-          <Property Name="CreateDate" Type="timestamptz" Precision="7" />
-          <Property Name="ExpireDate" Type="timestamptz" Precision="7" />
+          <Property Name="CreateDate" Type="timestamp" />
+          <Property Name="ExpireDate" Type="timestamp" />
           <Property Name="ClientId" Type="int4" Nullable="false" />
         </EntityType>
         <EntityType Name="Payroll">
@@ -175,12 +175,12 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int4" Nullable="false" />
-          <Property Name="StartDate" Type="timestamptz" Precision="7" Nullable="false" />
-          <Property Name="EndDate" Type="timestamptz" Precision="7" Nullable="false" />
+          <Property Name="StartDate" Type="timestamp" Nullable="false" />
+          <Property Name="EndDate" Type="timestamp" Nullable="false" />
           <Property Name="Active" Type="bool" Nullable="false" />
           <Property Name="PayPeriod" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="DocumentDeliveryDate" Type="timestamptz" Precision="7" Nullable="false" />
-          <Property Name="PaymentDate" Type="timestamptz" Precision="7" Nullable="false" />
+          <Property Name="DocumentDeliveryDate" Type="timestamp" Nullable="false" />
+          <Property Name="PaymentDate" Type="timestamp" Nullable="false" />
         </EntityType>
         <EntityType Name="PlaceOfService">
           <Key>
@@ -213,8 +213,8 @@
           <Property Name="PeriodId" Type="int4" Nullable="false" />
           <Property Name="ContractorId" Type="int4" Nullable="false" />
           <Property Name="ClientId" Type="int4" Nullable="false" />
-          <Property Name="CreatedDate" Type="timestamptz" Precision="7" />
-          <Property Name="BilledDate" Type="timestamptz" Precision="7" />
+          <Property Name="CreatedDate" Type="timestamp" />
+          <Property Name="BilledDate" Type="timestamp" />
           <Property Name="Biller" Type="varchar" MaxLength="450" />
           <Property Name="Pending" Type="varchar" MaxLength="500" />
         </EntityType>
@@ -234,7 +234,7 @@
           <Property Name="Id" Type="int4" Nullable="false" />
           <Property Name="Modifiers" Type="varchar" MaxLength="5" />
           <Property Name="PlaceOfServiceId" Type="int4" Nullable="false" />
-          <Property Name="DateOfService" Type="timestamptz" Precision="7" Nullable="false" />
+          <Property Name="DateOfService" Type="timestamp" Nullable="false" />
           <Property Name="Unit" Type="int4" Nullable="false" />
           <Property Name="ServiceLogId" Type="int4" Nullable="false" />
           <Property Name="SubProcedureId" Type="int4" Nullable="false" />
@@ -818,8 +818,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="LicenseNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Auxiliar" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="CreateDate" Type="DateTimeOffset" />
-          <Property Name="ExpireDate" Type="DateTimeOffset" />
+          <Property Name="CreateDate" Type="DateTime" />
+          <Property Name="ExpireDate" Type="DateTime" />
           <Property Name="ClientId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Client" Relationship="Self.FK_ClientPatientAccount" FromRole="PatientAccount" ToRole="Client" />
         </EntityType>
@@ -843,12 +843,12 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="StartDate" Type="DateTimeOffset" Nullable="false" />
-          <Property Name="EndDate" Type="DateTimeOffset" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" />
           <Property Name="Active" Type="Boolean" Nullable="false" />
           <Property Name="PayPeriod" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="DocumentDeliveryDate" Type="DateTimeOffset" Nullable="false" />
-          <Property Name="PaymentDate" Type="DateTimeOffset" Nullable="false" />
+          <Property Name="DocumentDeliveryDate" Type="DateTime" Nullable="false" />
+          <Property Name="PaymentDate" Type="DateTime" Nullable="false" />
           <NavigationProperty Name="ServiceLog" Relationship="Self.FK_PeriodServiceLog" FromRole="Period" ToRole="ServiceLog" />
         </EntityType>
         <EntityType Name="PlaceOfService">
@@ -886,8 +886,8 @@
           <Property Name="PeriodId" Type="Int32" Nullable="false" />
           <Property Name="ContractorId" Type="Int32" Nullable="false" />
           <Property Name="ClientId" Type="Int32" Nullable="false" />
-          <Property Name="CreatedDate" Type="DateTimeOffset" />
-          <Property Name="BilledDate" Type="DateTimeOffset" />
+          <Property Name="CreatedDate" Type="DateTime" />
+          <Property Name="BilledDate" Type="DateTime" />
           <Property Name="Biller" Type="String" MaxLength="450" FixedLength="false" Unicode="true" />
           <Property Name="Pending" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Client" Relationship="Self.FK_ClientServiceLog" FromRole="ServiceLog" ToRole="Client" />
@@ -913,7 +913,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Modifiers" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
           <Property Name="PlaceOfServiceId" Type="Int32" Nullable="false" />
-          <Property Name="DateOfService" Type="DateTimeOffset" Nullable="false" />
+          <Property Name="DateOfService" Type="DateTime" Nullable="false" />
           <Property Name="Unit" Type="Int32" Nullable="false" />
           <Property Name="ServiceLogId" Type="Int32" Nullable="false" />
           <Property Name="SubProcedureId" Type="Int32" Nullable="false" />

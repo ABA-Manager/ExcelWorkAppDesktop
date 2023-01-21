@@ -14,7 +14,7 @@ namespace ABABillingAndClaim.Utils
 
         public string Status { get; set; }
 
-        public DateTimeOffset? CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         
         public TvContractor Contractor { get; set; }
     }

@@ -24,8 +24,8 @@ namespace ClinicDOM
         public int PeriodId { get; set; }
         public int ContractorId { get; set; }
         public int ClientId { get; set; }
-        public Nullable<System.DateTimeOffset> CreatedDate { get; set; }
-        public Nullable<System.DateTimeOffset> BilledDate { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public Nullable<System.DateTime> BilledDate { get; set; }
         public string Biller { get; set; }
         public string Pending { get; set; }
     
