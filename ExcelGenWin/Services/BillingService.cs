@@ -235,7 +235,7 @@ namespace ABABillingAndClaim.Services
             } finally { db.Configuration.LazyLoadingEnabled = true; }
         }
 
-        public async Task SetServiceLogBilled(string serviceLogId, string userId)
+        public async Task SetServiceLogBilled(int serviceLogId, string userId)
         {
             var servLog = await db.ServiceLog.SingleOrDefaultAsync(x => x.Id == serviceLogId);
 

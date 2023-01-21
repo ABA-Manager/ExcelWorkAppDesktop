@@ -298,7 +298,7 @@ namespace ABABillingAndClaim.Views
                         {
                             var sl = obj as TvServiceLog;
 
-                            BillingService.Instance.SetServiceLogBilled(sl.Id, _memory.LoggedOndUser.id).Wait();
+                            BillingService.Instance.SetServiceLogBilled(int.Parse(sl.Id), _memory.LoggedOndUser.id).Wait();
                             
                             sl.Status = "billed";
                         }
