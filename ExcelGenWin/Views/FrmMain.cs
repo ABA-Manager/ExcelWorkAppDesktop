@@ -1,6 +1,7 @@
 ﻿using ABABillingAndClaim.Models;
 using ABABillingAndClaim.Services;
 using ClinicDOM;
+using ExcelGenLib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,7 +23,7 @@ namespace ABABillingAndClaim.Views
         private DashboardSetting _dashboardSetting;
 
         // Merge with Mijail y
-        //public Clinic_AppContext db;
+        public Clinic_AppContext db;
 
         public FrmMain()
         {
@@ -98,10 +99,11 @@ namespace ABABillingAndClaim.Views
                 Application.Exit();
             else
             {
-                var db = new Clinic_AppContext($"name={_memoryService.DataBaseEndPoint}");
+                db = new Clinic_AppContext($"name={_memoryService.DataBaseEndPoint}");
                 BillingService.Instance = new BillingService(db);
+                ExcelGenService.Instance = new ExcelGenService(db);
                 // Load dashboard async
-                loadDashboard();
+                loadDashboard(db);
             }
         }
 
@@ -145,7 +147,7 @@ namespace ABABillingAndClaim.Views
                 Application.Exit();
             else
             {
-                db = new Clinic_AppContext($"name={_memoryService.DataBaseEndPoint}");
+                var db = new Clinic_AppContext($"name={_memoryService.DataBaseEndPoint}");
                 loadDashboard(db);
             }
         }

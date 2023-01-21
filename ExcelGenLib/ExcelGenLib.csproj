@@ -111,8 +111,8 @@
     <Compile Include="BillingSummary.cs" />
     <Compile Include="ExcelFileData.cs" />
     <Compile Include="ExcelGenerator.cs" />
+    <Compile Include="ExcelGenService.cs" />
     <Compile Include="ExcelResponse.cs" />
-    <Compile Include="ExtendedPeriod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SummaryItem.cs" />
   </ItemGroup>

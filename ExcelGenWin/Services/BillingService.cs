@@ -1,6 +1,7 @@
 ﻿using ABABillingAndClaim.Utils;
 using CefSharp.DevTools.DOM;
 using ClinicDOM;
+using ClinicDOM.DAO;
 using ExcelGenLib;
 using System;
 using System.Collections.Generic;
@@ -40,10 +41,10 @@ namespace ABABillingAndClaim.Services
 
         public async Task<Period> GetPeriodAsync(int periodID)
         {
-            var infoPeriod = from p in db.Period
+            var infoPeriod = (from p in db.Period
                              where p.Id == periodID
-                             select p;
-            return await infoPeriod.FirstAsync();
+                             select p).Take(1);
+            return await infoPeriod.SingleOrDefaultAsync();
         }
 
 
@@ -155,9 +156,9 @@ namespace ABABillingAndClaim.Services
                         .Include(y => y.Client.Diagnosis)
                         .Include(y => y.Payroll.Procedure)
                         .Include(y => y.Payroll.Contractor)
-                        .Include(y => y.Payroll.ContractorType);
+                        .Include(y => y.Payroll.ContractorType).Take(1);
 
-                return await infoQuery.FirstAsync();
+                return await infoQuery.SingleOrDefaultAsync();
             }
             finally { db.Configuration.LazyLoadingEnabled = true; }
         }
@@ -226,9 +227,9 @@ namespace ABABillingAndClaim.Services
                                  join ct in db.Contractor on pr.ContractorId equals ct.Id
                                  join ctt in db.ContractorType on pr.ContractorTypeId equals ctt.Id
                                  where sl.Id == serviceLogId
-                                 select new ExtendedServiceLog { serviceLog = sl, agreement = ag, client = cl, diagnosis = d, period = p, payroll = pr, procedure = pd, contractor = ct, contractorType = ctt });
+                                 select new ExtendedServiceLog { serviceLog = sl, agreement = ag, client = cl, diagnosis = d, period = p, payroll = pr, procedure = pd, contractor = ct, contractorType = ctt }).Take(1);
 
-                return await infoQuery.FirstAsync();
+                return await infoQuery.SingleOrDefaultAsync();
             } finally { db.Configuration.LazyLoadingEnabled = true; }
         }
 

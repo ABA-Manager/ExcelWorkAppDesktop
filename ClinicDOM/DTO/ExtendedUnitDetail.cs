@@ -1,6 +1,4 @@
-﻿using ClinicDOM;
-
-namespace ABABillingAndClaim.Utils
+﻿namespace ClinicDOM.DAO
 {
     public class ExtendedUnitDetail
     {
