@@ -19,7 +19,7 @@ namespace ABABillingAndClaim.Services
 {
     public class BillingService
     {
-        public static BillingService Instance { get; set; }
+        public static BillingService Instance { get; private set; }
 
         private Clinic_AppContext db;
         public BillingService(Clinic_AppContext db)

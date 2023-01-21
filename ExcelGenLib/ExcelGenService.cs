@@ -12,11 +12,15 @@ namespace ExcelGenLib
 {
     public class ExcelGenService
     {
-        public static ExcelGenService Instance { get; set; }
+        public static ExcelGenService Instance { get; private set; }
         private Clinic_AppContext db { get; set; }
         public ExcelGenService(Clinic_AppContext db)
         {
             this.db = db;
+            if (Instance == null)
+            {
+                Instance = this;
+            }
         }
 
         public async Task<List<Company>> GetCompanies()

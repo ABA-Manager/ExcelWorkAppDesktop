@@ -11,14 +11,16 @@ using System.Threading.Tasks;
 
 namespace ABABillingAndClaim.Services
 {
-    public class Dashboard
+    public class DashboardService
     {
+        public static DashboardService Instance { get; private set; }
+
         private readonly Clinic_AppContext _db;
 
-
-        public Dashboard(Clinic_AppContext db)
+        public DashboardService(Clinic_AppContext db)
         {
             _db = db;
+            DashboardService.Instance = this;
         }
         public IEnumerable<ProfitHistory> GetProfit(int company_id)
         {
@@ -128,6 +130,11 @@ namespace ABABillingAndClaim.Services
                  .ToListAsync();
 
             return periodQry;
+        }
+
+        public async Task<DashboardSetting> FillDasboardSettings()
+        {
+            return new DashboardSetting() { Company = (await GetCompanies()).FirstOrDefault(), Period = (await GetPeriods()).FirstOrDefault() };
         }
     }
 }

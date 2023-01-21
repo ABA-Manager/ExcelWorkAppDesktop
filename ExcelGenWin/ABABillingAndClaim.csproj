@@ -178,7 +178,7 @@
     <Compile Include="Models\UserManagerResponse.cs" />
     <Compile Include="Models\ValidationErrorsModel.cs" />
     <Compile Include="Services\AuthService.cs" />
-    <Compile Include="Services\Dashboard.cs" />
+    <Compile Include="Services\DashboardService.cs" />
     <Compile Include="Services\IDashboard.cs" />
     <Compile Include="Services\ManagerService.cs" />
     <Compile Include="Services\MemoryService.cs" />
