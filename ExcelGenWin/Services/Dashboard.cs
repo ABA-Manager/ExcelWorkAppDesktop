@@ -20,20 +20,21 @@ namespace ABABillingAndClaim.Services
         }
         public IEnumerable<ProfitHistory> GetProfit(int company_id)
         {
-            //var sqlQuery = "EXEC GET_PROFIT @company_id";
-            //var companyParam = new SqlParameter("@company_id", company_id);
-            //return _db.Database.SqlQuery<ProfitHistory>(sqlQuery, companyParam).ToList(); ;
-            return _db.Profit_Dashboard.Where(x=> x.IdCompany==company_id).Select( x=> new ProfitHistory 
-            {
-                Billed = x.Billed,
-                Payment = x.Payment,
-                PayPeriod = x.PayPeriod,
-                Profit = x.Profit
-            })
-                .OrderByDescending(x=> x.PayPeriod)
-                .Take(10)
-                .ToList()
-                .OrderBy(x => x.PayPeriod);
+            var sqlQuery = "EXEC GET_PROFIT @company_id";
+            var companyParam = new SqlParameter("@company_id", company_id);
+            return _db.Database.SqlQuery<ProfitHistory>(sqlQuery, companyParam).ToList(); ;
+            // return _db.Profit_Dashboard.Where(d=> d.IdCompany==company_id).Select( x=> new 
+            //{
+            //    Id = x.Id
+            //    Billed = x.Billed,
+            //    Payment = x.Payment,
+            //    PayPeriod = x.PayPeriod,
+            //    Profit = x.Profit
+            //})
+            //    .OrderByDescending(x=> x.Id)
+            //    .Take(10)
+            //    .ToList()
+            //    .OrderBy(x => x.PayPeriod);
         }
 
         public ServicesLogStatus GetServicesLgStatus(int company_id, int period_id)
