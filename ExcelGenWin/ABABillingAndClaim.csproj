@@ -162,6 +162,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Services\BillingRestService.cs" />
     <Compile Include="Services\BillingService.cs" />
     <Compile Include="Models\CompanyCb.cs" />
     <Compile Include="Models\DashboardSetting.cs" />
