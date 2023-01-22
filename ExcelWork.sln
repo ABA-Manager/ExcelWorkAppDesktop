@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelGenLib", "ExcelGenLib\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ABABillingAndClaim", "ExcelGenWin\ABABillingAndClaim.csproj", "{184A3C4E-B9B2-465E-B233-4592F14C2892}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClinicDOM", "ClinicDOM\ClinicDOM.csproj", "{955DED43-44AB-46AB-86B0-7A7C68104D32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClinicDOM", "ClinicDOM\ClinicDOM.csproj", "{1A665F26-EC0C-4E78-9C58-4C42E70E9179}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{184A3C4E-B9B2-465E-B233-4592F14C2892}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{184A3C4E-B9B2-465E-B233-4592F14C2892}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{184A3C4E-B9B2-465E-B233-4592F14C2892}.Release|Any CPU.Build.0 = Release|Any CPU
-		{955DED43-44AB-46AB-86B0-7A7C68104D32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{955DED43-44AB-46AB-86B0-7A7C68104D32}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{955DED43-44AB-46AB-86B0-7A7C68104D32}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{955DED43-44AB-46AB-86B0-7A7C68104D32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A665F26-EC0C-4E78-9C58-4C42E70E9179}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A665F26-EC0C-4E78-9C58-4C42E70E9179}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A665F26-EC0C-4E78-9C58-4C42E70E9179}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A665F26-EC0C-4E78-9C58-4C42E70E9179}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -13,10 +13,15 @@ namespace ABABillingAndClaim.Services
 {
     public class ManagerService
     {
+        public static ManagerService Instance { get; private set; }
         private readonly Clinic_AppContext _db;
         public ManagerService(Clinic_AppContext db)
-        {
+        {            
             _db = db;
+            if (Instance == null)
+            {
+                Instance = this;
+            }
         }
 
         public async Task<IEnumerable<ManagerBiller>> GetServiceLogsBilled(int period, int company)

@@ -17,7 +17,6 @@ namespace ClinicDOM
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Period()
         {
-            this.Active = false;
             this.ServiceLog = new HashSet<ServiceLog>();
         }
     

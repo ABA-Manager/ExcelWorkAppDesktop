@@ -29,10 +29,10 @@ namespace ClinicDOM
         public string Biller { get; set; }
         public string Pending { get; set; }
     
+        public virtual Client Client { get; set; }
+        public virtual Contractor Contractor { get; set; }
         public virtual Period Period { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UnitDetail> UnitDetail { get; set; }
-        public virtual Contractor Contractor { get; set; }
-        public virtual Client Client { get; set; }
     }
 }

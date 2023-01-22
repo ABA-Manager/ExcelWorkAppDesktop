@@ -1,4 +1,5 @@
-﻿using ClinicDOM;
+﻿using ABABillingAndClaim.Services;
+using ClinicDOM;
 using ExcelGenLib;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,10 @@ namespace ABABillingAndClaim.Views
 {
     public partial class FrmExcelGen : Form
     {
-        public ExcelGenerator ExcelGen; // = new ExcelGenerator();
-        public Clinic_AppContext db;
+        public ExcelGenerator ExcelGen;
         public bool FilePathExist;
         public bool IsValidName;
-        public FrmExcelGen(Clinic_AppContext db)
+        public FrmExcelGen()
         {
             InitializeComponent();
             tbPackFile.Text = ConfigurationManager.AppSettings["excel.packFile"];
@@ -36,11 +36,12 @@ namespace ABABillingAndClaim.Views
                 FilePathExist = false;
             }
 
-            this.db = db;
+            //this.db = db;
 
-            ExcelGen = new ExcelGenerator(db, tbProcessLog, pbProgressBar);
-            var periods = ExcelGen.GetPeriods();
-            ExcelGen.SetPeriod();
+            ExcelGen = new ExcelGenerator(tbProcessLog, pbProgressBar);
+            var periods = BillingService.Instance.GetPeriodsAsync().Result;
+
+            ExcelGen.SetPeriod().Wait();
             cbPeriods.DataSource = new BindingSource(periods, null);
             cbPeriods.DisplayMember = "formated";
             cbPeriods.ValueMember = "Id";
@@ -68,11 +69,11 @@ namespace ABABillingAndClaim.Views
             try
             {
                 if ((int)cbPeriods.SelectedValue != ExcelGen.GetPeriodId())
-                    ExcelGen.SetPeriod((int)cbPeriods.SelectedValue);
+                    ExcelGen.SetPeriod((int)cbPeriods.SelectedValue).Wait();
                 tbProcessLog.AppendText(string.Format("Start Process: {0}\r\n", DateTime.Now));
                 tbProcessLog.AppendText(string.Format("Genering Zip File: {0}\r\n", zipFile));
 
-                var resp = ExcelGen.GenBilling(zipFile, (cbCompany.SelectedItem == null ? "" : cbCompany.SelectedValue.ToString()), password, ExcelGenerator.OutputType.WinForm);
+                var resp = ExcelGen.GenBillingAsync(zipFile, (cbCompany.SelectedItem == null ? "" : cbCompany.SelectedValue.ToString()), password, ExcelGenerator.OutputType.WinForm).Result;
 
                 tbProcessLog.AppendText(string.Format("End Process: {0}\r\n", DateTime.Now));
             }
