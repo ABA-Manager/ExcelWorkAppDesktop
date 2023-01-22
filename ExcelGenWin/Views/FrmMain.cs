@@ -102,7 +102,7 @@ namespace ABABillingAndClaim.Views
                 db = new Clinic_AppContext($"name={_memoryService.DataBaseEndPoint}");
                 new BillingService(db);
                 new ExcelGenService(db);
-                new DashboardService(db);
+                new DashboardService(_memoryService);
                 new ManagerService(db);
                 // Load dashboard async
                 loadDashboard();
@@ -292,7 +292,7 @@ namespace ABABillingAndClaim.Views
         {
             profitHistoryChart.Invoke((MethodInvoker)(() =>
             {
-                var result = DashboardService.Instance.GetServicesLgStatus(company_id, period_id);
+                var result = DashboardService.Instance.GetServicesLogStatus(company_id, period_id);
                 StatusBillingChart.Series.Clear();
 
                 List<string> data = new List<string>() { "Pending", "Billed", "NotBilled" };
