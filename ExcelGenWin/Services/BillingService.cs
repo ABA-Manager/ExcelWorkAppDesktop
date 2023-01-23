@@ -115,36 +115,36 @@ namespace ABABillingAndClaim.Services
             var clientList = new List<TvClient>();
             foreach (var it in queryRes)
             {
-                if (it.client != null && it.contractor != null && it.serviceLog != null)
+                if (it.clientName != null && it.contractorName != null && it.serviceLogCreatedDate != null)
                 {
-                    var paNum = it.patientAccount.Auxiliar != null ? it.patientAccount.Auxiliar : it.patientAccount.LicenseNumber; //it.pa != null ? (sufixList.Contains(it.sp.Name.Substring(3) + ";") ? it.pa.Auxiliar : it.pa.LicenseNumber) : it.cl.AuthorizationNUmber;
-                    if (it.client.Id.ToString() + $"_{paNum}" != lastClient?.Id)
+                    var paNum = it.patientAccountAuxiliar != null ? it.patientAccountAuxiliar : it.patientAccountLicenseNumber; //it.pa != null ? (sufixList.Contains(it.sp.Name.Substring(3) + ";") ? it.pa.Auxiliar : it.pa.LicenseNumber) : it.cl.AuthorizationNUmber;
+                    if (it.clientId.ToString() + $"_{paNum}" != lastClient?.Id)
                     {
                         clientList.Add(lastClient = new TvClient()
                         {
-                            Id = it.client.Id.ToString() + $"_{paNum}",
-                            Name = it.client.Name.Trim() + $" ({paNum})",
+                            Id = it.clientId.ToString() + $"_{paNum}",
+                            Name = it.clientName.Trim() + $" ({paNum})",
                         });
                         lastContractor = null; lastServiceLog = null;
                     }
-                    if (lastContractor == null || int.Parse(lastContractor.Id) != it.contractor.Id)
+                    if (lastContractor == null || int.Parse(lastContractor.Id) != it.contractorId)
                     {
                         lastClient.Contractors.Add(lastContractor = new TvContractor()
                         {
-                            Id = it.contractor.Id.ToString(),
-                            Name = it.contractor.Name.Trim(),
-                            ContratorType = it.contractorType.Name,
+                            Id = it.contractorId.ToString(),
+                            Name = it.contractorName.Trim(),
+                            ContratorType = it.contractorTypeName,
                             Client = lastClient
                         });
                         lastServiceLog = null;
                     }
 
-                    if (lastServiceLog == null || int.Parse(lastServiceLog.Id) != it.serviceLog.Id)
+                    if (lastServiceLog == null || int.Parse(lastServiceLog.Id) != it.serviceLogId)
                         lastContractor.ServiceLogs.Add(lastServiceLog = new TvServiceLog()
                         {
-                            Id = it.serviceLog.Id.ToString(),
-                            CreatedDate = it.serviceLog.CreatedDate,
-                            Status = (it.serviceLog.BilledDate != null) ? "billed" : "empty",
+                            Id = it.serviceLogId.ToString(),
+                            CreatedDate = it.serviceLogCreatedDate,
+                            Status = (it.serviceLogBilledDate != null) ? "billed" : "empty",
                             Contractor = lastContractor
                         });
                 }
