@@ -44,7 +44,7 @@ namespace ABABillingAndClaim.Services
 
         }
 
-        public async Task<object> UpdateBilling(int servicelog)
+        public async Task<string> UpdateBilling(int servicelog)
         {
             var client = new RestClient($"{_memoryService.BaseEndPoint}/billing/UpdateBilling/{servicelog}")
             {
@@ -58,9 +58,9 @@ namespace ABABillingAndClaim.Services
             IRestResponse response = client.Execute(request);
 
             if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
-                return JsonConvert.DeserializeObject<IEnumerable<ManagerBiller>>(response.Content);
+                return "Service log has been successfully updated";
             else
-                return null;
+                return "Service Log not found";
         }
     }
 }
