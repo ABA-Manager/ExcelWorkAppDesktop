@@ -1,5 +1,7 @@
 ﻿using ABABillingAndClaim.Models;
 using ClinicDOM;
+using Newtonsoft.Json;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -13,48 +15,52 @@ namespace ABABillingAndClaim.Services
 {
     public class ManagerService
     {
+        private MemoryService _memoryService;
         public static ManagerService Instance { get; private set; }
-        private readonly Clinic_AppContext _db;
-        public ManagerService(Clinic_AppContext db)
-        {            
-            _db = db;
-            if (Instance == null)
-            {
-                Instance = this;
-            }
+
+        public ManagerService(MemoryService memoryService)
+        {
+            _memoryService = memoryService;
+            Instance = this;
         }
 
         public async Task<IEnumerable<ManagerBiller>> GetServiceLogsBilled(int period, int company)
         {
-            var query = await (from sl in _db.ServiceLog
-                               join cl in _db.Client on sl.ClientId equals cl.Id
-                               join co in _db.Contractor on sl.ContractorId equals co.Id
-                               join us in _db.AspNetUsers on sl.Biller equals us.Id
-                               where sl.PeriodId == period && cl.Agreement.Any(ag => ag.CompanyId == company) && sl.Biller != null
-                               select new ManagerBiller
-                               {
-                                   Id = sl.Id,
-                                   BilledDate = (DateTime)sl.BilledDate,
-                                   Biller = us.UserName,
-                                   ClientName = cl.Name,
-                                   ContractorName = co.Name,
-                                   CreationDate = (DateTime)sl.CreatedDate
-                               }).OrderBy(x => x.ClientName).ToListAsync();
-            return query;
+            var client = new RestClient($"{_memoryService.BaseEndPoint}/billing/GetServiceLogsBilled/{period}/{company}")
+            {
+                Timeout = -1
+            };
+
+            var request = new RestRequest(Method.GET);
+            request.AddHeader("Authorization", $"Bearer {_memoryService.Token}");
+            request.AddHeader("Content-Type", "application/json");
+
+            IRestResponse response = client.Execute(request);
+
+            if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
+                return JsonConvert.DeserializeObject<IEnumerable<ManagerBiller>>(response.Content);
+            else
+                return null;
+
         }
 
-        public async Task<string> UpdateBilling(int servicelog)
+        public async Task<object> UpdateBilling(int servicelog)
         {
-            var service = await _db.ServiceLog.FirstOrDefaultAsync(sl => sl.Id == servicelog);
-            if (service == null) return "Service Log not found";
-            else
+            var client = new RestClient($"{_memoryService.BaseEndPoint}/billing/UpdateBilling/{servicelog}")
             {
-                service.Biller = null;
-                service.BilledDate = null;
+                Timeout = -1
+            };
 
-                await _db.SaveChangesAsync();
-                return "Service log has been successfully updated";
-            }
+            var request = new RestRequest(Method.PUT);
+            request.AddHeader("Authorization", $"Bearer {_memoryService.Token}");
+            request.AddHeader("Content-Type", "application/json");
+
+            IRestResponse response = client.Execute(request);
+
+            if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
+                return JsonConvert.DeserializeObject<IEnumerable<ManagerBiller>>(response.Content);
+            else
+                return null;
         }
     }
 }
