@@ -100,10 +100,10 @@ namespace ABABillingAndClaim.Views
             else
             {
                 db = new Clinic_AppContext($"name={_memoryService.DataBaseEndPoint}");
-                new BillingService(db);
+                new BillingService(_memoryService);
                 new ExcelGenService(db);
                 new DashboardService(_memoryService);
-                new ManagerService(db);
+                new ManagerService(_memoryService);
                 // Load dashboard async
                 loadDashboard();
             }

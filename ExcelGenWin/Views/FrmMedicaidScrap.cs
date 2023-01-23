@@ -55,7 +55,7 @@ namespace ABABillingAndClaim.Views
             cbCompany.DataSource = new BindingSource(companies, null);
             cbCompany.DisplayMember = "Name";
             cbCompany.ValueMember = "Acronym";
-            cbCompany.SelectedValue = companies[0].Acronym;
+            cbCompany.SelectedValue = companies.ToArray()[0].Acronym;
 
             await loadContractorAndClientInfoAsync(
                 cbCompany.SelectedValue.ToString(),
