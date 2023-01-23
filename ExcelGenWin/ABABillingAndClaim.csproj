@@ -188,6 +188,7 @@
     <Compile Include="Utils\NavigatorAccessBase.cs" />
     <Compile Include="Utils\TvClient.cs" />
     <Compile Include="Utils\TvContractor.cs" />
+    <Compile Include="Utils\TvFullData.cs" />
     <Compile Include="Utils\TvObject.cs" />
     <Compile Include="Utils\TvServiceLog.cs" />
     <Compile Include="Views\ChangePassword.cs">

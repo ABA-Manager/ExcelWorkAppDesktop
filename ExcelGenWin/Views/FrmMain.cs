@@ -9,6 +9,7 @@ using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -23,7 +24,7 @@ namespace ABABillingAndClaim.Views
         private DashboardSetting _dashboardSetting;
 
         // Merge with Mijail y
-        public Clinic_AppContext db;
+        //public Clinic_AppContext db;
 
         public FrmMain()
         {
@@ -99,11 +100,11 @@ namespace ABABillingAndClaim.Views
                 Application.Exit();
             else
             {
-                db = new Clinic_AppContext($"name={_memoryService.DataBaseEndPoint}");
-                new BillingService(db);
-                new ExcelGenService(db);
+                //db = new Clinic_AppContext($"name={_memoryService.DataBaseEndPoint}");
+                new BillingService(_memoryService);
+                new ExcelGenService(_memoryService.DataBaseEndPoint, _memoryService.Token);
                 new DashboardService(_memoryService);
-                new ManagerService(db);
+                new ManagerService(_memoryService);
                 // Load dashboard async
                 loadDashboard();
             }
@@ -149,7 +150,7 @@ namespace ABABillingAndClaim.Views
                 Application.Exit();
             else
             {
-                var db = new Clinic_AppContext($"name={_memoryService.DataBaseEndPoint}");
+                //var db = new Clinic_AppContext($"name={_memoryService.DataBaseEndPoint}");
                 loadDashboard();
             }
         }

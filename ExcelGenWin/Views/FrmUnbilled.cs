@@ -83,7 +83,7 @@ namespace ABABillingAndClaim.Views
                         var billed = billedUserDG.Rows[e.RowIndex].DataBoundItem as ManagerBiller;
                         var result = await ManagerService.Instance.UpdateBilling(billed.Id);
                         refreshDataBinding(await GetBilledPatients(currentPeriod.Id, currentCompany.Id));
-                        MessageBox.Show(result);
+                        MessageBox.Show(result.ToString());
                     }
                 }
             }
