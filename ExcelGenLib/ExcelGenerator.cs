@@ -33,7 +33,7 @@ namespace ExcelGenLib
         //}
 
         //private readonly Clinic_AppContext db;
-        private Period period;
+        private ExtendedPeriod period;
         private string TempDirectory;
         private Application app;
         private System.Windows.Forms.TextBox tbProcessLog;
@@ -104,7 +104,7 @@ namespace ExcelGenLib
 
             foreach (var item in contList)
             {
-                if ((analyst = await GenBillingAsync(item.contractor.Id, item.company.Id, password, outputType, verbose)).Name != "")
+                if ((analyst = await GenBillingAsync(item.contractorId, item.companyId, password, outputType, verbose)).Name != "")
                     response.AddAnalyst(analyst.Name, analyst.fileInfo);
                 pos++;
                 if (pbProcessLog != null) pbProcessLog.PerformStep();

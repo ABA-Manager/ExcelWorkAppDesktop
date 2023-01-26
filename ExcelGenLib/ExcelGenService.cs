@@ -18,7 +18,7 @@ namespace ExcelGenLib
         private string _endPoint;
         private string _token;
 
-        public ExcelGenService(string endPoint, string token )
+        public ExcelGenService(string endPoint, string token)
         {
             _endPoint = endPoint;
             _token = token;
@@ -43,12 +43,15 @@ namespace ExcelGenLib
             request.AddHeader("Authorization", $"Bearer {_token}");
             request.AddHeader("Content-Type", "application/json");
 
-            IRestResponse response = client.Execute(request);
+            return await Task.Factory.StartNew(() =>
+            {
+                IRestResponse response = client.Execute(request);
 
-            if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
-                return JsonConvert.DeserializeObject<List<Company>>(response.Content);
-            else
-                return null;
+                if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
+                    return JsonConvert.DeserializeObject<List<Company>>(response.Content);
+                else
+                    return null;
+            });
         }
 
         public async Task<List<ExtendedPeriod>> GetPeriodsAsync()
@@ -69,15 +72,18 @@ namespace ExcelGenLib
             request.AddHeader("Authorization", $"Bearer {_token}");
             request.AddHeader("Content-Type", "application/json");
 
-            IRestResponse response = client.Execute(request);
+            return await Task.Factory.StartNew(() =>
+            {
+                IRestResponse response = client.Execute(request);
 
-            if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
-                return JsonConvert.DeserializeObject<List<ExtendedPeriod>>(response.Content);
-            else
-                return null;
+                if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
+                    return JsonConvert.DeserializeObject<List<ExtendedPeriod>>(response.Content);
+                else
+                    return null;
+            });
         }
 
-        public async Task<Period> GetPeriodAsync(int PeriodId = -1)
+        public async Task<ExtendedPeriod> GetPeriodAsync(int PeriodId = -1)
         {
             //var periodQry = (from p in db.Period
             //                     //join pp in db.Period on p.StartDate equals DbFunctions.AddDays(pp.EndDate, 1)
@@ -96,12 +102,15 @@ namespace ExcelGenLib
             request.AddHeader("Authorization", $"Bearer {_token}");
             request.AddHeader("Content-Type", "application/json");
 
-            IRestResponse response = client.Execute(request);
+            return await Task.Factory.StartNew(() =>
+            {
+                IRestResponse response = client.Execute(request);
 
-            if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
-                return JsonConvert.DeserializeObject<Period>(response.Content);
-            else
-                return null;
+                if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
+                    return JsonConvert.DeserializeObject<ExtendedPeriod>(response.Content);
+                else
+                    return null;
+            });
         }
 
         public async Task<List<ExtendedContractor>> GetExContractorsAsync(string companyCode)
@@ -121,12 +130,15 @@ namespace ExcelGenLib
             request.AddHeader("Authorization", $"Bearer {_token}");
             request.AddHeader("Content-Type", "application/json");
 
-            IRestResponse response = client.Execute(request);
+            return await Task.Factory.StartNew(() =>
+            {
+                IRestResponse response = client.Execute(request);
 
-            if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
-                return JsonConvert.DeserializeObject<List<ExtendedContractor>>(response.Content);
-            else
-                return null;
+                if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
+                    return JsonConvert.DeserializeObject<List<ExtendedContractor>>(response.Content);
+                else
+                    return null;
+            });
         }
 
         public async Task<List<Agreement>> GetAgreementsAsync(int ContractorId, int CompanyId)
@@ -146,12 +158,15 @@ namespace ExcelGenLib
             request.AddHeader("Authorization", $"Bearer {_token}");
             request.AddHeader("Content-Type", "application/json");
 
-            IRestResponse response = client.Execute(request);
+            return await Task.Factory.StartNew(() =>
+            {
+                IRestResponse response = client.Execute(request);
 
-            if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
-                return JsonConvert.DeserializeObject<List<Agreement>>(response.Content);
-            else
-                return null;
+                if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
+                    return JsonConvert.DeserializeObject<List<Agreement>>(response.Content);
+                else
+                    return null;
+            });
 
         }
 
@@ -186,12 +201,15 @@ namespace ExcelGenLib
             request.AddHeader("Authorization", $"Bearer {_token}");
             request.AddHeader("Content-Type", "application/json");
 
-            IRestResponse response = client.Execute(request);
+            return await Task.Factory.StartNew(() =>
+            {
+                IRestResponse response = client.Execute(request);
 
-            if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
-                return JsonConvert.DeserializeObject<List<ExtendedAgrUnitDetail>>(response.Content);
-            else
-                return null;
+                if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
+                    return JsonConvert.DeserializeObject<List<ExtendedAgrUnitDetail>>(response.Content);
+                else
+                    return null;
+            });
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using ABABillingAndClaim.Services;
 using ClinicDOM;
 using ExcelGenLib;
+using RestSharp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -47,8 +48,8 @@ namespace ABABillingAndClaim.Views
             cbPeriods.ValueMember = "Id";
             cbPeriods.SelectedValue = ExcelGen.GetPeriodId();
             cbCompany.DataSource = new BindingSource(ExcelGen.CompanyData, null);
-            cbCompany.DisplayMember = "Value";
-            cbCompany.ValueMember = "Key";
+            cbCompany.DisplayMember = "Name";
+            cbCompany.ValueMember = "Acronym";
             cbCompany.SelectedItem = null;
         }
 

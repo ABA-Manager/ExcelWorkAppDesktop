@@ -124,7 +124,9 @@ namespace ABABillingAndClaim.Utils
 
                 int billed = 0, pendent = 0, empty = 0;
 
-                foreach (var unitDet in BillingService.Instance.GetExUnitDetailsAsync(periodID, contractorID, clientID, pAccount, sufixList).Result)
+                var task = BillingService.Instance.GetExUnitDetailsAsync(periodID, contractorID, clientID, pAccount, sufixList);
+
+                foreach (var unitDet in task.Result)
                 {
                     rates = unitDet.subProcedure.Name.Contains("XP") ? 0 : info.RateEmployees;
                     var calc = (unitDet.unitDetail.SubProcedureId == 1) ? info.Payroll.Procedure.Rate : unitDet.subProcedure.Rate;//double.Parse(unitDet.SubProcedure.Rate.Contains(otherSep) ? unitDet.SubProcedure.Rate.Replace(otherSep, decSep): unitDet.SubProcedure.Rate);

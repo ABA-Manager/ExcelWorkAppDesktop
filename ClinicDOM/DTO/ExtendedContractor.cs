@@ -2,7 +2,7 @@
 {
     public class ExtendedContractor
     {
-        public Contractor contractor { get; set; }
-        public Company company { get; set; }
+        public int contractorId { get; set; }
+        public int companyId { get; set; }
     }
 }
