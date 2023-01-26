@@ -126,32 +126,32 @@ namespace ABABillingAndClaim.Utils
 
                 foreach (var unitDet in BillingService.Instance.GetExUnitDetailsAsync(periodID, contractorID, clientID, pAccount, sufixList).Result)
                 {
-                    rates = unitDet.subProcedure.Name.Contains("XP") ? 0 : info.RateEmployees;
-                    var calc = (unitDet.unitDetail.SubProcedureId == 1) ? info.Payroll.Procedure.Rate : unitDet.subProcedure.Rate;//double.Parse(unitDet.SubProcedure.Rate.Contains(otherSep) ? unitDet.SubProcedure.Rate.Replace(otherSep, decSep): unitDet.SubProcedure.Rate);
+                    rates = unitDet.SubProcedure.Name.Contains("XP") ? 0 : info.RateEmployees;
+                    var calc = (unitDet.SubProcedureId == 1) ? info.Payroll.Procedure.Rate : unitDet.SubProcedure.Rate;//double.Parse(unitDet.SubProcedure.Rate.Contains(otherSep) ? unitDet.SubProcedure.Rate.Replace(otherSep, decSep): unitDet.SubProcedure.Rate);
                     if (table.Rows.Count > 0 && 
-                        (table.Rows[table.Rows.Count - 1]["Day"].ToString() == unitDet.unitDetail.DateOfService.ToString("MM/dd/yy")) &&
-                        (table.Rows[table.Rows.Count - 1]["Procedure"].ToString() == ((unitDet.unitDetail.SubProcedureId == 1) ? info.Payroll.Procedure.Name : unitDet.subProcedure.Name)))
+                        (table.Rows[table.Rows.Count - 1]["Day"].ToString() == unitDet.DateOfService.ToString("MM/dd/yy")) &&
+                        (table.Rows[table.Rows.Count - 1]["Procedure"].ToString() == ((unitDet.SubProcedureId == 1) ? info.Payroll.Procedure.Name : unitDet.SubProcedure.Name)))
                     {
-                        table.Rows[table.Rows.Count - 1]["DailyUnits"] = (double)(table.Rows[table.Rows.Count - 1]["DailyUnits"]) + (unitDet.unitDetail.Unit / 4);
-                        table.Rows[table.Rows.Count - 1]["Unit"] = (int)(table.Rows[table.Rows.Count - 1]["Unit"]) + unitDet.unitDetail.Unit;
+                        table.Rows[table.Rows.Count - 1]["DailyUnits"] = (double)(table.Rows[table.Rows.Count - 1]["DailyUnits"]) + (unitDet.Unit / 4);
+                        table.Rows[table.Rows.Count - 1]["Unit"] = (int)(table.Rows[table.Rows.Count - 1]["Unit"]) + unitDet.Unit;
                         //table.Rows[table.Rows.Count - 1]["Rate"] = (double)(table.Rows[table.Rows.Count - 1]["Rate"]) + calc;
-                        if ((int)(table.Rows[table.Rows.Count - 1]["PosId"]) > unitDet.placeOfService.Id)
+                        if ((int)(table.Rows[table.Rows.Count - 1]["PosId"]) > unitDet.PlaceOfService.Id)
                         {
-                            table.Rows[table.Rows.Count - 1]["PosId"] = unitDet.placeOfService.Id;
-                            table.Rows[table.Rows.Count - 1]["POS"] = unitDet.placeOfService.Value;
+                            table.Rows[table.Rows.Count - 1]["PosId"] = unitDet.PlaceOfService.Id;
+                            table.Rows[table.Rows.Count - 1]["POS"] = unitDet.PlaceOfService.Value;
                         }
                     }
                     else
-                        table.Rows.Add(unitDet.unitDetail.DateOfService.ToString("MM/dd/yy"), unitDet.unitDetail.Unit / 4, unitDet.unitDetail.Unit, unitDet.placeOfService.Id, unitDet.placeOfService.Value, (unitDet.unitDetail.SubProcedureId == 1) ? info.Payroll.Procedure.Name : unitDet.subProcedure.Name, calc);
+                        table.Rows.Add(unitDet.DateOfService.ToString("MM/dd/yy"), unitDet.Unit / 4, unitDet.Unit, unitDet.PlaceOfService.Id, unitDet.PlaceOfService.Value, (unitDet.SubProcedureId == 1) ? info.Payroll.Procedure.Name : unitDet.SubProcedure.Name, calc);
                     
-                    tUnits = tUnits + unitDet.unitDetail.Unit;
-                    total += unitDet.unitDetail.Unit * calc;
+                    tUnits = tUnits + unitDet.Unit;
+                    total += unitDet.Unit * calc;
 
-                    if (unitDet.serviceLog.BilledDate != null) billed++;
-                    if (unitDet.serviceLog.Pending != null &&
-                        unitDet.serviceLog.Pending != "") pendent++;
-                    if (unitDet.serviceLog.Pending == null ||
-                        unitDet.serviceLog.Pending == "") empty++;
+                    if (unitDet.ServiceLog.BilledDate != null) billed++;
+                    if (unitDet.ServiceLog.Pending != null &&
+                        unitDet.ServiceLog.Pending != "") pendent++;
+                    if (unitDet.ServiceLog.Pending == null ||
+                        unitDet.ServiceLog.Pending == "") empty++;
 
                 }
 
@@ -208,26 +208,26 @@ namespace ABABillingAndClaim.Utils
 
                 foreach (var unitDet in BillingService.Instance.GetExUnitDetailsAsync(serviceLogId, pAccount, sufixList).Result)
                 {
-                    rates = unitDet.subProcedure.Name.Contains("XP") ? 0 : info.agreement.RateEmployees;
-                    var calc = (unitDet.unitDetail.SubProcedureId == 1) ? info.payroll.Procedure.Rate : unitDet.subProcedure.Rate;//double.Parse(unitDet.SubProcedure.Rate.Contains(otherSep) ? unitDet.SubProcedure.Rate.Replace(otherSep, decSep): unitDet.SubProcedure.Rate);
+                    rates = unitDet.SubProcedure.Name.Contains("XP") ? 0 : info.agreement.RateEmployees;
+                    var calc = (unitDet.SubProcedureId == 1) ? info.payroll.Procedure.Rate : unitDet.SubProcedure.Rate;//double.Parse(unitDet.SubProcedure.Rate.Contains(otherSep) ? unitDet.SubProcedure.Rate.Replace(otherSep, decSep): unitDet.SubProcedure.Rate);
                     if (table.Rows.Count > 0 &&
-                        (table.Rows[table.Rows.Count - 1]["Day"].ToString() == unitDet.unitDetail.DateOfService.ToString("MM/dd/yy")) &&
-                        (table.Rows[table.Rows.Count - 1]["Procedure"].ToString() == ((unitDet.unitDetail.SubProcedureId == 1) ? info.procedure.Name : unitDet.subProcedure.Name)))
+                        (table.Rows[table.Rows.Count - 1]["Day"].ToString() == unitDet.DateOfService.ToString("MM/dd/yy")) &&
+                        (table.Rows[table.Rows.Count - 1]["Procedure"].ToString() == ((unitDet.SubProcedureId == 1) ? info.procedure.Name : unitDet.SubProcedure.Name)))
                     {
-                        table.Rows[table.Rows.Count - 1]["DailyUnits"] = (double)(table.Rows[table.Rows.Count - 1]["DailyUnits"]) + (unitDet.unitDetail.Unit / 4);
-                        table.Rows[table.Rows.Count - 1]["Unit"] = (int)(table.Rows[table.Rows.Count - 1]["Unit"]) + unitDet.unitDetail.Unit;
+                        table.Rows[table.Rows.Count - 1]["DailyUnits"] = (double)(table.Rows[table.Rows.Count - 1]["DailyUnits"]) + (unitDet.Unit / 4);
+                        table.Rows[table.Rows.Count - 1]["Unit"] = (int)(table.Rows[table.Rows.Count - 1]["Unit"]) + unitDet.Unit;
                         //table.Rows[table.Rows.Count - 1]["Rate"] = (double)(table.Rows[table.Rows.Count - 1]["Rate"]) + calc;
-                        if ((int)(table.Rows[table.Rows.Count - 1]["PosId"]) > unitDet.placeOfService.Id)
+                        if ((int)(table.Rows[table.Rows.Count - 1]["PosId"]) > unitDet.PlaceOfService.Id)
                         {
-                            table.Rows[table.Rows.Count - 1]["PosId"] = unitDet.placeOfService.Id;
-                            table.Rows[table.Rows.Count - 1]["POS"] = unitDet.placeOfService.Value;
+                            table.Rows[table.Rows.Count - 1]["PosId"] = unitDet.PlaceOfService.Id;
+                            table.Rows[table.Rows.Count - 1]["POS"] = unitDet.PlaceOfService.Value;
                         }
                     }
                     else
-                        table.Rows.Add(unitDet.unitDetail.DateOfService.ToString("MM/dd/yy"), unitDet.unitDetail.Unit / 4, unitDet.unitDetail.Unit, unitDet.placeOfService.Id, unitDet.placeOfService.Value, (unitDet.unitDetail.SubProcedureId == 1) ? info.procedure.Name : unitDet.subProcedure.Name, calc);
+                        table.Rows.Add(unitDet.DateOfService.ToString("MM/dd/yy"), unitDet.Unit / 4, unitDet.Unit, unitDet.PlaceOfService.Id, unitDet.PlaceOfService.Value, (unitDet.SubProcedureId == 1) ? info.procedure.Name : unitDet.SubProcedure.Name, calc);
 
-                    tUnits = tUnits + unitDet.unitDetail.Unit;
-                    total += unitDet.unitDetail.Unit * calc;
+                    tUnits = tUnits + unitDet.Unit;
+                    total += unitDet.Unit * calc;
                 }
 
                 if (BilledDate != null) Status = $"Billed on {BilledDate:MM/dd/yy HH:nn}";
