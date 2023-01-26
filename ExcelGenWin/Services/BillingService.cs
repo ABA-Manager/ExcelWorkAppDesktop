@@ -293,7 +293,7 @@ namespace ABABillingAndClaim.Services
             request.AddParameter("application/json", body, ParameterType.RequestBody);
             IRestResponse response = client.Execute(request);
 
-            if ((int)response.StatusCode == 200)
+            if ((int)response.StatusCode >= 200 && (int)response.StatusCode < 300)
             {
                 return JsonConvert.DeserializeObject(response.Content);
             }

@@ -57,8 +57,8 @@ namespace ABABillingAndClaim.Services
 
             IRestResponse response = client.Execute(request);
 
-            if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
-                return JsonConvert.DeserializeObject<IEnumerable<ManagerBiller>>(response.Content);
+            if ((int)response.StatusCode >= 200 && (int)response.StatusCode < 300)
+                return new object { };
             else
                 return null;
         }

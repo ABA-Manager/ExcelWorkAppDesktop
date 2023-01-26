@@ -82,8 +82,15 @@ namespace ABABillingAndClaim.Views
                     {
                         var billed = billedUserDG.Rows[e.RowIndex].DataBoundItem as ManagerBiller;
                         var result = await ManagerService.Instance.UpdateBilling(billed.Id);
-                        refreshDataBinding(await GetBilledPatients(currentPeriod.Id, currentCompany.Id));
-                        MessageBox.Show(result.ToString());
+                        if (result != null)
+                        {
+                            refreshDataBinding(await GetBilledPatients(currentPeriod.Id, currentCompany.Id));
+                            MessageBox.Show("Succefully unbilled Service log");
+                        }
+                        else {
+                            MessageBox.Show("Not has been possible unbilled service log");
+                        }
+                        
                     }
                 }
             }
