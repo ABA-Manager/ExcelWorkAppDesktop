@@ -63,7 +63,7 @@ namespace ABABillingAndClaim.Views
             }
         }
 
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        private async void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             string zipFile = saveFileDialog1.FileName;
             string password = FrmSettings.ExcelPassword;
@@ -74,7 +74,7 @@ namespace ABABillingAndClaim.Views
                 tbProcessLog.AppendText(string.Format("Start Process: {0}\r\n", DateTime.Now));
                 tbProcessLog.AppendText(string.Format("Genering Zip File: {0}\r\n", zipFile));
 
-                var resp = ExcelGen.GenBillingAsync(zipFile, (cbCompany.SelectedItem == null ? "" : cbCompany.SelectedValue.ToString()), password, ExcelGenerator.OutputType.WinForm).Result;
+                var resp = await ExcelGen.GenBillingAsync(zipFile, (cbCompany.SelectedItem == null ? "" : cbCompany.SelectedValue.ToString()), password, ExcelGenerator.OutputType.WinForm);
 
                 tbProcessLog.AppendText(string.Format("End Process: {0}\r\n", DateTime.Now));
             }

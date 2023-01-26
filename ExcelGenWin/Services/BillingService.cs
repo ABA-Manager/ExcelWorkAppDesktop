@@ -43,7 +43,8 @@ namespace ABABillingAndClaim.Services
             if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
             {
 
-                var des = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<List<ExtendedPeriod>>(response.Content));
+                var des = //await Task.Factory.StartNew(() => 
+                JsonConvert.DeserializeObject<List<ExtendedPeriod>>(response.Content);//);
                 return des;
             }
             else
@@ -172,7 +173,7 @@ namespace ABABillingAndClaim.Services
                 return null;
         }
 
-        public async Task<IEnumerable<ExtendedUnitDetail>> GetExUnitDetailsAsync(int periodId, int contractorId, int clientId, string pAccount, string sufixList)
+        public async Task<IEnumerable<UnitDetail>> GetExUnitDetailsAsync(int periodId, int contractorId, int clientId, string pAccount, string sufixList)
         {
             var client = new RestClient($"{_memoryService.BaseEndPoint}/billing/GetExUnitDetails/{periodId}/{contractorId}/{clientId}/{pAccount}/{sufixList}")
             {
@@ -186,15 +187,15 @@ namespace ABABillingAndClaim.Services
             IRestResponse response = client.Execute(request);
 
             if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
-                return JsonConvert.DeserializeObject<IEnumerable<ExtendedUnitDetail>>(response.Content);
+                return JsonConvert.DeserializeObject<IEnumerable<UnitDetail>>(response.Content);
             else
                 return null;
 
         }
 
-        public async Task<IEnumerable<ExtendedUnitDetail>> GetExUnitDetailsAsync(int serviceLogId, string pAccount, string sufixList)
+        public async Task<IEnumerable<UnitDetail>> GetExUnitDetailsAsync(int serviceLogId, string pAccount, string sufixList)
         {
-            var client = new RestClient($"{_memoryService.BaseEndPoint}/billing/GetExUnitDetails/{serviceLogId}/{pAccount}/{sufixList}")
+            var client = new RestClient($"{_memoryService.BaseEndPoint}/billing/GetExUnitDetailsAux/{serviceLogId}/{pAccount}/{sufixList}")
             {
                 Timeout = -1
             };
@@ -206,7 +207,7 @@ namespace ABABillingAndClaim.Services
             IRestResponse response = client.Execute(request);
 
             if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
-                return JsonConvert.DeserializeObject<IEnumerable<ExtendedUnitDetail>>(response.Content);
+                return JsonConvert.DeserializeObject<IEnumerable<UnitDetail>>(response.Content);
             else
                 return null;
         }

@@ -172,7 +172,8 @@ namespace ExcelGenLib
 
             var lastSheet = wb.Worksheets[2];
 
-            if (analyst.ContractorTypeId != 1) throw new Exception("Analyst Contractor not found");
+            if (analyst.ContractorTypeId != 1) 
+                throw new Exception($"Analyst Contractor not found ({analyst.Contractor.Name})");
 
             //Aqui se crea el Excel con el nombre asociado al nombre del Analista
             //wb.Worksheets.Add(lastSheet);

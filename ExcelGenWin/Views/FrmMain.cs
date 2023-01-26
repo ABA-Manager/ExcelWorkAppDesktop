@@ -102,7 +102,7 @@ namespace ABABillingAndClaim.Views
             {
                 //db = new Clinic_AppContext($"name={_memoryService.DataBaseEndPoint}");
                 new BillingService(_memoryService);
-                new ExcelGenService(_memoryService.DataBaseEndPoint, _memoryService.Token);
+                new ExcelGenService(_memoryService.BaseEndPoint, _memoryService.Token);
                 new DashboardService(_memoryService);
                 new ManagerService(_memoryService);
                 // Load dashboard async

@@ -43,15 +43,15 @@ namespace ExcelGenLib
             request.AddHeader("Authorization", $"Bearer {_token}");
             request.AddHeader("Content-Type", "application/json");
 
-            return await Task.Factory.StartNew(() =>
-            {
+            //return await Task.Factory.StartNew(List<Company>() =>
+            //{
                 IRestResponse response = client.Execute(request);
 
                 if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
                     return JsonConvert.DeserializeObject<List<Company>>(response.Content);
                 else
                     return null;
-            });
+            //});
         }
 
         public async Task<List<ExtendedPeriod>> GetPeriodsAsync()
@@ -72,15 +72,15 @@ namespace ExcelGenLib
             request.AddHeader("Authorization", $"Bearer {_token}");
             request.AddHeader("Content-Type", "application/json");
 
-            return await Task.Factory.StartNew(() =>
-            {
+            //return await Task.Factory.StartNew(() =>
+            //{
                 IRestResponse response = client.Execute(request);
 
                 if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
                     return JsonConvert.DeserializeObject<List<ExtendedPeriod>>(response.Content);
                 else
                     return null;
-            });
+            //});
         }
 
         public async Task<ExtendedPeriod> GetPeriodAsync(int PeriodId = -1)
@@ -102,15 +102,15 @@ namespace ExcelGenLib
             request.AddHeader("Authorization", $"Bearer {_token}");
             request.AddHeader("Content-Type", "application/json");
 
-            return await Task.Factory.StartNew(() =>
-            {
+            //return await Task.Factory.StartNew(() =>
+            //{
                 IRestResponse response = client.Execute(request);
 
                 if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
                     return JsonConvert.DeserializeObject<ExtendedPeriod>(response.Content);
                 else
                     return null;
-            });
+            //});
         }
 
         public async Task<List<ExtendedContractor>> GetExContractorsAsync(string companyCode)
@@ -130,15 +130,15 @@ namespace ExcelGenLib
             request.AddHeader("Authorization", $"Bearer {_token}");
             request.AddHeader("Content-Type", "application/json");
 
-            return await Task.Factory.StartNew(() =>
-            {
+            //return await Task.Factory.StartNew(() =>
+            //{
                 IRestResponse response = client.Execute(request);
 
                 if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
                     return JsonConvert.DeserializeObject<List<ExtendedContractor>>(response.Content);
                 else
                     return null;
-            });
+            //});
         }
 
         public async Task<List<Agreement>> GetAgreementsAsync(int ContractorId, int CompanyId)
@@ -149,7 +149,7 @@ namespace ExcelGenLib
 
             //return await agreementQry.ToListAsync();
 
-            var client = new RestClient($"{_endPoint}/GetAgreementsAsync/{ContractorId}/{CompanyId}")
+            var client = new RestClient($"{_endPoint}/excelgen/GetAgreementsAsync/{ContractorId}/{CompanyId}")
             {
                 Timeout = -1
             };
@@ -158,15 +158,15 @@ namespace ExcelGenLib
             request.AddHeader("Authorization", $"Bearer {_token}");
             request.AddHeader("Content-Type", "application/json");
 
-            return await Task.Factory.StartNew(() =>
-            {
+            //return await Task.Factory.StartNew(() =>
+            //{
                 IRestResponse response = client.Execute(request);
 
                 if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
                     return JsonConvert.DeserializeObject<List<Agreement>>(response.Content);
                 else
                     return null;
-            });
+            //});
 
         }
 
@@ -192,7 +192,7 @@ namespace ExcelGenLib
             //                 };
             //return await unitDetQry.ToListAsync();
 
-            var client = new RestClient($"{_endPoint}/GetExAgrUnitDetails/{ClientId}/{ContractorId}/{CompanyId}/{PeriodId}")
+            var client = new RestClient($"{_endPoint}/excelgen/GetExAgrUnitDetails/{ClientId}/{ContractorId}/{CompanyId}/{PeriodId}")
             {
                 Timeout = -1
             };
@@ -201,15 +201,15 @@ namespace ExcelGenLib
             request.AddHeader("Authorization", $"Bearer {_token}");
             request.AddHeader("Content-Type", "application/json");
 
-            return await Task.Factory.StartNew(() =>
-            {
+            //return await Task.Factory.StartNew(() =>
+            //{
                 IRestResponse response = client.Execute(request);
 
                 if ((int)response.StatusCode == 200 || (int)response.StatusCode == 409)
                     return JsonConvert.DeserializeObject<List<ExtendedAgrUnitDetail>>(response.Content);
                 else
                     return null;
-            });
+            //});
         }
     }
 }
