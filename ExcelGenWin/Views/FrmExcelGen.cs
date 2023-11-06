@@ -1,5 +1,7 @@
-﻿using ClinicDOM;
+﻿using ABABillingAndClaim.Services;
+using ClinicDOM;
 using ExcelGenLib;
+using RestSharp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,11 +18,10 @@ namespace ABABillingAndClaim.Views
 {
     public partial class FrmExcelGen : Form
     {
-        public ExcelGenerator ExcelGen; // = new ExcelGenerator();
-        public Clinic_AppContext db;
+        public ExcelGenerator ExcelGen;
         public bool FilePathExist;
         public bool IsValidName;
-        public FrmExcelGen(Clinic_AppContext db)
+        public FrmExcelGen()
         {
             InitializeComponent();
             tbPackFile.Text = ConfigurationManager.AppSettings["excel.packFile"];
@@ -36,18 +37,19 @@ namespace ABABillingAndClaim.Views
                 FilePathExist = false;
             }
 
-            this.db = db;
+            //this.db = db;
 
-            ExcelGen = new ExcelGenerator(db, tbProcessLog, pbProgressBar);
-            var periods = ExcelGen.GetPeriods();
-            ExcelGen.SetPeriod();
+            ExcelGen = new ExcelGenerator(tbProcessLog, pbProgressBar);
+            var periods = BillingService.Instance.GetPeriodsAsync().Result;
+
+            ExcelGen.SetPeriod().Wait();
             cbPeriods.DataSource = new BindingSource(periods, null);
             cbPeriods.DisplayMember = "formated";
             cbPeriods.ValueMember = "Id";
             cbPeriods.SelectedValue = ExcelGen.GetPeriodId();
             cbCompany.DataSource = new BindingSource(ExcelGen.CompanyData, null);
-            cbCompany.DisplayMember = "Value";
-            cbCompany.ValueMember = "Key";
+            cbCompany.DisplayMember = "Name";
+            cbCompany.ValueMember = "Acronym";
             cbCompany.SelectedItem = null;
         }
 
@@ -61,18 +63,18 @@ namespace ABABillingAndClaim.Views
             }
         }
 
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        private async void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             string zipFile = saveFileDialog1.FileName;
             string password = FrmSettings.ExcelPassword;
             try
             {
                 if ((int)cbPeriods.SelectedValue != ExcelGen.GetPeriodId())
-                    ExcelGen.SetPeriod((int)cbPeriods.SelectedValue);
+                    ExcelGen.SetPeriod((int)cbPeriods.SelectedValue).Wait();
                 tbProcessLog.AppendText(string.Format("Start Process: {0}\r\n", DateTime.Now));
                 tbProcessLog.AppendText(string.Format("Genering Zip File: {0}\r\n", zipFile));
 
-                var resp = ExcelGen.GenBilling(zipFile, (cbCompany.SelectedItem == null ? "" : cbCompany.SelectedValue.ToString()), password, ExcelGenerator.OutputType.WinForm);
+                var resp = await ExcelGen.GenBillingAsync(zipFile, (cbCompany.SelectedItem == null ? "" : cbCompany.SelectedValue.ToString()), password, ExcelGenerator.OutputType.WinForm);
 
                 tbProcessLog.AppendText(string.Format("End Process: {0}\r\n", DateTime.Now));
             }

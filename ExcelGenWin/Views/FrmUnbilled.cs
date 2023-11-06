@@ -15,22 +15,18 @@ namespace ABABillingAndClaim.Views
 {
     public partial class FrmUnbilled : Form
     {
-        private readonly Clinic_AppContext _db;
-        private readonly ManagerService _manager;
         private readonly MemoryService _memory;
         private readonly DashboardSetting _dashboardSetting;
         private Company currentCompany = null;
         private Period currentPeriod = null;
-        public FrmUnbilled(Clinic_AppContext db, MemoryService memory, DashboardSetting dashboardSetting)
+        public FrmUnbilled(MemoryService memory, DashboardSetting dashboardSetting)
         {
-            _db = db;
-            _manager = new ManagerService(db);
             _memory = memory;
             _dashboardSetting = dashboardSetting;
             InitializeComponent();
         }
 
-        public async Task<IEnumerable<ManagerBiller>> GetBilledPatients(int period, int company) => await _manager.GetServiceLogsBilled(period, company);
+        public async Task<IEnumerable<ManagerBiller>> GetBilledPatients(int period, int company) => await ManagerService.Instance.GetServiceLogsBilled(period, company);
 
 
         private void billedPatientDG_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
@@ -53,14 +49,13 @@ namespace ABABillingAndClaim.Views
 
         private async void FrmUnbilled_Load(object sender, EventArgs e)
         {
-            var service = new Dashboard(_db);
-            var periods = await service.GetPeriods();
+            var periods = await DashboardService.Instance.GetPeriods();
             periodCb.DataSource = new BindingSource(periods, null);
             periodCb.DisplayMember = "PayPeriod";
             periodCb.ValueMember = "Id";
             periodCb.SelectedValue = _dashboardSetting.Period.Id;
 
-            var companies = await service.GetCompanies();
+            var companies = await DashboardService.Instance.GetCompanies();
             companyCb.DataSource = new BindingSource(companies, null);
             companyCb.DisplayMember = "Name";
             companyCb.ValueMember = "Id";
@@ -86,9 +81,16 @@ namespace ABABillingAndClaim.Views
                     if (MessageBox.Show("You are trying unbilled this service log, Are you sure?", "Confirmation", MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         var billed = billedUserDG.Rows[e.RowIndex].DataBoundItem as ManagerBiller;
-                        var result = await _manager.UpdateBilling(billed.Id);
-                        refreshDataBinding(await GetBilledPatients(currentPeriod.Id, currentCompany.Id));
-                        MessageBox.Show(result);
+                        var result = await ManagerService.Instance.UpdateBilling(billed.Id);
+                        if (result != null)
+                        {
+                            refreshDataBinding(await GetBilledPatients(currentPeriod.Id, currentCompany.Id));
+                            MessageBox.Show("Succefully unbilled Service log");
+                        }
+                        else {
+                            MessageBox.Show("Not has been possible unbilled service log");
+                        }
+                        
                     }
                 }
             }

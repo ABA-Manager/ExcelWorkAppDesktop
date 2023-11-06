@@ -17,7 +17,6 @@ namespace ClinicDOM
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Company()
         {
-            this.Enabled = true;
             this.Agreement = new HashSet<Agreement>();
             this.Payroll = new HashSet<Payroll>();
         }

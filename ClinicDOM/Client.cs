@@ -17,11 +17,9 @@ namespace ClinicDOM
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Client()
         {
-            this.Sequence = 1;
-            this.Enabled = true;
             this.Agreement = new HashSet<Agreement>();
+            this.PatientAccount1 = new HashSet<PatientAccount>();
             this.ServiceLog = new HashSet<ServiceLog>();
-            this.PatientAccounts = new HashSet<PatientAccount>();
         }
     
         public int Id { get; set; }
@@ -39,11 +37,11 @@ namespace ClinicDOM
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Agreement> Agreement { get; set; }
-        public virtual ReleaseInformation ReleaseInformation { get; set; }
-        public virtual Diagnosis Diagnosis { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PatientAccount> PatientAccount1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ServiceLog> ServiceLog { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PatientAccount> PatientAccounts { get; set; }
+        public virtual Diagnosis Diagnosis { get; set; }
+        public virtual ReleaseInformation ReleaseInformation { get; set; }
     }
 }

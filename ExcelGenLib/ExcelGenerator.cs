@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Data.Entity;
 using System.Threading.Tasks;
 using Action = System.Action;
+using System.Runtime.CompilerServices;
 //using DocumentFormat.OpenXML;
 
 namespace ExcelGenLib
@@ -31,38 +32,22 @@ namespace ExcelGenLib
         //    Process.GetProcessById(id).Kill();
         //}
 
-        private readonly Clinic_AppContext db;
-        private Period period;
+        //private readonly Clinic_AppContext db;
+        private ExtendedPeriod period;
         private string TempDirectory;
         private Application app;
         private System.Windows.Forms.TextBox tbProcessLog;
         private System.Windows.Forms.ToolStripProgressBar pbProcessLog;
-        public Dictionary<string, string> CompanyData;
+        public List<Company> CompanyData;
         public Dictionary<string, Dictionary<string, SummaryItem>> summaries;
         public Dictionary<string, SortedDictionary<string, double>> fullPayroll;
 
-        public List<ExtendedPeriod> GetPeriods()
+        public async Task SetPeriod(int PeriodId = -1)
         {
-            var periodQry = from p in db.Period
-                            where (p.StartDate < DateTime.Now)
-                            orderby p.StartDate descending
-                            select new ExtendedPeriod { Id = p.Id, StartDate = p.StartDate, EndDate = p.EndDate, PayPeriod = p.PayPeriod };
+            period = await ExcelGenService.Instance.GetPeriodAsync(PeriodId);
 
-
-            return periodQry.ToList();
-        }
-
-        public void SetPeriod(int PeriodId = -1)
-        {
-            var periodQry = (from p in db.Period
-                             join pp in db.Period on p.StartDate equals DbFunctions.AddDays(pp.EndDate, 1)
-                             where (PeriodId == -1 && p.EndDate < DateTime.Now) || (PeriodId != -1 && p.Id == PeriodId)
-                             orderby p.StartDate descending
-                             select new { period = p, previous = pp }).Take(1);
-
-            if (periodQry.Count() != 1)
-                throw new Exception("Period not found or found more than one");
-            period = periodQry.First().period;
+            if (period == null)
+                throw new Exception("Period not found or found more than one");            
         }
 
         public int GetPeriodId()
@@ -70,17 +55,9 @@ namespace ExcelGenLib
             return period.Id;
         }
 
-        public ExcelGenerator(Clinic_AppContext db)
+        public ExcelGenerator()
         {
-            //app = new Application();
-            this.db = db;
-            CompanyData = new Dictionary<string, string>();
-
-            var companyQry = from c in db.Company
-                             select c;
-
-            foreach (var co in companyQry.ToList())
-                CompanyData.Add(co.Acronym, co.Name);
+            CompanyData = ExcelGenService.Instance.GetCompanies().Result;
         }
 
         public async Task GetExcelApp()
@@ -88,7 +65,7 @@ namespace ExcelGenLib
             await Task.Run(() => app = new Application());
         }
 
-        public ExcelGenerator(Clinic_AppContext db, System.Windows.Forms.TextBox tbLog = null, System.Windows.Forms.ToolStripProgressBar pbProgress = null) : this(db)
+        public ExcelGenerator(System.Windows.Forms.TextBox tbLog = null, System.Windows.Forms.ToolStripProgressBar pbProgress = null) : this()
         {
             tbProcessLog = tbLog;
             pbProcessLog = pbProgress;
@@ -107,7 +84,7 @@ namespace ExcelGenLib
             //CloseExcelProcess(app);
         }
 
-        public ExcelResponse GenBilling(string zipFile, string company = "", string password = "", OutputType outputType = OutputType.Console, bool verbose = true)
+        public async Task<ExcelResponse> GenBillingAsync(string zipFile, string company = "", string password = "", OutputType outputType = OutputType.Console, bool verbose = true)
         {
             var response = new ExcelResponse(zipFile);
             ExcelFileData analyst;
@@ -115,11 +92,8 @@ namespace ExcelGenLib
             summaries = new Dictionary<string, Dictionary<string, SummaryItem>>();
             fullPayroll = new Dictionary<string, SortedDictionary<string, double>>();
 
-            var contractorsQry = (from ag in db.Agreement
-                                  where ag.Payroll.ContractorTypeId == 1 && (company == "" | ag.Company.Acronym == company)
-                                  select new { contractor = ag.Payroll.Contractor, company = ag.Company }).Distinct();
+            var contList = await ExcelGenService.Instance.GetExContractorsAsync(company);
 
-            var contList = contractorsQry.ToList();
             var pos = 0;
             
             if (pbProcessLog != null)
@@ -130,7 +104,7 @@ namespace ExcelGenLib
 
             foreach (var item in contList)
             {
-                if ((analyst = GenBilling(item.contractor.Id, item.company.Id, password, outputType, verbose)).Name != "")
+                if ((analyst = await GenBillingAsync(item.contractorId, item.companyId, password, outputType, verbose)).Name != "")
                     response.AddAnalyst(analyst.Name, analyst.fileInfo);
                 pos++;
                 if (pbProcessLog != null) pbProcessLog.PerformStep();
@@ -178,17 +152,14 @@ namespace ExcelGenLib
                 }
         }
 
-        public ExcelFileData GenBilling(int ContractorId, int CompanyId, string password = "", OutputType outputType = OutputType.Console, bool verbose = false)
+        public async Task<ExcelFileData> GenBillingAsync(int ContractorId, int CompanyId, string password = "", OutputType outputType = OutputType.Console, bool verbose = false)
         {
             var AnalystProc = new Dictionary<string, List<string>>();
 
             var billingSummary = new BillingSummary();
 
-            var agreementQry = from ag in db.Agreement
-                               where ag.Payroll.ContractorId == ContractorId && ag.CompanyId == CompanyId
-                               select ag;
+            var agreements = await ExcelGenService.Instance.GetAgreementsAsync(ContractorId, CompanyId);
 
-            var agreements = agreementQry.ToList();
             var analyst = agreements.First().Payroll;
 
             billingSummary.Analyst = analyst.Contractor.Name;
@@ -201,7 +172,8 @@ namespace ExcelGenLib
 
             var lastSheet = wb.Worksheets[2];
 
-            if (analyst.ContractorTypeId != 1) throw new Exception("Analyst Contractor not found");
+            if (analyst.ContractorTypeId != 1) 
+                throw new Exception($"Analyst Contractor not found ({analyst.Contractor.Name})");
 
             //Aqui se crea el Excel con el nombre asociado al nombre del Analista
             //wb.Worksheets.Add(lastSheet);
@@ -213,25 +185,6 @@ namespace ExcelGenLib
 
             foreach (var agreement in agreements)
             {
-                var unitDetQry = from ag in db.Agreement
-                                 join pr in db.Payroll on ag.PayrollId equals pr.Id
-                                 join sl in db.ServiceLog on new { ag.ClientId, pr.ContractorId } equals new { sl.ClientId, sl.ContractorId }
-                                 join ud in db.UnitDetail on sl.Id equals ud.ServiceLogId
-                                 where sl.ClientId == agreement.ClientId &&
-                                   ((ag.Payroll.ContractorTypeId == 1 && sl.ContractorId == analyst.ContractorId) ||
-                                    (ag.Payroll.ContractorTypeId != 1 && !(from inag in db.Agreement where inag.CompanyId == CompanyId && inag.ClientId == agreement.ClientId && inag.Payroll.ContractorId < analyst.ContractorId && inag.Payroll.ContractorTypeId == 1 select inag).Any())) &&
-                                   ag.CompanyId == CompanyId &&
-                                   sl.PeriodId == period.Id
-                                 //sl.CreatedDate > DbFunctions.AddDays(previousPeriod.DocumentDeliveryDate, 2) &&
-                                 //sl.CreatedDate <= DbFunctions.AddDays(period.DocumentDeliveryDate, 2)                                   
-                                 orderby sl.ClientId, ag.Payroll.ContractorTypeId, sl.ContractorId, ud.SubProcedureId, ud.DateOfService
-                                 select new
-                                 {
-                                     serviceLog = sl,
-                                     unitDetail = ud,
-                                     agreement = ag
-                                 };
-
                 string LastClient = "", LastContractor = "", LastSubProc = "", LastExtra = "";
                 int LastSubProcId = -1;
                 co = agreement.Company;
@@ -242,7 +195,7 @@ namespace ExcelGenLib
                     fullPayroll.Add(co.Acronym, new SortedDictionary<string, double>());
                 }
 
-                var unitDetList = unitDetQry.ToList();
+                var unitDetList = await ExcelGenService.Instance.GetExAgrUnitDetails(agreement.ClientId, analyst.ContractorId, CompanyId, period.Id);
                 dynamic ws = null;
                 foreach (var unitDet in unitDetList)
                 {
@@ -317,7 +270,7 @@ namespace ExcelGenLib
                     PrintLogOutput(verbose, outputType, "\t\t\t{0} \t{1} \t{2}", unitDet.unitDetail.DateOfService.ToShortDateString(), unitDet.unitDetail.Unit, unitDet.unitDetail.PlaceOfService.Name);
                 }
 
-                if (unitDetList.Count > 0)
+                if (unitDetList.Count() > 0)
                 {
                     hasData = true;
                     if (!fullPayroll[co.Acronym].ContainsKey($"{LastContractor}|{LastExtra}"))
@@ -496,7 +449,7 @@ namespace ExcelGenLib
             ws.Name = "Payroll";
 
             ws.Range["A1", "C1"].Merge();
-            ws.Range["A1"] = $"{CompanyData[co].ToUpper()} PAYROLL from {period.StartDate:MM.dd.yy} to {period.EndDate:MM.dd.yy} {period.PayPeriod}";
+            ws.Range["A1"] = $"{CompanyData.Where(x => x.Acronym == co).Take(1).Single().Name.ToUpper()} PAYROLL from {period.StartDate:MM.dd.yy} to {period.EndDate:MM.dd.yy} {period.PayPeriod}";
             ws.Range["A1"].HorizontalAlignment = XlHAlign.xlHAlignCenter;
             ws.Range["A1"].Font.Bold = true;
             ws.Range["A1"].Font.Size = 12;

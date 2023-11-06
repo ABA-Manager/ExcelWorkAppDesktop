@@ -7,12 +7,10 @@ namespace ABABillingAndClaim.Views
 {
     public partial class FrmDashboardSetting : Form
     {
-        private readonly Clinic_AppContext _db;
         public DashboardSetting _dashboardSetting;
 
-        public FrmDashboardSetting(Clinic_AppContext db, DashboardSetting dashboardSetting)
+        public FrmDashboardSetting(DashboardSetting dashboardSetting)
         {
-            _db = db;
             _dashboardSetting = dashboardSetting;
             InitializeComponent();
         }
@@ -26,14 +24,13 @@ namespace ABABillingAndClaim.Views
 
         private async void FrmDashboardSetting_Load(object sender, System.EventArgs e)
         {
-            var service = new Dashboard(_db);
-            var periods = await service.GetPeriods();
+            var periods = await DashboardService.Instance.GetPeriods();
             periodCb.DataSource = new BindingSource(periods, null);
             periodCb.DisplayMember = "PayPeriod";
             periodCb.ValueMember = "Id";
             periodCb.SelectedValue = _dashboardSetting.Period.Id;
 
-            var companies = await service.GetCompanies();
+            var companies = await DashboardService.Instance.GetCompanies();
             companyCb.DataSource = new BindingSource(companies, null);
             companyCb.DisplayMember = "Name";
             companyCb.ValueMember = "Id";

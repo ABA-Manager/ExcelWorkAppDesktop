@@ -12,12 +12,13 @@ using System.Windows.Forms;
 using System.Globalization;
 using System.Configuration;
 using System.Security.Principal;
+using ABABillingAndClaim.Services;
 
 namespace ABABillingAndClaim.Utils
 {
     public class Details
     {
-        private readonly Clinic_AppContext db;
+        //private readonly Clinic_AppContext db;
         public DataTable table;
 
         public string ClientName;
@@ -48,11 +49,11 @@ namespace ABABillingAndClaim.Utils
         public DateTime? BilledDate;
         public string Status;
 
-        public Details(Clinic_AppContext vDb, string theClientName, string theRecipientID, string theReferringPhysician, string theRecipientNUmber, string theContractor, string theAuthorizationNUmber, string theDiagnosis, string theRBTUnitRate,
+        public Details(string theClientName, string theRecipientID, string theReferringPhysician, string theRecipientNUmber, string theContractor, string theAuthorizationNUmber, string theDiagnosis, string theRBTUnitRate,
                 string theAnalystUnitRate, string theRBTprovider, string theAnalystprovider, string thePeriod, string therango, int theWeeklyApprovedRBT, int theWeeklyApprovedAnalyst, double thetUnits,
                 string thetHRS, string thetPaidRBT, string thetlPaidAnalyst, double therates, string thetBilled, string theamountPaid, string thecontractorType, string therenderingProvider)
         {
-            db = vDb;
+            //db = vDb;
 
             ClientName = theClientName;
             RecipientID = theRecipientID;
@@ -77,35 +78,18 @@ namespace ABABillingAndClaim.Utils
             contractorType = thecontractorType;
             RenderingProvider = therenderingProvider;
         }
-        public Details(Clinic_AppContext vDb, string compClientID, int contractorID, int periodID, string companyCode)
+        public Details(string compClientID, int contractorID, int periodID, string companyCode)
         {
             var decSep = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
             var otherSep = (decSep == "." ? "," : ".");
             var clientID = int.Parse(compClientID.Split('_')[0]);
             var pAccount = compClientID.Split('_')[1];
 
-            db = vDb;
+            //db = vDb;
 
-            var infoPeriod = from p in db.Period
-                             where p.Id == periodID
-                             select p;
-            var period = infoPeriod.First();
+            var period = BillingService.Instance.GetPeriodAsync(periodID).Result;
 
-            db.Configuration.LazyLoadingEnabled = false;
-
-            var infoQuery = (from ag in db.Agreement
-                             where ag.Payroll.Contractor.ServiceLog.Any(x => x.PeriodId == periodID) &&
-                                    ag.Company.Acronym == companyCode &&
-                                    ag.Payroll.ContractorId == contractorID &&
-                                    ag.ClientId == clientID
-                             select ag)
-                                .Include(y => y.Company)
-                                .Include(y => y.Client.Diagnosis)
-                                .Include(y => y.Payroll.Procedure)
-                                .Include(y => y.Payroll.Contractor)
-                                .Include(y => y.Payroll.ContractorType);
-
-            var info = infoQuery.First();
+            var info = BillingService.Instance.GetAgreementAsync(companyCode, periodID, contractorID, clientID).Result;
 
             if (info != null)
             {
@@ -138,54 +122,38 @@ namespace ABABillingAndClaim.Utils
 
                 var sufixList = ConfigurationManager.AppSettings["extra.procedure.list"].ToString() + ";";
 
-                var infoUnitDet = from ud in db.UnitDetail
-                                  join slo in db.ServiceLog on ud.ServiceLogId equals slo.Id
-                                  join sp in db.SubProcedure on ud.SubProcedureId equals sp.Id
-                                  join ps in db.PlaceOfService on ud.PlaceOfServiceId equals ps.Id
-                                  join pa in db.PatientAccount on slo.ClientId equals pa.ClientId
-                                  where pa.CreateDate <= ud.DateOfService && pa.ExpireDate >= ud.DateOfService
-                                     && (pAccount == pa.Auxiliar ? sufixList.Contains(sp.Name.Substring(3) + ";") : false
-                                      || pAccount == pa.LicenseNumber ? !sufixList.Contains(sp.Name.Substring(3) + ";") : false)
-                                     && (from sl in db.ServiceLog
-                                         where sl.ClientId == clientID
-                                            && sl.ContractorId == contractorID
-                                            && sl.PeriodId == periodID
-                                            && sl.Id == ud.ServiceLogId
-                                         select 1).Any()
-                                  orderby new { ud.DateOfService, ud.SubProcedureId } 
-                                  select new { ud, slo, sp, ps, pa };
-
                 int billed = 0, pendent = 0, empty = 0;
 
-                foreach (var unitDet in infoUnitDet.ToList())
+                var task = BillingService.Instance.GetExUnitDetailsAsync(periodID, contractorID, clientID, pAccount, sufixList);
+
+                foreach (var unitDet in task.Result)
                 {
-                    rates = unitDet.sp.Name.Contains("XP") ? 0 : info.RateEmployees;
-                    var calc = (unitDet.ud.SubProcedureId == 1) ? info.Payroll.Procedure.Rate : unitDet.sp.Rate;//double.Parse(unitDet.SubProcedure.Rate.Contains(otherSep) ? unitDet.SubProcedure.Rate.Replace(otherSep, decSep): unitDet.SubProcedure.Rate);
+                    rates = unitDet.SubProcedure.Name.Contains("XP") ? 0 : info.RateEmployees;
+                    var calc = (unitDet.SubProcedureId == 1) ? info.Payroll.Procedure.Rate : unitDet.SubProcedure.Rate;//double.Parse(unitDet.SubProcedure.Rate.Contains(otherSep) ? unitDet.SubProcedure.Rate.Replace(otherSep, decSep): unitDet.SubProcedure.Rate);
                     if (table.Rows.Count > 0 && 
-                        (table.Rows[table.Rows.Count - 1]["Day"].ToString() == unitDet.ud.DateOfService.ToString("MM/dd/yy")) &&
-                        (table.Rows[table.Rows.Count - 1]["Procedure"].ToString() == ((unitDet.ud.SubProcedureId == 1) ? info.Payroll.Procedure.Name : unitDet.sp.Name)))
+                        (table.Rows[table.Rows.Count - 1]["Day"].ToString() == unitDet.DateOfService.ToString("MM/dd/yy")) &&
+                        (table.Rows[table.Rows.Count - 1]["Procedure"].ToString() == ((unitDet.SubProcedureId == 1) ? info.Payroll.Procedure.Name : unitDet.SubProcedure.Name)))
                     {
-                        table.Rows[table.Rows.Count - 1]["DailyUnits"] = (double)(table.Rows[table.Rows.Count - 1]["DailyUnits"]) + (unitDet.ud.Unit / 4);
-                        table.Rows[table.Rows.Count - 1]["Unit"] = (int)(table.Rows[table.Rows.Count - 1]["Unit"]) + unitDet.ud.Unit;
+                        table.Rows[table.Rows.Count - 1]["DailyUnits"] = (double)(table.Rows[table.Rows.Count - 1]["DailyUnits"]) + (unitDet.Unit / 4);
+                        table.Rows[table.Rows.Count - 1]["Unit"] = (int)(table.Rows[table.Rows.Count - 1]["Unit"]) + unitDet.Unit;
                         //table.Rows[table.Rows.Count - 1]["Rate"] = (double)(table.Rows[table.Rows.Count - 1]["Rate"]) + calc;
-                        if ((int)(table.Rows[table.Rows.Count - 1]["PosId"]) > unitDet.ps.Id)
+                        if ((int)(table.Rows[table.Rows.Count - 1]["PosId"]) > unitDet.PlaceOfService.Id)
                         {
-                            table.Rows[table.Rows.Count - 1]["PosId"] = unitDet.ps.Id;
-                            table.Rows[table.Rows.Count - 1]["POS"] = unitDet.ps.Value;
+                            table.Rows[table.Rows.Count - 1]["PosId"] = unitDet.PlaceOfService.Id;
+                            table.Rows[table.Rows.Count - 1]["POS"] = unitDet.PlaceOfService.Value;
                         }
                     }
                     else
-                        table.Rows.Add(unitDet.ud.DateOfService.ToString("MM/dd/yy"), unitDet.ud.Unit / 4, unitDet.ud.Unit, unitDet.ps.Id, unitDet.ps.Value, (unitDet.ud.SubProcedureId == 1) ? info.Payroll.Procedure.Name : unitDet.sp.Name, calc);
+                        table.Rows.Add(unitDet.DateOfService.ToString("MM/dd/yy"), unitDet.Unit / 4, unitDet.Unit, unitDet.PlaceOfService.Id, unitDet.PlaceOfService.Value, (unitDet.SubProcedureId == 1) ? info.Payroll.Procedure.Name : unitDet.SubProcedure.Name, calc);
                     
-                    tUnits = tUnits + unitDet.ud.Unit;
-                    total += unitDet.ud.Unit * calc;
+                    tUnits = tUnits + unitDet.Unit;
+                    total += unitDet.Unit * calc;
 
-                    if (unitDet.slo.BilledDate != null) billed++;
-                    if (unitDet.slo.Pending != null &&
-                        unitDet.slo.Pending != "") pendent++;
-                    if (unitDet.slo.BilledDate == null &&
-                        (unitDet.slo.Pending == null ||
-                        unitDet.slo.Pending == "")) empty++;
+                    if (unitDet.ServiceLog.BilledDate != null) billed++;
+                    if (unitDet.ServiceLog.Pending != null &&
+                        unitDet.ServiceLog.Pending != "") pendent++;
+                    if (unitDet.ServiceLog.Pending == null ||
+                        unitDet.ServiceLog.Pending == "") empty++;
 
                 }
 
@@ -196,52 +164,36 @@ namespace ABABillingAndClaim.Utils
                 tHRS = "" + tUnits / 4;
                 tlPaidAnalyst = "$" + total;
             }
-
-            db.Configuration.LazyLoadingEnabled = true;
         }
 
-        public Details(Clinic_AppContext vDb, int serviceLogId, string companyCode, string pAccount)
+        public Details(/*Clinic_AppContext vDb, */int serviceLogId, string companyCode, string pAccount)
         {
             var decSep = CultureInfo.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
             var otherSep = (decSep == "." ? "," : ".");
 
-            db = vDb;
+            //db = vDb;
 
-            db.Configuration.LazyLoadingEnabled = false;
-
-            var infoQuery = (from sl in db.ServiceLog
-                             join ag in db.Agreement on new { sl.ClientId, sl.ContractorId, companyCode } equals new { ag.ClientId, ag.Payroll.ContractorId, companyCode = ag.Payroll.Company.Acronym }
-                             join cl in db.Client on ag.ClientId equals cl.Id
-                             join d in db.Diagnosis on cl.DiagnosisId equals d.Id
-                             join p in db.Period on sl.PeriodId equals p.Id
-                             join pr in db.Payroll on ag.PayrollId equals pr.Id
-                             join pd in db.Procedure on pr.ProcedureId equals pd.Id
-                             join ct in db.Contractor on pr.ContractorId equals ct.Id
-                             join ctt in db.ContractorType on pr.ContractorTypeId equals ctt.Id
-                             where sl.Id == serviceLogId
-                             select new { sl, ag, cl, d, p, pr, pd, ct, ctt });
-
-            var info = infoQuery.First();
+            var info = BillingService.Instance.GetExServiceLogAsync(companyCode, serviceLogId).Result;
 
             if (info != null)
             {
-                ClientName = info.cl.Name;
-                RecipientID = info.cl.RecipientID;
-                ReferringPhysician = info.cl.ReferringProvider;
-                RecipientNUmber = info.cl.PatientAccount;
-                Contractor = info.ct.Name;
+                ClientName = info.client.Name;
+                RecipientID = info.client.RecipientID;
+                ReferringPhysician = info.client.ReferringProvider;
+                RecipientNUmber = info.client.PatientAccount;
+                Contractor = info.contractor.Name;
                 AuthorizationNUmber = pAccount;//info.cl.AuthorizationNUmber; //info.Client.AuthorizationNUmber;
-                Diagnosis = info.d.Name;
-                WeeklyApprovedRBT = info.cl.WeeklyApprovedRBT;
-                WeeklyApprovedAnalyst = info.cl.WeeklyApprovedAnalyst;
-                contractorType = info.ctt.Name;
-                RBTprovider = info.ct.RenderingProvider;
-                Period = info.p.PayPeriod + " " + companyCode;
-                rango = $"{info.p.StartDate:MM/dd/yy} to {info.p.EndDate:MM/dd/yy}";
-                RBTUnitRate = info.pd.Rate.ToString();
-                RenderingProvider = info.ct.RenderingProvider;
-                BilledDate = info.sl.BilledDate;
-                Pending = info.sl.Pending;
+                Diagnosis = info.diagnosis.Name;
+                WeeklyApprovedRBT = info.client.WeeklyApprovedRBT;
+                WeeklyApprovedAnalyst = info.client.WeeklyApprovedAnalyst;
+                contractorType = info.contractorType.Name;
+                RBTprovider = info.contractor.RenderingProvider;
+                Period = info.period.PayPeriod + " " + companyCode;
+                rango = $"{info.period.StartDate:MM/dd/yy} to {info.period.EndDate:MM/dd/yy}";
+                RBTUnitRate = info.procedure.Rate.ToString();
+                RenderingProvider = info.contractor.RenderingProvider;
+                BilledDate = info.serviceLog.BilledDate;
+                Pending = info.serviceLog.Pending;
 
                 table = new DataTable();
                 table.Columns.Add("Day");
@@ -256,40 +208,32 @@ namespace ABABillingAndClaim.Utils
 
                 var sufixList = ConfigurationManager.AppSettings["extra.procedure.list"].ToString() + ";";
 
-                var infoUnitDet = (from ud in db.UnitDetail
-                                   join slo in db.ServiceLog on ud.ServiceLogId equals slo.Id
-                                   join sp in db.SubProcedure on ud.SubProcedureId equals sp.Id
-                                   join ps in db.PlaceOfService on ud.PlaceOfServiceId equals ps.Id
-                                   join pa in db.PatientAccount on slo.ClientId equals pa.ClientId
-                                   where pa.CreateDate <= ud.DateOfService && pa.ExpireDate >= ud.DateOfService
-                                      && (pAccount == pa.Auxiliar ? sufixList.Contains(sp.Name.Substring(3) + ";") : false
-                                       || pAccount == pa.LicenseNumber ? !sufixList.Contains(sp.Name.Substring(3) + ";") : false)
-                                      && slo.Id == serviceLogId
-                                   orderby ud.DateOfService
-                                   select new { ud, slo, sp, ps, pa });
+                var tsk = BillingService.Instance.GetExUnitDetailsAsync(serviceLogId, pAccount, sufixList);
 
-                foreach (var unitDet in infoUnitDet.ToList())
+                tsk.Wait();
+
+                foreach (var unitDet in tsk.Result)
                 {
-                    rates = unitDet.sp.Name.Contains("XP") ? 0 : info.ag.RateEmployees;
-                    var calc = (unitDet.ud.SubProcedureId == 1) ? info.pr.Procedure.Rate : unitDet.sp.Rate;//double.Parse(unitDet.SubProcedure.Rate.Contains(otherSep) ? unitDet.SubProcedure.Rate.Replace(otherSep, decSep): unitDet.SubProcedure.Rate);
+                    rates = unitDet.SubProcedure.Name.Contains("XP") ? 0 : info.agreement.RateEmployees;
+                    var calc = (unitDet.SubProcedureId == 1) ? info.payroll.Procedure.Rate : unitDet.SubProcedure.Rate;//double.Parse(unitDet.SubProcedure.Rate.Contains(otherSep) ? unitDet.SubProcedure.Rate.Replace(otherSep, decSep): unitDet.SubProcedure.Rate);
                     if (table.Rows.Count > 0 &&
-                        (table.Rows[table.Rows.Count - 1]["Day"].ToString() == unitDet.ud.DateOfService.ToString("MM/dd/yy")) &&
-                        (table.Rows[table.Rows.Count - 1]["Procedure"].ToString() == ((unitDet.ud.SubProcedureId == 1) ? info.pd.Name : unitDet.sp.Name)))
+                        (table.Rows[table.Rows.Count - 1]["Day"].ToString() == unitDet.DateOfService.ToString("MM/dd/yy")) &&
+                        (table.Rows[table.Rows.Count - 1]["Procedure"].ToString() == ((unitDet.SubProcedureId == 1) ? info.procedure.Name : unitDet.SubProcedure.Name)))
                     {
-                        table.Rows[table.Rows.Count - 1]["DailyUnits"] = (double)(table.Rows[table.Rows.Count - 1]["DailyUnits"]) + (unitDet.ud.Unit / 4);
-                        table.Rows[table.Rows.Count - 1]["Unit"] = (int)(table.Rows[table.Rows.Count - 1]["Unit"]) + unitDet.ud.Unit;
+                        table.Rows[table.Rows.Count - 1]["DailyUnits"] = (double)(table.Rows[table.Rows.Count - 1]["DailyUnits"]) + (unitDet.Unit / 4);
+                        table.Rows[table.Rows.Count - 1]["Unit"] = (int)(table.Rows[table.Rows.Count - 1]["Unit"]) + unitDet.Unit;
                         //table.Rows[table.Rows.Count - 1]["Rate"] = (double)(table.Rows[table.Rows.Count - 1]["Rate"]) + calc;
-                        if ((int)(table.Rows[table.Rows.Count - 1]["PosId"]) > unitDet.ps.Id)
+                        if ((int)(table.Rows[table.Rows.Count - 1]["PosId"]) > unitDet.PlaceOfService.Id)
                         {
-                            table.Rows[table.Rows.Count - 1]["PosId"] = unitDet.ps.Id;
-                            table.Rows[table.Rows.Count - 1]["POS"] = unitDet.ps.Value;
+                            table.Rows[table.Rows.Count - 1]["PosId"] = unitDet.PlaceOfService.Id;
+                            table.Rows[table.Rows.Count - 1]["POS"] = unitDet.PlaceOfService.Value;
                         }
                     }
                     else
-                        table.Rows.Add(unitDet.ud.DateOfService.ToString("MM/dd/yy"), unitDet.ud.Unit / 4, unitDet.ud.Unit, unitDet.ps.Id, unitDet.ps.Value, (unitDet.ud.SubProcedureId == 1) ? info.pd.Name : unitDet.sp.Name, calc);
+                        table.Rows.Add(unitDet.DateOfService.ToString("MM/dd/yy"), unitDet.Unit / 4, unitDet.Unit, unitDet.PlaceOfService.Id, unitDet.PlaceOfService.Value, (unitDet.SubProcedureId == 1) ? info.procedure.Name : unitDet.SubProcedure.Name, calc);
 
-                    tUnits = tUnits + unitDet.ud.Unit;
-                    total += unitDet.ud.Unit * calc;
+                    tUnits = tUnits + unitDet.Unit;
+                    total += unitDet.Unit * calc;
                 }
 
                 if (BilledDate != null) Status = $"Billed on {BilledDate:MM/dd/yy HH:nn}";
@@ -299,8 +243,6 @@ namespace ABABillingAndClaim.Utils
                 tHRS = "" + tUnits / 4;
                 tlPaidAnalyst = "$" + total;
             }
-
-            db.Configuration.LazyLoadingEnabled = true;
         }
     }
 }

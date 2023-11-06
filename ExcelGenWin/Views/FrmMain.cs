@@ -1,6 +1,7 @@
 ﻿using ABABillingAndClaim.Models;
 using ABABillingAndClaim.Services;
 using ClinicDOM;
+using ExcelGenLib;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,6 +9,7 @@ using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -22,7 +24,7 @@ namespace ABABillingAndClaim.Views
         private DashboardSetting _dashboardSetting;
 
         // Merge with Mijail y
-        public Clinic_AppContext db;
+        //public Clinic_AppContext db;
 
         public FrmMain()
         {
@@ -45,7 +47,7 @@ namespace ABABillingAndClaim.Views
         {
             try
             {
-                var frm = new FrmExcelGen(db);
+                var frm = new FrmExcelGen();
                 frm.ShowDialog();
             }
             catch (System.Reflection.TargetInvocationException tix)
@@ -98,9 +100,13 @@ namespace ABABillingAndClaim.Views
                 Application.Exit();
             else
             {
-                db = new Clinic_AppContext($"name={_memoryService.DataBaseEndPoint}");
+                //db = new Clinic_AppContext($"name={_memoryService.DataBaseEndPoint}");
+                new BillingService(_memoryService);
+                new ExcelGenService(_memoryService.BaseEndPoint, _memoryService.Token);
+                new DashboardService(_memoryService);
+                new ManagerService(_memoryService);
                 // Load dashboard async
-                loadDashboard(db);
+                loadDashboard();
             }
         }
 
@@ -108,7 +114,7 @@ namespace ABABillingAndClaim.Views
         {
             try
             {
-                var frm = new FrmMedicaidScrap(db, _memoryService);
+                var frm = new FrmMedicaidScrap(_memoryService);
                 frm.ShowDialog();
             }
             catch (System.Reflection.TargetInvocationException tix)
@@ -144,8 +150,8 @@ namespace ABABillingAndClaim.Views
                 Application.Exit();
             else
             {
-                db = new Clinic_AppContext($"name={_memoryService.DataBaseEndPoint}");
-                loadDashboard(db);
+                //var db = new Clinic_AppContext($"name={_memoryService.DataBaseEndPoint}");
+                loadDashboard();
             }
         }
 
@@ -201,22 +207,21 @@ namespace ABABillingAndClaim.Views
         }
 
         // Building DashBoard
-        private async void loadDashboard(Clinic_AppContext _db)
+        private async void loadDashboard()
         {
-            Dashboard service = new Dashboard(_db);
             try
             {
                 if (_dashboardSetting == null)
-                    await FillDasboardSettings(service);
+                    _dashboardSetting = await DashboardService.Instance.FillDasboardSettings();
 
                 Parallel.Invoke(
-                           () =>  HistoryProfit(service, _dashboardSetting.Company.Id),
-                           () => StatusServicesLog(service, _dashboardSetting.Company.Id, _dashboardSetting.Period.Id)
+                           () => HistoryProfit(_dashboardSetting.Company.Id),
+                           () => StatusServicesLog(_dashboardSetting.Company.Id, _dashboardSetting.Period.Id)
                            );
 
-                ServiceLogWithoutPatientAccount(service, _dashboardSetting.Company.Id, _dashboardSetting.Period.Id);
-               
-                GeneralData(service, _dashboardSetting.Company.Id, _dashboardSetting.Period.Id);
+                ServiceLogWithoutPatientAccount(_dashboardSetting.Company.Id, _dashboardSetting.Period.Id);
+
+                GeneralData(_dashboardSetting.Company.Id, _dashboardSetting.Period.Id);
 
                 toolStripStatusLabel1.Text = $"Company {_dashboardSetting.Company.Name}";
                 toolStripStatusLabel2.Text = $"Period {_dashboardSetting.Period.PayPeriod}";
@@ -232,20 +237,13 @@ namespace ABABillingAndClaim.Views
             }
         }
 
-        private async Task FillDasboardSettings(Dashboard service)
-        {
-            _dashboardSetting = new DashboardSetting();
-            var companies = await service.GetCompanies();
-            var periods = await service.GetPeriods();
-            _dashboardSetting.Company = companies.FirstOrDefault();
-            _dashboardSetting.Period = periods.FirstOrDefault();
-        }
 
-        private void HistoryProfit(Dashboard _service, int company_id = 1)
+
+        private void HistoryProfit(int company_id = 1)
         {
             profitHistoryChart.Invoke((MethodInvoker)(() =>
             {
-                var historyBindingSource = _service.GetProfit(company_id: company_id);
+                var historyBindingSource = DashboardService.Instance.GetProfit(company_id: company_id);
 
                 var objChart = profitHistoryChart.ChartAreas[0];
 
@@ -291,11 +289,11 @@ namespace ABABillingAndClaim.Views
             }));
         }
 
-        private void StatusServicesLog(Dashboard _service, int company_id = 1, int period_id = 20)
+        private void StatusServicesLog(int company_id = 1, int period_id = 20)
         {
             profitHistoryChart.Invoke((MethodInvoker)(() =>
             {
-                var result = _service.GetServicesLgStatus(company_id, period_id);
+                var result = DashboardService.Instance.GetServicesLogStatus(company_id, period_id);
                 StatusBillingChart.Series.Clear();
 
                 List<string> data = new List<string>() { "Pending", "Billed", "NotBilled" };
@@ -312,18 +310,18 @@ namespace ABABillingAndClaim.Views
             }));
         }
 
-        private void ServiceLogWithoutPatientAccount(Dashboard _service, int company_id = 1, int period_id = 20)
+        private void ServiceLogWithoutPatientAccount(int company_id = 1, int period_id = 20)//test
         {
             errorPADataGrid.Invoke((MethodInvoker)(delegate
             {
                 serviceLogWithoutPatientAccountBindingSource.Clear();
-                serviceLogWithoutPatientAccountBindingSource.DataSource = _service.GetServiceLogWithoutPatientAccount(company_id, period_id);
+                serviceLogWithoutPatientAccountBindingSource.DataSource = DashboardService.Instance.GetServiceLogWithoutPatientAccount(company_id, period_id);
             }));
         }
 
-        private void GeneralData(Dashboard _service, int company_id = 1, int period_id = 20)
+        private void GeneralData(int company_id = 1, int period_id = 20)
         {
-            var result = _service.GetGeneralData(company_id, period_id);
+            var result = DashboardService.Instance.GetGeneralData(company_id, period_id);
 
             patient.Text = $"{result.Client}";
 
@@ -334,18 +332,18 @@ namespace ABABillingAndClaim.Views
         }
         private void refreshDashboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            loadDashboard(db);
+            loadDashboard();
         }
 
         private void dashboardSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                var frm = new FrmDashboardSetting(db, _dashboardSetting);
+                var frm = new FrmDashboardSetting(_dashboardSetting);
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
                     _dashboardSetting = frm._dashboardSetting;
-                    loadDashboard(db);
+                    loadDashboard();
                 }
             }
             catch (System.Reflection.TargetInvocationException tix)
@@ -372,7 +370,7 @@ namespace ABABillingAndClaim.Views
         {
             try
             {
-                var frm = new FrmUnbilled(db, _memoryService, _dashboardSetting);
+                var frm = new FrmUnbilled(_memoryService, _dashboardSetting);
                 frm.ShowDialog();
             }
             catch (System.Reflection.TargetInvocationException tix)

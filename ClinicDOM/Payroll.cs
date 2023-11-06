@@ -26,11 +26,11 @@ namespace ClinicDOM
         public int ProcedureId { get; set; }
         public int CompanyId { get; set; }
     
-        public virtual Contractor Contractor { get; set; }
-        public virtual ContractorType ContractorType { get; set; }
-        public virtual Procedure Procedure { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Agreement> Agreement { get; set; }
         public virtual Company Company { get; set; }
+        public virtual Contractor Contractor { get; set; }
+        public virtual ContractorType ContractorType { get; set; }
+        public virtual Procedure Procedure { get; set; }
     }
 }
