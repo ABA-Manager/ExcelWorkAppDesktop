@@ -107,9 +107,9 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(645, 128);
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
@@ -118,7 +118,7 @@
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(451, 89);
-            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(32, 27);
             this.button2.TabIndex = 19;
@@ -142,7 +142,7 @@
             // tbPackFile
             // 
             this.tbPackFile.Location = new System.Drawing.Point(112, 89);
-            this.tbPackFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbPackFile.Margin = new System.Windows.Forms.Padding(4);
             this.tbPackFile.Name = "tbPackFile";
             this.tbPackFile.Size = new System.Drawing.Size(329, 23);
             this.tbPackFile.TabIndex = 17;
@@ -156,7 +156,7 @@
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.button1.Location = new System.Drawing.Point(505, 66);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(127, 46);
             this.button1.TabIndex = 16;
@@ -171,7 +171,7 @@
             this.btnGenerate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGenerate.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btnGenerate.Location = new System.Drawing.Point(505, 15);
-            this.btnGenerate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnGenerate.Margin = new System.Windows.Forms.Padding(4);
             this.btnGenerate.Name = "btnGenerate";
             this.btnGenerate.Size = new System.Drawing.Size(127, 46);
             this.btnGenerate.TabIndex = 2;
@@ -185,7 +185,7 @@
             this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.checkBox1.Location = new System.Drawing.Point(11, 58);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(97, 21);
             this.checkBox1.TabIndex = 13;
@@ -199,7 +199,7 @@
             this.cbCompany.Enabled = false;
             this.cbCompany.FormattingEnabled = true;
             this.cbCompany.Location = new System.Drawing.Point(112, 55);
-            this.cbCompany.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbCompany.Margin = new System.Windows.Forms.Padding(4);
             this.cbCompany.Name = "cbCompany";
             this.cbCompany.Size = new System.Drawing.Size(273, 25);
             this.cbCompany.TabIndex = 12;
@@ -222,7 +222,7 @@
             this.cbPeriods.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbPeriods.FormattingEnabled = true;
             this.cbPeriods.Location = new System.Drawing.Point(112, 22);
-            this.cbPeriods.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbPeriods.Margin = new System.Windows.Forms.Padding(4);
             this.cbPeriods.Name = "cbPeriods";
             this.cbPeriods.Size = new System.Drawing.Size(273, 25);
             this.cbPeriods.TabIndex = 10;
@@ -233,7 +233,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 128);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(13, 12, 13, 12);
             this.panel1.Size = new System.Drawing.Size(645, 207);
@@ -243,7 +243,7 @@
             // 
             this.tbProcessLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbProcessLog.Location = new System.Drawing.Point(13, 30);
-            this.tbProcessLog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tbProcessLog.Margin = new System.Windows.Forms.Padding(4);
             this.tbProcessLog.Multiline = true;
             this.tbProcessLog.Name = "tbProcessLog";
             this.tbProcessLog.ReadOnly = true;
@@ -273,7 +273,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.statusStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(661, 371);
             this.Name = "FrmExcelGen";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

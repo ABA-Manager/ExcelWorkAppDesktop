@@ -47,7 +47,7 @@ namespace ExcelGenLib
             period = await ExcelGenService.Instance.GetPeriodAsync(PeriodId);
 
             if (period == null)
-                throw new Exception("Period not found or found more than one");            
+                throw new Exception("Period not found or found more than one");
         }
 
         public int GetPeriodId()
@@ -70,8 +70,8 @@ namespace ExcelGenLib
             tbProcessLog = tbLog;
             pbProcessLog = pbProgress;
 
-            string path = Path.GetRandomFileName();
-            Directory.CreateDirectory(TempDirectory = Path.Combine(Path.GetTempPath(), path));
+            // string path = Path.GetRandomFileName();
+            Directory.CreateDirectory(TempDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()));
         }
 
 
@@ -95,7 +95,7 @@ namespace ExcelGenLib
             var contList = await ExcelGenService.Instance.GetExContractorsAsync(company);
 
             var pos = 0;
-            
+
             if (pbProcessLog != null)
             {
                 pbProcessLog.Maximum = contList.Count() + ((company == "" ? CompanyData.Count : 1) * 2);
@@ -172,7 +172,7 @@ namespace ExcelGenLib
 
             var lastSheet = wb.Worksheets[2];
 
-            if (analyst.ContractorTypeId != 1) 
+            if (analyst.ContractorTypeId != 1)
                 throw new Exception($"Analyst Contractor not found ({analyst.Contractor.Name})");
 
             //Aqui se crea el Excel con el nombre asociado al nombre del Analista
@@ -210,7 +210,7 @@ namespace ExcelGenLib
                         //if (!billingSummary.clientSummary.ContainsKey(LastClient)) 
                         //    billingSummary.clientSummary.Add(LastClient, new ClientData("",""));
                     }
-                    if (unitDet.serviceLog.Contractor.Name + ((unitDet.unitDetail.SubProcedureId == 1)?"":"-"+ unitDet.unitDetail.SubProcedure.Name) != 
+                    if (unitDet.serviceLog.Contractor.Name + ((unitDet.unitDetail.SubProcedureId == 1) ? "" : "-" + unitDet.unitDetail.SubProcedure.Name) !=
                         LastContractor + ((LastSubProcId == 1) ? "" : "-" + LastSubProc))
                     {
                         if (LastContractor != "")
@@ -220,7 +220,7 @@ namespace ExcelGenLib
                             else
                                 fullPayroll[co.Acronym][LastContractor + "|" + LastExtra] += (double)wb.Worksheets[SheetPos].Names("TotalPaid").RefersToRange.Value;
                         }
-                        
+
                         //Aqui se crea el worksheet con el nombre del cliente mas un contador
                         CurrentRow = 11;
                         SheetPos++;
@@ -280,7 +280,7 @@ namespace ExcelGenLib
                 }
             }
 
-            if (co != null && hasData)
+            if (co != null && hasData && !summaries[co.Acronym].ContainsKey($"{analyst.Contractor.Name} ({co.Acronym})"))
             {
                 wb.Worksheets[1].Range["A1:A1"] = $"{period.PayPeriod} {co.Acronym}";
                 summaries[co.Acronym].Add($"{analyst.Contractor.Name} ({co.Acronym})", LoadAndGetSummary(wb.Worksheets[1], billingSummary));
