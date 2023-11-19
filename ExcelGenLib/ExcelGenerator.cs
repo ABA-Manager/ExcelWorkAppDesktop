@@ -70,8 +70,8 @@ namespace ExcelGenLib
             tbProcessLog = tbLog;
             pbProcessLog = pbProgress;
 
-            // string path = Path.GetRandomFileName();
-            Directory.CreateDirectory(TempDirectory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString()));
+            string path = Path.GetRandomFileName();
+            Directory.CreateDirectory(TempDirectory = Path.Combine(Path.GetTempPath(), path));
         }
 
 
