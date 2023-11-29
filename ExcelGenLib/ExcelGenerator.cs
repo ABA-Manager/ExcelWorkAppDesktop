@@ -280,7 +280,7 @@ namespace ExcelGenLib
                 }
             }
 
-            if (co != null && hasData && !summaries[co.Acronym].ContainsKey($"{analyst.Contractor.Name} ({co.Acronym})"))
+            if (co != null && hasData) // && !summaries[co.Acronym].ContainsKey($"{analyst.Contractor.Name} ({co.Acronym})"))
             {
                 wb.Worksheets[1].Range["A1:A1"] = $"{period.PayPeriod} {co.Acronym}";
                 summaries[co.Acronym].Add($"{analyst.Contractor.Name} ({co.Acronym})", LoadAndGetSummary(wb.Worksheets[1], billingSummary));

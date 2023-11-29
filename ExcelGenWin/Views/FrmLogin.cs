@@ -71,16 +71,22 @@ namespace ABABillingAndClaim.Views
             {
                 case 1:
                     {
-                        this._memoryService.BaseEndPoint = Properties.Settings.Default.VL_EP_BASE_ENDPOINT;
-                        this._memoryService.DataBaseEndPoint = "vl_ep";
+                        this._memoryService.BaseEndPoint = Properties.Settings.Default.VL_BASE_ENDPOINT;
+                        this._memoryService.DataBaseEndPoint = "vl";
                     }
                     break;
                 case 2:
                     {
+                        this._memoryService.BaseEndPoint = Properties.Settings.Default.EP_BASE_ENDPOINT;
+                        this._memoryService.DataBaseEndPoint = "ep";
+                    }
+                    break;
+                case 3:
+                    {
                         this._memoryService.BaseEndPoint = Properties.Settings.Default.BBI_BASE_ENDPOINT;
                         this._memoryService.DataBaseEndPoint = "bbi";
                     }; break;
-                case 3:
+                case 4:
                     {
                         this._memoryService.BaseEndPoint = Properties.Settings.Default.PL_BASE_ENDPOINT;
                         this._memoryService.DataBaseEndPoint = "pl";

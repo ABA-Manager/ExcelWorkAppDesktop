@@ -32,7 +32,8 @@ namespace ABABillingAndClaim.Views
                 FilePathExist = Directory.Exists(fi.DirectoryName);
                 IsValidName = true;
             }
-            catch (Exception) {
+            catch (Exception)
+            {
                 IsValidName = false;
                 FilePathExist = false;
             }
@@ -50,7 +51,8 @@ namespace ABABillingAndClaim.Views
             cbCompany.DataSource = new BindingSource(ExcelGen.CompanyData, null);
             cbCompany.DisplayMember = "Name";
             cbCompany.ValueMember = "Acronym";
-            cbCompany.SelectedItem = null;
+            // cbCompany.SelectedItem = null;
+            cbCompany.SelectedItem = ExcelGen.CompanyData[0];
         }
 
         private void btnGenerate_Click(object sender, EventArgs e)

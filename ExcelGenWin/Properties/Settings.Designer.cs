@@ -56,17 +56,17 @@ namespace ABABillingAndClaim.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://34.224.222.1:8082/api")]
-        public string VL_EP_BASE_ENDPOINT {
-            get {
-                return ((string)(this["VL_EP_BASE_ENDPOINT"]));
-            }
-            set {
-                this["VL_EP_BASE_ENDPOINT"] = value;
-            }
-        }
+        //[global::System.Configuration.UserScopedSettingAttribute()]
+        //[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        //[global::System.Configuration.DefaultSettingValueAttribute("http://34.224.222.1:8082/api")]
+        //public string VL_EP_BASE_ENDPOINT {
+        //    get {
+        //        return ((string)(this["VL_EP_BASE_ENDPOINT"]));
+        //    }
+        //    set {
+        //        this["VL_EP_BASE_ENDPOINT"] = value;
+        //    }
+        //}
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -89,6 +89,30 @@ namespace ABABillingAndClaim.Properties {
             }
             set {
                 this["PL_BASE_ENDPOINT"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://34.224.222.1:8082/api")]
+        public string VL_BASE_ENDPOINT {
+            get {
+                return ((string)(this["VL_BASE_ENDPOINT"]));
+            }
+            set {
+                this["VL_BASE_ENDPOINT"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://34.224.222.1:8082/api")]
+        public string EP_BASE_ENDPOINT {
+            get {
+                return ((string)(this["EP_BASE_ENDPOINT"]));
+            }
+            set {
+                this["EP_BASE_ENDPOINT"] = value;
             }
         }
     }
